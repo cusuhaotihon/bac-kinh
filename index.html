@@ -177,6 +177,36 @@ section[hidden] { display: none; }
 .checks li.is-done label { opacity: .6; }
 .checks li.is-done .t { text-decoration: line-through; }
 
+/* chi phí */
+.cost-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.cost-sum .panel { padding: 12px 14px; }
+.cost-sum .big { font-family: var(--display); font-size: 24px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.cost-sum .small { color: var(--muted); font-size: 13px; }
+.form { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 12px; }
+.form label { display: grid; gap: 4px; font-size: 13px; font-weight: 800; color: var(--muted); }
+.form .w2 { grid-column: span 2; } .form .w3 { grid-column: span 3; } .form .w6 { grid-column: span 6; }
+.form input, .form select { font: inherit; font-size: 16px; color: var(--ink); background: var(--bg); border: 1.5px solid var(--line); border-radius: 10px; padding: 8px 10px; width: 100%; min-width: 0; }
+.btn { border: 1.5px solid var(--accent); background: var(--accent); color: var(--on-accent); border-radius: 10px; padding: 9px 16px; font-weight: 800; }
+.btn.ghost { background: var(--surface); color: var(--accent); }
+.btn.danger { border-color: var(--warn); background: var(--surface); color: var(--warn); }
+.row-btns { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.bars { display: grid; gap: 8px; margin-top: 6px; }
+.bar { display: grid; grid-template-columns: 96px 1fr auto; gap: 10px; align-items: center; font-size: 14px; }
+.bar .track { height: 10px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.bar .fill { height: 100%; background: var(--cat, var(--accent)); border-radius: 999px; }
+.bar .v { font-variant-numeric: tabular-nums; font-weight: 700; }
+.exp-day { margin-top: 16px; }
+.exp-day h3 { font-size: 16px; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.exp-day h3 span { color: var(--muted); font-size: 14px; font-weight: 700; }
+.exp { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 8px; }
+.exp li { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; background: var(--surface); border: 1px solid var(--line); border-left: 5px solid var(--cat); border-radius: 12px; padding: 10px 12px; }
+.exp .d { font-weight: 700; }
+.exp .m { color: var(--muted); font-size: 13px; }
+.exp .amt { font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; }
+.exp .acts { grid-column: 1 / -1; display: flex; gap: 12px; }
+.exp .acts button { border: 0; background: none; color: var(--accent); font-weight: 700; font-size: 13px; padding: 0; }
+textarea.io { width: 100%; min-height: 90px; font: inherit; font-size: 14px; color: var(--ink); background: var(--bg); border: 1.5px solid var(--line); border-radius: 10px; padding: 8px; }
+@media (max-width: 640px) { .cost-sum { grid-template-columns: 1fr 1fr; } .cost-sum .panel:first-child { grid-column: 1 / -1; } .form .w2, .form .w3 { grid-column: span 3; } }
 .tips { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
 .tips li { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
 
@@ -291,6 +321,44 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
       </div>
       <div class="controls" id="checkFilter" role="group" aria-label="Lọc checklist"></div>
       <ul class="checks" id="checkList"></ul>
+    </section>
+
+    <!-- Chi phí -->
+    <section id="v-chi-phi" hidden>
+      <div class="cost-sum" id="costSum"></div>
+      <div class="panel" style="margin-top:12px">
+        <h3 id="formTitle">Thêm khoản chi</h3>
+        <form class="form" id="expForm" autocomplete="off">
+          <label class="w2">Ngày<select id="fDay"></select></label>
+          <label class="w2">Hạng mục<select id="fCat"></select></label>
+          <label class="w2">Ai trả<select id="fWho"><option>Hà</option><option>Hiền</option><option>Chung</option></select></label>
+          <label class="w6">Chi cho gì, ở đâu<input id="fDesc" placeholder="Ví dụ: Vé Tử Cấm Thành, 2 người" required></label>
+          <label class="w3">Số tiền<input id="fAmt" type="number" inputmode="decimal" min="0" step="any" placeholder="0" required></label>
+          <label class="w3">Đơn vị<select id="fCur"><option value="CNY">¥ (tệ)</option><option value="VND">VNĐ</option></select></label>
+          <div class="w6 row-btns"><button class="btn" type="submit" id="fSubmit">Thêm</button><button class="btn ghost" type="button" id="fCancel" hidden>Hủy sửa</button></div>
+        </form>
+      </div>
+      <div class="panel" style="margin-top:12px">
+        <h3>Theo hạng mục</h3>
+        <div class="bars" id="catBars"></div>
+      </div>
+      <div id="expList"></div>
+      <div class="panel" style="margin-top:16px">
+        <h3>Tỉ giá và sao lưu</h3>
+        <div class="form">
+          <label class="w3">Tỉ giá (VNĐ cho 1 ¥)<input id="fRate" type="number" inputmode="decimal" min="0" step="any"></label>
+        </div>
+        <p class="small" style="color:var(--muted);font-size:14px">Các khoản chi lưu trên máy này. Muốn chuyển sang máy khác hoặc gửi cho Hiền, bấm "Sao chép dữ liệu", dán vào tin nhắn, rồi ở máy kia dán vào ô bên dưới và bấm "Nhập".</p>
+        <div class="row-btns">
+          <button class="btn ghost" type="button" id="bCopy">Sao chép dữ liệu</button>
+          <button class="btn ghost" type="button" id="bCsv">Tải file Excel (CSV)</button>
+        </div>
+        <textarea class="io" id="ioBox" placeholder="Dán dữ liệu vào đây" style="margin-top:10px"></textarea>
+        <div class="row-btns" style="margin-top:8px">
+          <button class="btn ghost" type="button" id="bImport">Nhập (gộp thêm)</button>
+          <span id="ioMsg" style="color:var(--muted);font-size:14px"></span>
+        </div>
+      </div>
     </section>
 
     <!-- Lưu ý -->
@@ -592,7 +660,7 @@ function renderMeta() {
 
 /* ---------- Tabs ---------- */
 const VIEWS = [
-  ["lich-trinh", "Lịch trình"], ["dat-truoc", "Đặt trước"], ["thong-tin", "Bay và khách sạn"], ["checklist", "Checklist"], ["luu-y", "Lưu ý"]
+  ["lich-trinh", "Lịch trình"], ["dat-truoc", "Đặt trước"], ["thong-tin", "Bay và khách sạn"], ["chi-phi", "Chi phí"], ["checklist", "Checklist"], ["luu-y", "Lưu ý"]
 ];
 function renderTabs() {
   const t = $("#tabs"); t.textContent = "";
@@ -713,6 +781,118 @@ function renderTips() {
   TIPS.forEach(t => $("#tipList").append(el("li", { text: t })));
 }
 
+
+/* ---------- Chi phí ---------- */
+const COST_CATS = ["Ăn uống", "Di chuyển", "Tham quan", "Mua sắm", "Khách sạn", "Máy bay", "Khác"];
+const CC = { "Ăn uống": "An", "Di chuyển": "Di", "Tham quan": "Th", "Mua sắm": "Mu", "Khách sạn": "Ng", "Máy bay": "Di", "Khác": "Kh" };
+const EXP_DAYS = [{ k: "truoc", l: "Trước chuyến đi" }, ...DAYS.map(d => ({ k: String(d.d), l: d.w + " " + d.d + "/11" }))];
+let EXP = store.get("expenses", null);
+if (!Array.isArray(EXP)) {
+  EXP = [{ id: "seed-hotel", day: "truoc", cat: "Khách sạn", who: "Chung", desc: "Super 8 Tiền Môn, 2 đơn 23–30/11 (Trip.com)", amt: 4260, cur: "CNY" }];
+  store.set("expenses", EXP);
+}
+let RATE = +store.get("rate", 4000) || 4000;
+let editId = null;
+const toVnd = e => e.cur === "VND" ? e.amt : e.amt * RATE;
+const vnd = n => Math.round(n).toLocaleString("vi-VN") + " đ";
+const cny = n => "¥" + (Math.round(n * 100) / 100).toLocaleString("vi-VN");
+const showAmt = e => e.cur === "VND" ? vnd(e.amt) : cny(e.amt) + " · " + vnd(e.amt * RATE);
+function saveExp() { store.set("expenses", EXP); }
+function defaultDay() {
+  const n = new Date();
+  if (n.getFullYear() === 2026 && n.getMonth() === 10 && n.getDate() >= 23) return String(n.getDate());
+  if (n.getFullYear() === 2026 && n.getMonth() === 11 && n.getDate() === 1) return "30";
+  return "truoc";
+}
+function initCostForm() {
+  EXP_DAYS.forEach(d => $("#fDay").append(el("option", { value: d.k, text: d.l })));
+  COST_CATS.forEach(c => $("#fCat").append(el("option", { value: c, text: c })));
+  $("#fDay").value = defaultDay();
+  $("#fRate").value = RATE;
+  $("#fRate").addEventListener("change", e => { const v = +e.target.value; if (v > 0) { RATE = v; store.set("rate", v); renderCost(); } });
+  $("#expForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const amt = +$("#fAmt").value, desc = $("#fDesc").value.trim();
+    if (!(amt > 0) || !desc) return;
+    const item = { id: editId || ("e" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)), day: $("#fDay").value, cat: $("#fCat").value, who: $("#fWho").value, desc, amt, cur: $("#fCur").value };
+    if (editId) EXP = EXP.map(x => x.id === editId ? item : x); else EXP.push(item);
+    saveExp(); resetForm(); renderCost();
+  });
+  $("#fCancel").addEventListener("click", resetForm);
+  $("#bCopy").addEventListener("click", async () => {
+    const txt = JSON.stringify({ bk26: 1, expenses: EXP });
+    try {
+      if (navigator.share) { await navigator.share({ title: "Chi phí Bắc Kinh", text: txt }); $("#ioMsg").textContent = "Đã mở chia sẻ."; return; }
+    } catch (e) {}
+    try { await navigator.clipboard.writeText(txt); $("#ioMsg").textContent = "Đã sao chép."; }
+    catch (e) { $("#ioBox").value = txt; $("#ioBox").select(); $("#ioMsg").textContent = "Dữ liệu ở ô trên, bạn tự sao chép."; }
+  });
+  $("#bCsv").addEventListener("click", () => {
+    const head = ["Ngày", "Hạng mục", "Ai trả", "Chi cho gì", "Số tiền", "Đơn vị", "Quy ra VNĐ"];
+    const lab = k => (EXP_DAYS.find(d => d.k === k) || {}).l || k;
+    const q = v => '"' + String(v).replace(/"/g, '""') + '"';
+    const rows = EXP.map(e => [lab(e.day), e.cat, e.who, e.desc, e.amt, e.cur === "VND" ? "VNĐ" : "¥", Math.round(toVnd(e))].map(q).join(","));
+    const blob = new Blob(["﻿" + [head.map(q).join(","), ...rows].join("\n")], { type: "text/csv;charset=utf-8" });
+    const a = el("a", { href: URL.createObjectURL(blob), download: "chi-phi-bac-kinh.csv" }); document.body.append(a); a.click(); a.remove();
+  });
+  $("#bImport").addEventListener("click", () => {
+    try {
+      const d = JSON.parse($("#ioBox").value.trim());
+      const list = Array.isArray(d) ? d : d.expenses;
+      if (!Array.isArray(list)) throw 0;
+      const have = new Set(EXP.map(x => x.id)); let n = 0;
+      list.forEach(x => { if (x && x.id && !have.has(x.id) && x.amt > 0) { EXP.push({ id: x.id, day: String(x.day), cat: x.cat, who: x.who || "Chung", desc: String(x.desc || ""), amt: +x.amt, cur: x.cur === "VND" ? "VND" : "CNY" }); n++; } });
+      saveExp(); renderCost(); $("#ioBox").value = ""; $("#ioMsg").textContent = "Đã nhập thêm " + n + " khoản (bỏ qua khoản trùng).";
+    } catch (e) { $("#ioMsg").textContent = "Dữ liệu dán vào không đúng định dạng."; }
+  });
+}
+function resetForm() {
+  editId = null; $("#expForm").reset(); $("#fDay").value = defaultDay();
+  $("#formTitle").textContent = "Thêm khoản chi"; $("#fSubmit").textContent = "Thêm"; $("#fCancel").hidden = true;
+}
+function startEdit(e) {
+  editId = e.id; $("#fDay").value = e.day; $("#fCat").value = e.cat; $("#fWho").value = e.who; $("#fDesc").value = e.desc; $("#fAmt").value = e.amt; $("#fCur").value = e.cur;
+  $("#formTitle").textContent = "Sửa khoản chi"; $("#fSubmit").textContent = "Lưu"; $("#fCancel").hidden = false;
+  $("#expForm").scrollIntoView({ behavior: "smooth", block: "center" });
+}
+function renderCost() {
+  const total = EXP.reduce((s, e) => s + toVnd(e), 0);
+  const today = defaultDay();
+  const todayT = EXP.filter(e => e.day === today).reduce((s, e) => s + toVnd(e), 0);
+  const by = w => EXP.filter(e => e.who === w).reduce((s, e) => s + toVnd(e), 0);
+  const ha = by("Hà"), hien = by("Hiền"), diff = (ha - hien) / 2;
+  const sum = $("#costSum"); sum.textContent = "";
+  sum.append(
+    el("div", { class: "panel" }, [el("p", { class: "k", text: "Tổng đã chi" }), el("div", { class: "big", text: vnd(total) }), el("div", { class: "small", text: "≈ " + cny(total / RATE) + " · " + EXP.length + " khoản" })]),
+    el("div", { class: "panel" }, [el("p", { class: "k", text: today === "truoc" ? "Chi trước chuyến đi" : "Hôm nay " + today + "/11" }), el("div", { class: "big", text: vnd(todayT) })]),
+    el("div", { class: "panel" }, [el("p", { class: "k", text: "Hà / Hiền tự trả" }), el("div", { class: "small", text: "Hà " + vnd(ha) }), el("div", { class: "small", text: "Hiền " + vnd(hien) }),
+      el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: Math.abs(diff) < 1 ? "Hai bạn đang bằng nhau" : (diff > 0 ? "Hiền gửi Hà " : "Hà gửi Hiền ") + vnd(Math.abs(diff)) })])
+  );
+  const bars = $("#catBars"); bars.textContent = "";
+  const cats = COST_CATS.map(c => [c, EXP.filter(e => e.cat === c).reduce((s, e) => s + toVnd(e), 0)]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
+  const max = cats.length ? cats[0][1] : 1;
+  if (!cats.length) bars.append(el("p", { class: "empty", text: "Chưa có khoản chi nào." }));
+  cats.forEach(([c, v]) => bars.append(el("div", { class: "bar cat-" + CC[c] }, [el("span", { text: c }), el("div", { class: "track" }, [el("div", { class: "fill", style: "width:" + Math.max(3, v / max * 100) + "%" })]), el("span", { class: "v", text: vnd(v) })])));
+  const list = $("#expList"); list.textContent = "";
+  let run = 0;
+  EXP_DAYS.forEach(d => {
+    const items = EXP.filter(e => e.day === d.k);
+    if (!items.length) return;
+    const dt = items.reduce((s, e) => s + toVnd(e), 0); run += dt;
+    const ul = el("ul", { class: "exp" });
+    items.forEach(e => ul.append(el("li", { class: "cat-" + CC[e.cat] }, [
+      el("div", {}, [el("div", { class: "d", text: e.desc }), el("div", { class: "m", text: e.cat + " · " + e.who + " trả" })]),
+      el("div", { class: "amt", text: showAmt(e) }),
+      el("div", { class: "acts" }, [
+        el("button", { type: "button", onclick: () => startEdit(e) }, ["Sửa"]),
+        el("button", { type: "button", style: "color:var(--warn)", onclick: () => { if (confirmDel === e.id) { EXP = EXP.filter(x => x.id !== e.id); saveExp(); confirmDel = null; renderCost(); } else { confirmDel = e.id; renderCost(); } } }, [confirmDel === e.id ? "Bấm lần nữa để xóa" : "Xóa"])
+      ])
+    ])));
+    list.append(el("div", { class: "exp-day" }, [el("h3", {}, [d.l, el("span", { text: "Trong ngày " + vnd(dt) + " · Cộng dồn " + vnd(run) })]), ul]));
+  });
+}
+let confirmDel = null;
+
 /* ---------- Nền sáng / tối ---------- */
 function applyTheme(t) {
   const root = document.documentElement;
@@ -728,7 +908,7 @@ try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () =
 applyTheme(themePref);
 
 /* ---------- Khởi động ---------- */
-renderMeta(); renderTips(); renderPlan(); renderTodo(); renderCheck();
+renderMeta(); renderTips(); renderPlan(); renderTodo(); renderCheck(); initCostForm(); renderCost();
 const h = location.hash.slice(1);
 if (VIEWS.some(v => v[0] === h)) state.view = h;
 renderTabs();
