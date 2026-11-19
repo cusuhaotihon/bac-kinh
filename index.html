@@ -331,6 +331,12 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
       </div>
 
       <h2 class="sec-title">Khách sạn</h2>
+      <div class="panel" style="border:2px solid var(--accent);margin-bottom:12px">
+        <p class="k">Đưa tài xế xem khi đặt xe về khách sạn</p>
+        <p style="font-size:24px;font-weight:800;line-height:1.4;margin:6px 0">德寿堂药店</p>
+        <p class="cn" style="font-size:17px">师傅您好，请送我们到德寿堂药店。我们的酒店是 Super8·悅酒店（北京前门大栅栏店），陕西巷33号，从药店走进胡同大约200多米。</p>
+        <p style="margin-top:8px">Khách sạn dặn: khi gọi xe (DiDi hoặc taxi), <b>chọn điểm đến là hiệu thuốc 德寿堂药店</b> (Đức Thọ Đường). Xuống xe ở đó rồi <b>đi bộ hơn 200 m vào ngõ</b> tới số 33 陕西巷, vì xe khó vào tận cửa khách sạn.</p>
+      </div>
       <div class="panel">
         <h3>Super 8 Beijing Qianmen Dashilan</h3>
         <p class="cn">Super8·悅酒店(北京前门大栅栏店)</p>
@@ -1022,7 +1028,7 @@ function renderCost() {
   });
 }
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119151720";
+const BUILD = "20261119152159";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
