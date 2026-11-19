@@ -12,7 +12,8 @@
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Quicksand:wght@600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&text=%E5%8C%97%E4%BA%AC&display=swap" rel="stylesheet">
 <style>
 /* Layout: a sticky top bar of four views; inside "Lịch trình", a day strip, category chips, then a timeline of cards. */
 :root {
@@ -545,7 +546,48 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
   .vh-t { font-size: 20px; }
   .vh-s { font-size: 13.5px; }
 }
-@media (prefers-reduced-motion: reduce) { .trk svg { left: calc(50% - 10px); } }
+@media (prefers-reduced-motion: reduce) { .trk svg { left: calc(50% - 10px); } .brush path { stroke-dashoffset: 0; } }
+
+/* ---------- Tiêu đề đầu trang ---------- */
+.hero::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(115% 95% at 0% 0%, rgba(255, 255, 255, .62) 0%, rgba(255, 255, 255, .25) 38%, transparent 62%); transition: background .8s ease; }
+.hero[data-night="1"]::before { background: radial-gradient(115% 95% at 0% 0%, rgba(22, 14, 52, .55) 0%, rgba(22, 14, 52, .2) 40%, transparent 64%); }
+:root[data-theme="dark"] .hero::before { background: radial-gradient(115% 95% at 0% 0%, rgba(14, 10, 30, .6) 0%, rgba(14, 10, 30, .22) 40%, transparent 64%); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero::before { background: radial-gradient(115% 95% at 0% 0%, rgba(14, 10, 30, .6) 0%, rgba(14, 10, 30, .22) 40%, transparent 64%); } }
+.hero-txt { left: 26px; top: 22px; }
+.kicker { display: inline-flex; align-items: center; gap: 9px; font: 800 11.5px/1 var(--body); letter-spacing: .3em; text-transform: uppercase; opacity: .92; animation: slideIn .6s .05s both; }
+.kicker i { display: inline-block; width: 24px; height: 2px; border-radius: 2px; background: currentColor; }
+.hero-txt h1.ttl { display: flex; align-items: center; gap: 14px; margin-top: 8px; font-family: "Playfair Display", Georgia, "Times New Roman", serif; font-weight: 800; font-size: clamp(40px, 6.6vw, 62px); line-height: 1.02; letter-spacing: -.01em; animation: none; }
+.ttl .t-word { white-space: pre; }
+.ttl .ch { display: inline-block; animation: letterIn .75s cubic-bezier(.2, .8, .2, 1) both, wave 9s ease-in-out infinite; animation-delay: calc(.15s + var(--i) * 60ms), calc(2.5s + var(--i) * 90ms); }
+@keyframes letterIn { from { opacity: 0; transform: translateY(.45em) rotate(8deg); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes wave { 0%, 8%, 100% { transform: none; } 4% { transform: translateY(-5px); } }
+.seal { flex: none; font-family: "Ma Shan Zheng", "Kaiti SC", "STKaiti", "KaiTi", serif; font-weight: 400; font-size: .4em; line-height: 1; writing-mode: vertical-rl; color: #fff; background: #d23f4f; border-radius: 7px; padding: 7px 4px; box-shadow: 0 8px 16px -8px rgba(150, 25, 45, .7), inset 0 0 0 2px rgba(255, 255, 255, .35); text-shadow: none; transform: rotate(-6deg); animation: stamp .6s 1.05s cubic-bezier(.3, 1.6, .5, 1) both; }
+@keyframes stamp { from { opacity: 0; transform: scale(2.4) rotate(-20deg); } to { opacity: 1; transform: rotate(-6deg); } }
+.brush { display: block; width: min(240px, 62%); height: 14px; margin-top: 4px; overflow: visible; }
+.brush path { fill: none; stroke: #f0b84a; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 260; stroke-dashoffset: 260; animation: draw 1s .8s ease-out forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.hero-txt .sub { margin-top: 8px; font-size: 14.5px; letter-spacing: .01em; }
+@media (max-width: 640px) {
+  .hero { height: 225px; }
+  .hero-txt { left: 18px; top: 16px; }
+  .kicker { font-size: 10.5px; letter-spacing: .26em; }
+  .hero-txt h1.ttl { font-size: 42px; gap: 11px; margin-top: 6px; }
+  .hero-txt .sub { font-size: 13px; margin-top: 6px; }
+  .brush { width: 190px; }
+}
+
+/* ---------- Tab con trong Bay & KS, Chi phí ---------- */
+.subbar.c4 { grid-template-columns: repeat(4, 1fr) !important; margin-bottom: 6px; }
+@media (max-width: 640px) { .subbar.c4 { grid-template-columns: repeat(2, 1fr) !important; } }
+.pane[hidden] { display: none; }
+.pane:not([hidden]) { animation: fadeIn .35s ease both; }
+.pane > .sec-title:first-child { margin-top: 14px; }
+.tips > li[hidden] { display: none; }
+.dayf { margin: 2px 0 12px; }
+.dayf button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.toast { position: fixed; left: 50%; bottom: 28px; z-index: 30; transform: translate(-50%, 20px); opacity: 0; background: #2b2540; color: #fff; font-weight: 700; font-size: 14px; padding: 10px 18px; border-radius: 999px; box-shadow: 0 10px 26px -10px rgba(0, 0, 0, .5); transition: opacity .25s ease, transform .25s ease; pointer-events: none; }
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+@media (max-width: 640px) { .toast { bottom: calc(env(safe-area-inset-bottom) + 130px); } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -559,8 +601,10 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
     <div class="hero" id="hero" data-night="0">
       <div class="scene" id="scene" aria-hidden="true"></div>
       <div class="hero-txt">
-        <h1>Cẩm nang Bắc Kinh</h1>
-        <p class="sub">23–30/11/2026 · Hội 3 chị em 🙋‍♀️🙋‍♀️🙋‍♀️</p>
+        <span class="kicker"><i></i>Cẩm nang du lịch</span>
+        <h1 class="ttl" aria-label="Cẩm nang Bắc Kinh"><span class="t-word" id="tWord">Bắc Kinh</span><span class="seal" aria-hidden="true">北京</span></h1>
+        <svg class="brush" viewBox="0 0 240 14" aria-hidden="true"><path d="M4 9 C 60 3, 140 2, 236 7"/></svg>
+        <p class="sub">23 – 30.11.2026 · Hội 3 chị em 🙋‍♀️🙋‍♀️🙋‍♀️</p>
       </div>
       <span class="scene-cap" id="sceneCap"></span>
       <div class="theme" role="group" aria-label="Chế độ nền">
@@ -604,7 +648,9 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
     <!-- Chuyến bay và khách sạn -->
     <section id="v-thong-tin" hidden>
       <div class="vhead"><span class="vh-ico" aria-hidden="true"></span><div><h2 class="vh-t"></h2><p class="vh-s"></p></div></div>
-      <h2 class="sec-title" style="margin-top:0"><span class="em">✈️</span> Chuyến bay</h2>
+      <div class="days subbar c4" id="ttBar" role="group" aria-label="Chọn phần"></div>
+      <div class="pane" data-p="bay">
+      <h2 class="sec-title"><span class="em">✈️</span> Chuyến bay</h2>
       <div class="grid2">
         <div class="panel">
           <p class="k">Chuyến đi · 23/11</p>
@@ -620,20 +666,33 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
         </div>
       </div>
 
-      <h2 class="sec-title"><span class="em">🏨</span> Khách sạn</h2>
-      <div class="panel" style="border:2px solid var(--accent);margin-bottom:12px">
+      </div>
+      <div class="pane" data-p="xe" hidden>
+      <h2 class="sec-title"><span class="em">🚕</span> Gọi xe về khách sạn</h2>
+      <div class="panel" style="border:2px solid var(--accent);margin-bottom:0">
         <p class="k">🚕 Đưa tài xế xem khi đặt xe về khách sạn</p>
         <p style="font-size:24px;font-weight:800;line-height:1.4;margin:6px 0 0">德寿堂药店</p><p class="py" style="text-align:left;font-size:14px;margin:0 0 6px">dé shòu táng yào diàn</p>
         <p class="cn" style="font-size:17px">师傅您好，请送我们到德寿堂药店。我们的酒店是 Super8·悅酒店（北京前门大栅栏店），陕西巷33号，从药店走进胡同大约200多米。</p>
         <p style="margin-top:8px">Khách sạn dặn: khi gọi xe (DiDi hoặc taxi), <b>chọn điểm đến là hiệu thuốc 德寿堂药店</b> (Đức Thọ Đường). Xuống xe ở đó rồi <b>đi bộ hơn 200 m vào ngõ</b> tới số 33 陕西巷, vì xe khó vào tận cửa khách sạn.</p>
       </div>
+      </div>
+      <div class="pane" data-p="ks" hidden>
+      <h2 class="sec-title"><span class="em">🏨</span> Khách sạn</h2>
       <div class="panel">
         <h3>Super 8 Beijing Qianmen Dashilan</h3>
         <p class="cn">Super8·悅酒店(北京前门大栅栏店)</p>
         <p class="cn">珠市口西大街陕西巷33号</p>
         <p>Đặt qua Trip.com, cả hai đơn đều thành công. Số 33 ngõ Thiểm Tây, phố Zhushikou West, khu Đại Sách Lan. Khi đi xe, định vị hiệu thuốc 德寿堂药店 rồi đi bộ hơn 200 m vào ngõ.</p>
       </div>
-      <div class="grid2" style="margin-top:12px">
+      <div class="panel" style="margin-top:12px">
+          <p class="k">Khách sạn đã trả lời (13/11)</p>
+          <p>Gửi hành lý trong ngày được, không qua đêm. Nhận phòng sớm nhất 14:00.</p>
+          <p><b>Cần nhắn thêm:</b> xin ở nguyên phòng khi chuyển từ đơn 1 sang đơn 2 ngày 28/11.</p>
+        </div>
+      </div>
+      <div class="pane" data-p="don" hidden>
+      <h2 class="sec-title"><span class="em">🧾</span> Đơn phòng và giá</h2>
+      <div class="grid2">
         <div class="panel">
           <p class="k">Đơn 1 · 23–28/11 · 5 đêm</p>
           <p class="price">2.772 ¥</p>
@@ -647,16 +706,10 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
           <p>Hủy miễn phí đến 18:00 giờ Bắc Kinh ngày 28/11, sau đó phí 808 ¥.</p>
         </div>
       </div>
-      <div class="grid2" style="margin-top:12px">
-        <div class="panel">
+      <div class="panel" style="margin-top:12px">
           <p class="k">Tổng 7 đêm</p>
           <p class="price" id="totalCny">4.260 ¥</p>
           <p id="totalVnd">17.040.000 VNĐ (tỉ giá 4.000 VNĐ/¥)</p>
-        </div>
-        <div class="panel">
-          <p class="k">Khách sạn đã trả lời (13/11)</p>
-          <p>Gửi hành lý trong ngày được, không qua đêm. Nhận phòng sớm nhất 14:00.</p>
-          <p><b>Cần nhắn thêm:</b> xin ở nguyên phòng khi chuyển từ đơn 1 sang đơn 2 ngày 28/11.</p>
         </div>
       </div>
     </section>
@@ -675,8 +728,16 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
     <!-- Chi phí -->
     <section id="v-chi-phi" hidden>
       <div class="vhead"><span class="vh-ico" aria-hidden="true"></span><div><h2 class="vh-t"></h2><p class="vh-s"></p></div></div>
+      <div class="days subbar c4" id="cpBar" role="group" aria-label="Chọn phần"></div>
+      <div class="pane" data-p="tong">
       <div class="cost-sum" id="costSum"></div>
       <div class="panel" style="margin-top:12px">
+        <h3>Theo hạng mục</h3>
+        <div class="bars" id="catBars"></div>
+      </div>
+      </div>
+      <div class="pane" data-p="ghi" hidden>
+      <div class="panel">
         <h3 id="formTitle">➕ Thêm khoản chi</h3>
         <form class="form" id="expForm" autocomplete="off">
           <label class="w3">Ngày<select id="fDay"></select></label>
@@ -698,12 +759,12 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
           <div class="w6 row-btns"><button class="btn" type="submit">Ghi chuyển tiền</button></div>
         </form>
       </div>
-      <div class="panel" style="margin-top:12px">
-        <h3>Theo hạng mục</h3>
-        <div class="bars" id="catBars"></div>
       </div>
+      <div class="pane" data-p="ds" hidden>
       <div id="expList"></div>
-      <div class="panel" style="margin-top:16px">
+      </div>
+      <div class="pane" data-p="cai" hidden>
+      <div class="panel" >
         <h3>Tỉ giá và sao lưu</h3>
         <div class="form">
           <label class="w3">Tỉ giá (VNĐ cho 1 ¥)<input id="fRate" type="number" inputmode="decimal" min="0" step="any"></label>
@@ -718,6 +779,7 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
           <button class="btn ghost" type="button" id="bImport">Nhập (gộp thêm)</button>
           <span id="ioMsg" style="color:var(--muted);font-size:14px"></span>
         </div>
+      </div>
       </div>
     </section>
     <!-- Lưu ý -->
@@ -1657,14 +1719,14 @@ function initCostForm() {
     if (!(amt > 0) || !desc) return;
     const item = normItem({ id: editId || newId(), day: $("#fDay").value, cat: $("#fCat").value, who: $("#fWho").value, for: $("#fFor").value, desc, amt, cur: $("#fCur").value });
     if (editId) EXP = EXP.map(x => x.id === editId ? item : x); else EXP.push(item);
-    saveExp(); resetForm(); renderCost();
+    const wasEdit = !!editId; saveExp(); resetForm(); renderCost(); toast(wasEdit ? "Đã lưu thay đổi ✓" : "Đã thêm khoản chi ✓");
   });
   $("#trForm").addEventListener("submit", e => {
     e.preventDefault();
     const from = $("#tFrom").value, to = $("#tTo").value, amt = +$("#tAmt").value;
     if (!(amt > 0) || from === to) return;
     EXP.push(normItem({ id: newId(), type: "transfer", day: defaultDay(), from, to, amt, desc: from + " chuyển cho " + to }));
-    saveExp(); $("#tAmt").value = ""; renderCost();
+    saveExp(); $("#tAmt").value = ""; renderCost(); toast("Đã ghi chuyển tiền ✓");
   });
   $("#fCancel").addEventListener("click", resetForm);
   $("#bCopy").addEventListener("click", async () => {
@@ -1699,6 +1761,7 @@ function resetForm() {
 function startEdit(e) {
   editId = e.id; $("#fDay").value = e.day; $("#fCat").value = e.cat; $("#fWho").value = e.who; $("#fFor").value = e.for; $("#fDesc").value = e.desc; $("#fAmt").value = e.amt; $("#fCur").value = e.cur;
   $("#formTitle").textContent = "Sửa khoản chi"; $("#fSubmit").textContent = "Lưu"; $("#fCancel").hidden = false;
+  setPane("chi-phi", "ghi");
   $("#expForm").scrollIntoView({ behavior: "smooth", block: "center" });
 }
 function ledger() {
@@ -1820,6 +1883,59 @@ function renderPhr() {
 }
 renderPhr();
 
+/* ---------- Tab con, lọc theo ngày, tiêu đề ---------- */
+const PANES = {
+  "thong-tin": { bar: "ttBar", key: "ttp", list: [["bay", "✈️ Chuyến bay", "#2f7fd1"], ["xe", "🚕 Gọi xe về KS", "#e07b39"], ["ks", "🏨 Khách sạn", "#8a6fdc"], ["don", "🧾 Đơn phòng", "#1a9a8e"]] },
+  "chi-phi": { bar: "cpBar", key: "cpp", list: [["tong", "📊 Tổng quan", "#2f9e68"], ["ghi", "➕ Ghi chi tiêu", "#3b8fd6"], ["ds", "📋 Danh sách", "#d6578f"], ["cai", "⚙️ Tỉ giá, sao lưu", "#9a7b3c"]] }
+};
+const paneCur = {};
+function setPane(sec, k) { paneCur[sec] = k; store.set(PANES[sec].key, k); renderPanes(sec); }
+function renderPanes(sec) {
+  const cfg = PANES[sec], bar = document.getElementById(cfg.bar); if (!bar) return;
+  if (!paneCur[sec]) paneCur[sec] = store.get(cfg.key, cfg.list[0][0]);
+  bar.textContent = "";
+  cfg.list.forEach(([k, l, c]) => bar.append(el("button", { class: "day-btn", style: "--sc:" + c, "aria-pressed": String(paneCur[sec] === k), onclick: () => setPane(sec, k) }, [l])));
+  document.querySelectorAll("#v-" + sec + " .pane").forEach(d => {
+    d.hidden = d.dataset.p !== paneCur[sec];
+    const c = (cfg.list.find(x => x[0] === d.dataset.p) || [])[2];
+    if (c) { d.style.setProperty("--accent", c); d.style.setProperty("--accent-soft", "color-mix(in srgb, " + c + " 14%, var(--surface))"); }
+  });
+}
+Object.keys(PANES).forEach(renderPanes);
+
+const dayFCur = {};
+function initDayFilter(subKey) {
+  const box = document.querySelector('#v-luu-y .sub[data-sub="' + subKey + '"]'); if (!box) return;
+  const ul = box.querySelector("ul.tips"); if (!ul) return;
+  const items = [...ul.children].filter(li => li.tagName === "LI");
+  items.forEach(li => { const head = li.firstElementChild ? li.firstElementChild.textContent : ""; li.dataset.days = [...new Set((head.match(/\d{1,2}(?=\/11)/g) || []).map(Number))].join(","); });
+  const days = [...new Set(items.flatMap(li => li.dataset.days ? li.dataset.days.split(",").map(Number) : []))].sort((a, b) => a - b);
+  if (!days.length) return;
+  const bar = el("div", { class: "pdays dayf", role: "group", "aria-label": "Chọn ngày" });
+  ul.before(bar);
+  const t = new Date(), inTrip = t.getFullYear() === 2026 && t.getMonth() === 10 && days.includes(t.getDate());
+  dayFCur[subKey] = store.get("df-" + subKey, inTrip ? String(t.getDate()) : "all");
+  const draw = () => {
+    bar.textContent = "";
+    [["all", "Tất cả ngày"], ...days.map(d => [String(d), d + "/11"])].forEach(([k, l]) => bar.append(el("button", { "aria-pressed": String(dayFCur[subKey] === k), onclick: () => { dayFCur[subKey] = k; store.set("df-" + subKey, k); draw(); } }, [l])));
+    items.forEach(li => { const ds = li.dataset.days ? li.dataset.days.split(",") : []; li.hidden = !(dayFCur[subKey] === "all" || !ds.length || ds.includes(dayFCur[subKey])); });
+  };
+  draw();
+}
+["outfit", "diem", "anh"].forEach(initDayFilter);
+
+function toast(msg) {
+  let t = document.getElementById("toast");
+  if (!t) { t = el("div", { class: "toast", id: "toast", role: "status" }); document.body.append(t); }
+  t.textContent = msg; t.classList.add("on"); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove("on"), 1800);
+}
+
+(function splitTitle() {
+  const w = document.getElementById("tWord"); if (!w) return;
+  const txt = w.textContent; w.textContent = "";
+  [...txt].forEach((c, i) => w.append(c === " " ? " " : el("span", { class: "ch", style: "--i:" + i, text: c })));
+})();
+
 
 
 /* ---------- Nền sáng / tối ---------- */
@@ -1846,9 +1962,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261119163755" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261119165226" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261119163755";
+  var BUILD = "20261119165226";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
