@@ -381,16 +381,121 @@ body { font-size: 15.5px; line-height: 1.6; }
 .say .zh { display: block; font-size: 17px; font-weight: 700; color: var(--ink); user-select: all; }
 .say .pyx { display: block; font-size: 14px; font-style: italic; color: var(--accent); }
 .say .vi { display: block; font-size: 13.5px; color: var(--muted); }
+
+/* Câu nói: chia nhóm */
+.pchips { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; margin: 12px 0 6px; }
+.pchip { border: 1.5px solid color-mix(in srgb, var(--accent) 35%, var(--line)); background: color-mix(in srgb, var(--accent) 7%, var(--surface)); color: var(--ink); border-radius: 12px; padding: 9px 10px; font-size: 14px; font-weight: 700; text-align: left; display: flex; align-items: center; gap: 6px; line-height: 1.25; }
+.pchip .ct { margin-left: auto; font-size: 12px; font-weight: 800; color: var(--accent); background: var(--surface); border-radius: 999px; padding: 1px 7px; }
+.pchip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.pchip[aria-pressed="true"] .ct { color: var(--accent); }
+.pgrp[hidden], .tips li[hidden] { display: none; }
+.pdays { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 4px 0 10px; padding-bottom: 2px; }
+.pdays::-webkit-scrollbar { display: none; }
+.pdays button { flex: none; border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 12px; font-size: 13.5px; font-weight: 700; color: var(--muted); }
+.pdays button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+@media (max-width: 640px) { .pchips { grid-template-columns: repeat(2, 1fr); } .pchip { font-size: 13.5px; padding: 8px 9px; } }
+
+/* ---------- Cảnh nền theo ngày ---------- */
+@property --sky1 { syntax: "<color>"; inherits: true; initial-value: #c9dcff; }
+@property --sky2 { syntax: "<color>"; inherits: true; initial-value: #fde8f1; }
+:root { transition: --sky1 1.2s ease, --sky2 1.2s ease; }
+body { background: linear-gradient(180deg, color-mix(in srgb, var(--sky1) 30%, var(--bg)) 0, color-mix(in srgb, var(--sky2) 22%, var(--bg)) 380px, var(--bg) 820px) no-repeat, var(--bg); }
+:root[data-theme="dark"] body { background: linear-gradient(180deg, color-mix(in srgb, var(--sky1) 16%, var(--bg)) 0, var(--bg) 700px) no-repeat, var(--bg); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body { background: linear-gradient(180deg, color-mix(in srgb, var(--sky1) 16%, var(--bg)) 0, var(--bg) 700px) no-repeat, var(--bg); } }
+@media (min-width: 641px) { nav.views { background: color-mix(in srgb, var(--bg) 84%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); } }
+
+header.top { padding: 16px 0 14px; }
+.hero { position: relative; height: 270px; border-radius: 22px; overflow: hidden; isolation: isolate; box-shadow: 0 14px 34px -18px rgba(70, 45, 140, .55); background: var(--sky1); }
+.scene, .scene .layer { position: absolute; inset: 0; }
+.scene .layer { opacity: 0; transform: scale(1.06); transition: opacity 1s ease, transform 1.8s cubic-bezier(.2, .7, .2, 1); }
+.scene .layer.on { opacity: 1; transform: none; }
+.scene svg { display: block; width: 100%; height: 100%; }
+.hero-txt { position: absolute; left: 22px; top: 18px; right: 22px; z-index: 2; color: #2b2540; }
+.hero-txt h1 { color: inherit; text-shadow: 0 1px 16px rgba(255, 255, 255, .9); animation: heroIn .8s .1s both; }
+.hero-txt .sub { color: inherit; opacity: .85; font-weight: 600; margin-top: 4px; text-shadow: 0 1px 12px rgba(255, 255, 255, .9); animation: heroIn .8s .25s both; }
+.hero[data-night="1"] .hero-txt { color: #fff; }
+.hero[data-night="1"] .hero-txt h1, .hero[data-night="1"] .hero-txt .sub { text-shadow: 0 1px 14px rgba(20, 10, 50, .65); }
+:root[data-theme="dark"] .scene { filter: brightness(.66) saturate(.9); }
+:root[data-theme="dark"] .hero-txt { color: #fff; }
+:root[data-theme="dark"] .hero-txt h1, :root[data-theme="dark"] .hero-txt .sub { text-shadow: 0 1px 14px rgba(10, 5, 30, .7); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .scene { filter: brightness(.66) saturate(.9); }
+  :root:not([data-theme="light"]) .hero-txt { color: #fff; }
+  :root:not([data-theme="light"]) .hero-txt h1, :root:not([data-theme="light"]) .hero-txt .sub { text-shadow: 0 1px 14px rgba(10, 5, 30, .7); }
+}
+.scene-cap, .hero .theme { position: absolute; bottom: 12px; z-index: 2; background: color-mix(in srgb, var(--surface) 84%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+.scene-cap { left: 12px; border-radius: 999px; padding: 5px 12px; font-size: 13px; font-weight: 700; color: var(--ink); max-width: calc(100% - 250px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; animation: heroIn .6s ease both; }
+.hero .theme { right: 12px; top: auto; margin: 0; }
+.theme .ti { margin-right: 4px; }
+@media (max-width: 640px) {
+  .hero { height: 215px; border-radius: 18px; }
+  .hero-txt { left: 16px; top: 14px; }
+  .hero .theme { position: absolute; right: 10px; bottom: 10px; margin: 0; }
+  .theme .tl { display: none; }
+  .theme .ti { margin: 0; }
+  .theme button { padding: 5px 9px; }
+  .scene-cap { left: 10px; bottom: 10px; font-size: 12px; padding: 4px 10px; max-width: calc(100% - 140px); }
+}
+@keyframes heroIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* chuyển động trong cảnh */
+.scene .cl { animation: drift linear infinite; }
+@keyframes drift { from { transform: translateX(0); } to { transform: translateX(1800px); } }
+.scene .birds { animation: birds 46s linear infinite; }
+@keyframes birds { from { transform: translate(0, 0); } to { transform: translate(1700px, -40px); } }
+.scene .flap { transform-box: fill-box; transform-origin: center; animation: flap .55s ease-in-out infinite alternate; }
+@keyframes flap { to { transform: scaleY(.35); } }
+.scene .tw { animation: tw 3.2s ease-in-out infinite alternate; }
+.scene .tw2 { animation: tw 5s steps(2) infinite; }
+@keyframes tw { from { opacity: 1; } to { opacity: .2; } }
+.scene .sunglow { transform-box: fill-box; transform-origin: center; animation: glow 6s ease-in-out infinite alternate; }
+@keyframes glow { to { transform: scale(1.12); opacity: .7; } }
+.scene .plane { animation: fly linear infinite; }
+@keyframes fly { from { transform: translate(-120px, var(--py1)); } to { transform: translate(1600px, var(--py2)); } }
+.scene .blink { animation: tw 1s steps(2) infinite; }
+.scene .rip { animation: rip 6s linear infinite; }
+@keyframes rip { to { stroke-dashoffset: -96; } }
+.scene .leaf { transform-box: fill-box; transform-origin: center; animation: fall linear infinite; }
+@keyframes fall { from { transform: translate(0, -30px) rotate(0deg); } to { transform: translate(-120px, 640px) rotate(420deg); } }
+.scene .lan { transform-box: fill-box; transform-origin: 50% 0; animation: swing 3s ease-in-out infinite alternate; }
+@keyframes swing { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+.scene .smoke { opacity: 0; animation: smoke 4.8s ease-out infinite; }
+@keyframes smoke { 0% { transform: translateY(0); opacity: 0; } 25% { opacity: .55; } 100% { transform: translateY(-70px); opacity: 0; } }
+
+/* chuyển động giao diện */
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pop { 0% { transform: scale(.92); } 60% { transform: scale(1.05); } 100% { transform: none; } }
+main > section:not([hidden]) { animation: fadeIn .4s ease both; }
+#v-luu-y .sub:not([hidden]), .pgrp:not([hidden]) { animation: fadeIn .35s ease both; }
+.timeline.anim > li { animation: rise .5s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+.days.anim .day-btn[aria-pressed="true"] { animation: pop .4s ease; }
+.day-btn, .view-btn, .chip, .pchip, .opt, .pdays button, .theme button, .link-btn { transition: transform .15s ease, background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease; }
+:is(.day-btn, .view-btn, .chip, .pchip, .opt, .pdays button, .theme button):active { transform: scale(.95); }
+.card { transition: opacity .3s ease, box-shadow .25s ease, transform .25s ease; }
+@media (hover: hover) { .card:hover, .tips > li:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -16px rgba(70, 45, 140, .5); } .tips > li { transition: transform .25s ease, box-shadow .25s ease; } }
+.upd-card { animation: pop .45s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .scene .plane, .scene .leaf, .scene .smoke, .scene .cl, .scene .birds { display: none; }
+}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="theme" role="group" aria-label="Chế độ nền">
-      <button data-t="auto">Tự động</button><button data-t="light">Sáng</button><button data-t="dark">Tối</button>
+    <div class="hero" id="hero" data-night="0">
+      <div class="scene" id="scene" aria-hidden="true"></div>
+      <div class="hero-txt">
+        <h1>Cẩm nang Bắc Kinh</h1>
+        <p class="sub">23–30/11/2026 · Hội 3 chị em 🙋‍♀️🙋‍♀️🙋‍♀️</p>
+      </div>
+      <span class="scene-cap" id="sceneCap"></span>
+      <div class="theme" role="group" aria-label="Chế độ nền">
+      <button data-t="auto" aria-label="Tự động"><span class="ti">🌗</span><span class="tl">Tự động</span></button><button data-t="light" aria-label="Sáng"><span class="ti">☀️</span><span class="tl">Sáng</span></button><button data-t="dark" aria-label="Tối"><span class="ti">🌙</span><span class="tl">Tối</span></button>
     </div>
-    <h1>Cẩm nang Bắc Kinh</h1>
-    <p class="sub">23–30/11/2026 · Hội 3 chị em 🙋‍♀️🙋‍♀️🙋‍♀️</p>
+    </div>
     <div class="meta" id="meta"></div>
     <p class="sync" id="sync" data-ok="0">Dữ liệu cập nhật ngày 19/11/2026.</p>
   </header>
@@ -588,14 +693,37 @@ body { font-size: 15.5px; line-height: 1.6; }
       </div>
       <div class="sub" data-sub="noi" hidden>
         <h2 class="sec-title">Câu nói theo tình huống</h2>
-        <p style="color:var(--muted);font-size:14px;margin:0 0 6px">Các câu dài, đủ ngữ cảnh cho lúc cần giải thích hoặc hỏi kỹ. Câu ngắn cho từng điểm vẫn có trong Lịch trình, ở khung "🗣️ Nói thế nào".</p>
-        <h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🏨 Khách sạn</h3>
+        <p style="color:var(--muted);font-size:14px;margin:0 0 6px">Các câu dài, đủ ngữ cảnh cho lúc cần giải thích hoặc hỏi kỹ. Chọn nhóm tình huống bên dưới để xem. Câu ngắn cho từng điểm vẫn có trong Lịch trình, ở khung "🗣️ Nói thế nào".</p>
+        <div class="pchips" id="pChips" role="group" aria-label="Chọn nhóm câu nói"></div>
+        <div class="pgrp" data-g="g0">
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">📍 Theo từng điểm trong lịch trình</h3>
+        <div class="pdays" id="pDays"></div>
+        <ul class="tips">
+          <li data-day="23"><b style="display:block;margin-bottom:4px;color:var(--accent)">Tới khách sạn đêm 23/11</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">师傅，导航上的位置不太准，酒店在胡同里，停在德寿堂药店门口就行。</span><span style="display:block;font-style:italic;color:var(--accent)">Shīfu, dǎoháng shang de wèizhi bú tài zhǔn, jiǔdiàn zài hútòng li, tíng zài Déshòutáng yàodiàn ménkǒu jiù xíng.</span><span style="display:block;color:var(--muted);font-size:14px">Bác tài, vị trí trên bản đồ không chuẩn lắm, khách sạn ở trong ngõ, dừng trước hiệu thuốc Đức Thọ Đường là được.</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">您好，我们订的是家庭复式房，名字是 TRAN THU HA，三个人入住。</span><span style="display:block;font-style:italic;color:var(--accent)">Nín hǎo, wǒmen dìng de shì jiātíng fùshì fáng, míngzi shì Tran Thu Ha, sān ge rén rùzhù.</span><span style="display:block;color:var(--muted);font-size:14px">Chào anh/chị, bọn mình đặt phòng gia đình duplex, tên Trần Thu Hà, 3 người ở.</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">房间里有点冷，暖气能不能调高一点？</span><span style="display:block;font-style:italic;color:var(--accent)">Fángjiān li yǒudiǎn lěng, nuǎnqì néng bu néng tiáo gāo yìdiǎn?</span><span style="display:block;color:var(--muted);font-size:14px">Phòng hơi lạnh, chỉnh sưởi cao hơn chút được không?</span></div></li>
+          <li data-day="24"><b style="display:block;margin-bottom:4px;color:var(--accent)">Quán vịt quay (24/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们三个人，点半只烤鸭再加两个菜够不够？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen sān ge rén, diǎn bàn zhī kǎoyā zài jiā liǎng ge cài gòu bu gòu?</span><span style="display:block;color:var(--muted);font-size:14px">Ba người gọi nửa con vịt thêm hai món thì có đủ không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">烤鸭怎么卷着吃？能教我们一下吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Kǎoyā zěnme juǎnzhe chī? Néng jiāo wǒmen yíxià ma?</span><span style="display:block;color:var(--muted);font-size:14px">Vịt quay cuốn ăn thế nào? Chỉ bọn mình với được không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">鸭架可以做汤，也可以椒盐，哪个更好吃？</span><span style="display:block;font-style:italic;color:var(--accent)">Yājià kěyǐ zuò tāng, yě kěyǐ jiāoyán, nǎge gèng hǎochī?</span><span style="display:block;color:var(--muted);font-size:14px">Xương vịt nấu canh hoặc rang muối tiêu, cách nào ngon hơn?</span></div></li>
+          <li data-day="25"><b style="display:block;margin-bottom:4px;color:var(--accent)">Tử Cấm Thành (25/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们是用护照预约的，入口直接刷护照就可以吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen shì yòng hùzhào yùyuē de, rùkǒu zhíjiē shuā hùzhào jiù kěyǐ ma?</span><span style="display:block;color:var(--muted);font-size:14px">Bọn mình đặt bằng hộ chiếu, ở cổng quẹt hộ chiếu là vào được phải không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">从午门走到神武门大概要多久？中间有休息的地方吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Cóng Wǔmén zǒu dào Shénwǔmén dàgài yào duō jiǔ? Zhōngjiān yǒu xiūxi de dìfang ma?</span><span style="display:block;color:var(--muted);font-size:14px">Từ Ngọ Môn đi tới cổng Thần Vũ mất bao lâu? Giữa đường có chỗ nghỉ không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">钟表馆要另外买票吗？在哪儿买？</span><span style="display:block;font-style:italic;color:var(--accent)">Zhōngbiǎoguǎn yào lìngwài mǎi piào ma? Zài nǎr mǎi?</span><span style="display:block;color:var(--muted);font-size:14px">Gian Đồng hồ có phải mua vé riêng không? Mua ở đâu?</span></div></li>
+          <li data-day="25"><b style="display:block;margin-bottom:4px;color:var(--accent)">Cảnh Sơn ngắm hoàng hôn (25/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">能帮我们拍一张吗？把后面的故宫全景拍进去，竖着拍。</span><span style="display:block;font-style:italic;color:var(--accent)">Néng bāng wǒmen pāi yì zhāng ma? Bǎ hòumiàn de Gùgōng quánjǐng pāi jìnqù, shùzhe pāi.</span><span style="display:block;color:var(--muted);font-size:14px">Chụp giúp bọn mình một tấm được không? Lấy cả toàn cảnh Cố Cung phía sau, chụp dọc nhé.</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">今天几点日落？现在上去还来得及吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Jīntiān jǐ diǎn rìluò? Xiànzài shàngqù hái láidejí ma?</span><span style="display:block;color:var(--muted);font-size:14px">Hôm nay mấy giờ mặt trời lặn? Giờ leo lên còn kịp không?</span></div></li>
+          <li data-day="25"><b style="display:block;margin-bottom:4px;color:var(--accent)">Lẩu bò Bát Hợp Lý (25/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们在大众点评上取了号，大概还要等多久？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen zài Dàzhòng Diǎnpíng shang qǔ le hào, dàgài hái yào děng duō jiǔ?</span><span style="display:block;color:var(--muted);font-size:14px">Bọn mình lấy số trên Dianping rồi, còn phải chờ khoảng bao lâu?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">第一次吃潮汕牛肉火锅，吊龙和嫩肉一般涮多久？</span><span style="display:block;font-style:italic;color:var(--accent)">Dì yī cì chī Cháoshàn niúròu huǒguō, diàolóng hé nènròu yìbān shuàn duō jiǔ?</span><span style="display:block;color:var(--muted);font-size:14px">Lần đầu ăn lẩu bò Triều Sán, thăn bò với thịt mềm thường nhúng bao lâu?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">蘸料有哪几种？沙茶酱是什么味道的？</span><span style="display:block;font-style:italic;color:var(--accent)">Zhànliào yǒu nǎ jǐ zhǒng? Shāchájiàng shì shénme wèidao de?</span><span style="display:block;color:var(--muted);font-size:14px">Có những loại nước chấm nào? Sốt sa tế vị thế nào?</span></div></li>
+          <li data-day="26"><b style="display:block;margin-bottom:4px;color:var(--accent)">Cổ Bắc Thủy Trấn (26/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">联票包括古北水镇、司马台长城和缆车吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Liánpiào bāokuò Gǔběi Shuǐzhèn, Sīmǎtái Chángchéng hé lǎnchē ma?</span><span style="display:block;color:var(--muted);font-size:14px">Vé combo có gồm trấn, Trường Thành Tư Mã Đài và cáp treo không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">回北京的末班车几点？在哪儿坐？</span><span style="display:block;font-style:italic;color:var(--accent)">Huí Běijīng de mòbānchē jǐ diǎn? Zài nǎr zuò?</span><span style="display:block;color:var(--muted);font-size:14px">Chuyến xe cuối về Bắc Kinh lúc mấy giờ? Lên xe ở đâu?</span></div></li>
+          <li data-day="26"><b style="display:block;margin-bottom:4px;color:var(--accent)">Trường Thành Tư Mã Đài (26/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">缆车上去以后，走到哪个敌楼风景最好？</span><span style="display:block;font-style:italic;color:var(--accent)">Lǎnchē shàngqù yǐhòu, zǒu dào nǎge dílóu fēngjǐng zuì hǎo?</span><span style="display:block;color:var(--muted);font-size:14px">Lên cáp treo xong thì đi tới tháp canh nào cảnh đẹp nhất?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">下山的缆车最后一班是几点？</span><span style="display:block;font-style:italic;color:var(--accent)">Xiàshān de lǎnchē zuìhòu yì bān shì jǐ diǎn?</span><span style="display:block;color:var(--muted);font-size:14px">Chuyến cáp treo xuống núi cuối cùng lúc mấy giờ?</span></div></li>
+          <li data-day="28"><b style="display:block;margin-bottom:4px;color:var(--accent)">Đổi đơn phòng, gửi hành lý (28/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们今天从第一个订单换到第二个订单，能不能不换房，直接续住？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen jīntiān cóng dì yī ge dìngdān huàn dào dì èr ge dìngdān, néng bu néng bú huàn fáng, zhíjiē xùzhù?</span><span style="display:block;color:var(--muted);font-size:14px">Hôm nay bọn mình chuyển từ đơn thứ nhất sang đơn thứ hai, có thể ở nguyên phòng không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">行李先寄存在前台，下午回来再办入住，可以吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Xíngli xiān jìcún zài qiántái, xiàwǔ huílái zài bàn rùzhù, kěyǐ ma?</span><span style="display:block;color:var(--muted);font-size:14px">Gửi hành lý ở lễ tân trước, chiều về làm thủ tục nhận phòng, được không?</span></div></li>
+          <li data-day="28"><b style="display:block;margin-bottom:4px;color:var(--accent)">Đại học Bắc Kinh (28/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们发邮件预约了今天下午两点参观，这是回复邮件，从东门进对吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen fā yóujiàn yùyuē le jīntiān xiàwǔ liǎng diǎn cānguān, zhè shì huífù yóujiàn, cóng Dōngmén jìn duì ma?</span><span style="display:block;color:var(--muted);font-size:14px">Bọn mình gửi email đăng ký tham quan 2 giờ chiều nay, đây là email trả lời, vào cổng Đông đúng không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">在哪个位置能拍到博雅塔和未名湖的倒影？</span><span style="display:block;font-style:italic;color:var(--accent)">Zài nǎge wèizhi néng pāi dào Bóyǎtǎ hé Wèimínghú de dàoyǐng?</span><span style="display:block;color:var(--muted);font-size:14px">Đứng chỗ nào chụp được tháp Bác Nhã và bóng trên hồ Vị Danh?</span></div></li>
+          <li data-day="29"><b style="display:block;margin-bottom:4px;color:var(--accent)">Lưu Ly Xưởng, mua quà (29/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">这幅字是手写的还是印刷的？</span><span style="display:block;font-style:italic;color:var(--accent)">Zhè fú zì shì shǒuxiě de háishi yìnshuā de?</span><span style="display:block;color:var(--muted);font-size:14px">Bức chữ này viết tay hay in?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我买三个，能不能便宜点？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒ mǎi sān ge, néng bu néng piányi diǎnr?</span><span style="display:block;color:var(--muted);font-size:14px">Mình mua ba cái, bớt chút được không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">能帮我包装得好看一点吗？是送人的。</span><span style="display:block;font-style:italic;color:var(--accent)">Néng bāng wǒ bāozhuāng de hǎokàn yìdiǎn ma? Shì sòng rén de.</span><span style="display:block;color:var(--muted);font-size:14px">Gói đẹp giúp mình được không? Mình mua làm quà.</span></div></li>
+          <li data-day="30"><b style="display:block;margin-bottom:4px;color:var(--accent)">Trả phòng (30/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们今天退房，行李能寄存到晚上六点半左右吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen jīntiān tuìfáng, xíngli néng jìcún dào wǎnshang liù diǎn bàn zuǒyòu ma?</span><span style="display:block;color:var(--muted);font-size:14px">Hôm nay bọn mình trả phòng, gửi hành lý đến khoảng 6 rưỡi tối được không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">麻烦帮我们叫一辆六点四十五去大兴机场的车。</span><span style="display:block;font-style:italic;color:var(--accent)">Máfan bāng wǒmen jiào yí liàng liù diǎn sìshíwǔ qù Dàxīng jīchǎng de chē.</span><span style="display:block;color:var(--muted);font-size:14px">Phiền gọi giúp một xe lúc 6:45 đi sân bay Đại Hưng.</span></div></li>
+          <li data-day="30"><b style="display:block;margin-bottom:4px;color:var(--accent)">Taxi ra sân bay (30/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">师傅，我们赶飞机，走机场高速吧，大概要多长时间？</span><span style="display:block;font-style:italic;color:var(--accent)">Shīfu, wǒmen gǎn fēijī, zǒu jīchǎng gāosù ba, dàgài yào duō cháng shíjiān?</span><span style="display:block;color:var(--muted);font-size:14px">Bác tài, bọn mình kịp giờ bay, đi cao tốc sân bay nhé, mất khoảng bao lâu?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们在国际出发下车，后备箱的行李麻烦帮一下。</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen zài guójì chūfā xià chē, hòubèixiāng de xíngli máfan bāng yíxià.</span><span style="display:block;color:var(--muted);font-size:14px">Bọn mình xuống ở khu khởi hành quốc tế, phiền bác lấy giúp hành lý trong cốp.</span></div></li>
+        </ul>
+      
+        </div>
+        <div class="pgrp" data-g="g1">
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🏨 Khách sạn</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们的航班晚上十点多才落地，到酒店大概要十二点以后，麻烦帮我们把房间留着。</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen de hángbān wǎnshang shí diǎn duō cái luòdì, dào jiǔdiàn dàgài yào shí&#x27;èr diǎn yǐhòu, máfan bāng wǒmen bǎ fángjiān liúzhe.</span><span style="display:block;color:var(--muted);font-size:14px">Chuyến bay hơn 10 giờ tối mới hạ cánh, khoảng sau 12 giờ mới tới, phiền giữ phòng giúp.</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">麻烦再给我们加一床被子和两瓶水。</span><span style="display:block;font-style:italic;color:var(--accent)">Máfan zài gěi wǒmen jiā yì chuáng bèizi hé liǎng píng shuǐ.</span><span style="display:block;color:var(--muted);font-size:14px">Phiền cho thêm một cái chăn và hai chai nước.</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">热水好像有问题，能派人来看一下吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Rèshuǐ hǎoxiàng yǒu wèntí, néng pài rén lái kàn yíxià ma?</span><span style="display:block;color:var(--muted);font-size:14px">Nước nóng hình như có vấn đề, cử người lên xem giúp được không?</span></li>
         </ul>
-        <h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">📶 Đăng ký SIM bằng hộ chiếu</h3>
+        </div>
+        <div class="pgrp" data-g="g2">
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">📶 Đăng ký SIM bằng hộ chiếu</h3>
         <p style="color:var(--muted);font-size:14px;margin:0 0 8px">Mang hộ chiếu gốc có visa. SIM nội địa Trung Quốc không vào được Google, Facebook nếu không có VPN, nhưng có số điện thoại Trung Quốc thì đăng ký DiDi, lấy số quán ăn, nhận mã xác minh dễ hơn.</p>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">附近有中国移动或者联通的营业厅吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Fùjìn yǒu Zhōngguó Yídòng huòzhě Liántōng de yíngyètīng ma?</span><span style="display:block;color:var(--muted);font-size:14px">Gần đây có cửa hàng giao dịch China Mobile hoặc Unicom không?</span></li>
@@ -611,14 +739,18 @@ body { font-size: 15.5px; line-height: 1.6; }
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">流量用完了怎么充值？可以在支付宝上充吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Liúliàng yòng wán le zěnme chōngzhí? Kěyǐ zài Zhīfùbǎo shang chōng ma?</span><span style="display:block;color:var(--muted);font-size:14px">Hết dung lượng thì nạp thế nào? Nạp trên Alipay được không?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">回国以后这张卡需要销号吗？不用的话会不会继续扣费？</span><span style="display:block;font-style:italic;color:var(--accent)">Huí guó yǐhòu zhè zhāng kǎ xūyào xiāohào ma? Bú yòng de huà huì bu huì jìxù kòufèi?</span><span style="display:block;color:var(--muted);font-size:14px">Về nước rồi có cần hủy số không? Không dùng có bị trừ tiền tiếp không?</span></li>
         </ul>
-        <h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🚕 Gọi xe, đi đường</h3>
+        </div>
+        <div class="pgrp" data-g="g3">
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🚕 Gọi xe, đi đường</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我在路口等你，穿白色羽绒服。</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒ zài lùkǒu děng nǐ, chuān báisè yǔróngfú.</span><span style="display:block;color:var(--muted);font-size:14px">Mình đợi ở ngã tư, mặc áo phao trắng (nhắn cho tài xế DiDi).</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">师傅，我们赶时间，走不堵的路吧。</span><span style="display:block;font-style:italic;color:var(--accent)">Shīfu, wǒmen gǎn shíjiān, zǒu bù dǔ de lù ba.</span><span style="display:block;color:var(--muted);font-size:14px">Bác tài, bọn mình đang vội, đi đường không tắc nhé.</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">请问去南锣鼓巷坐地铁方便，还是打车方便？</span><span style="display:block;font-style:italic;color:var(--accent)">Qǐngwèn qù Nánluógǔxiàng zuò dìtiě fāngbiàn, háishi dǎchē fāngbiàn?</span><span style="display:block;color:var(--muted);font-size:14px">Cho hỏi đi Nam La Cổ Hạng đi tàu điện tiện hay gọi xe tiện hơn?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">这站离出口最近的是哪个口？</span><span style="display:block;font-style:italic;color:var(--accent)">Zhè zhàn lí chūkǒu zuì jìn de shì nǎge kǒu?</span><span style="display:block;color:var(--muted);font-size:14px">Ga này cửa ra nào gần nhất?</span></li>
         </ul>
-        <h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🍽️ Nhà hàng</h3>
+        </div>
+        <div class="pgrp" data-g="g4">
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🍽️ Nhà hàng</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们三个人，大概点几个菜够吃？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen sān ge rén, dàgài diǎn jǐ ge cài gòu chī?</span><span style="display:block;color:var(--muted);font-size:14px">Ba người thì gọi khoảng mấy món là đủ?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">你们家的招牌菜是什么？有没有不太油、不太辣的？</span><span style="display:block;font-style:italic;color:var(--accent)">Nǐmen jiā de zhāopáicài shì shénme? Yǒu méiyǒu bú tài yóu, bú tài là de?</span><span style="display:block;color:var(--muted);font-size:14px">Món đặc trưng của quán là gì? Có món nào không quá dầu mỡ, không quá cay không?</span></li>
@@ -626,25 +758,33 @@ body { font-size: 15.5px; line-height: 1.6; }
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">排队大概要等多久？可以先点菜吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Páiduì dàgài yào děng duō jiǔ? Kěyǐ xiān diǎn cài ma?</span><span style="display:block;color:var(--muted);font-size:14px">Xếp hàng chờ khoảng bao lâu? Gọi món trước được không?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">麻烦把剩下的打包，再给一个袋子。</span><span style="display:block;font-style:italic;color:var(--accent)">Máfan bǎ shèngxià de dǎbāo, zài gěi yí ge dàizi.</span><span style="display:block;color:var(--muted);font-size:14px">Phiền gói phần còn lại, cho thêm một cái túi.</span></li>
         </ul>
-        <h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🎫 Vé, tham quan</h3>
+        </div>
+        <div class="pgrp" data-g="g5">
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🎫 Vé, tham quan</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们是用护照预约的，系统里查不到，能帮我们看一下吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen shì yòng hùzhào yùyuē de, xìtǒng li chá bu dào, néng bāng wǒmen kàn yíxià ma?</span><span style="display:block;color:var(--muted);font-size:14px">Bọn mình đặt bằng hộ chiếu mà hệ thống không thấy, xem giúp được không?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">护照上的名字是姓在前、名在后，会不会填反了？</span><span style="display:block;font-style:italic;color:var(--accent)">Hùzhào shang de míngzi shì xìng zài qián, míng zài hòu, huì bu huì tián fǎn le?</span><span style="display:block;color:var(--muted);font-size:14px">Tên trên hộ chiếu họ trước tên sau, có khi nào điền ngược không?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">今天还有余票吗？下午几点停止入场？</span><span style="display:block;font-style:italic;color:var(--accent)">Jīntiān hái yǒu yúpiào ma? Xiàwǔ jǐ diǎn tíngzhǐ rùchǎng?</span><span style="display:block;color:var(--muted);font-size:14px">Hôm nay còn vé không? Chiều mấy giờ ngừng cho vào?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">有语音导览吗？租一个多少钱？</span><span style="display:block;font-style:italic;color:var(--accent)">Yǒu yǔyīn dǎolǎn ma? Zū yí ge duōshao qián?</span><span style="display:block;color:var(--muted);font-size:14px">Có máy thuyết minh không? Thuê một cái bao nhiêu?</span></li>
         </ul>
-        <h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🛍️ Mua sắm</h3>
+        </div>
+        <div class="pgrp" data-g="g6">
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🛍️ Mua sắm</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">这是手工做的还是机器做的？</span><span style="display:block;font-style:italic;color:var(--accent)">Zhè shì shǒugōng zuò de háishi jīqì zuò de?</span><span style="display:block;color:var(--muted);font-size:14px">Cái này làm thủ công hay làm bằng máy?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">有没有小一点、方便带上飞机的？</span><span style="display:block;font-style:italic;color:var(--accent)">Yǒu méiyǒu xiǎo yìdiǎn, fāngbiàn dài shàng fēijī de?</span><span style="display:block;color:var(--muted);font-size:14px">Có loại nhỏ hơn, tiện mang lên máy bay không?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我再转转，等一下回来。</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒ zài zhuànzhuan, děng yíxià huílái.</span><span style="display:block;color:var(--muted);font-size:14px">Mình đi xem thêm đã, lát quay lại.</span></li>
         </ul>
-        <h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">📸 Nhờ chụp ảnh</h3>
+        </div>
+        <div class="pgrp" data-g="g7">
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">📸 Nhờ chụp ảnh</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">能帮我们拍一张全身的吗？把后面的角楼也拍进去。</span><span style="display:block;font-style:italic;color:var(--accent)">Néng bāng wǒmen pāi yì zhāng quánshēn de ma? Bǎ hòumiàn de jiǎolóu yě pāi jìnqù.</span><span style="display:block;color:var(--muted);font-size:14px">Chụp giúp bọn mình một tấm toàn thân được không? Lấy cả góc lâu phía sau.</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">竖着拍，稍微蹲低一点，多拍几张，谢谢！</span><span style="display:block;font-style:italic;color:var(--accent)">Shùzhe pāi, shāowēi dūn dī yìdiǎn, duō pāi jǐ zhāng, xièxie!</span><span style="display:block;color:var(--muted);font-size:14px">Chụp dọc, ngồi thấp xuống chút, chụp vài tấm nhé, cảm ơn!</span></li>
         </ul>
-        <h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🆘 Tình huống khó</h3>
+        </div>
+        <div class="pgrp" data-g="g8">
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🆘 Tình huống khó</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">支付宝付不了，可以用微信吗？还是只能付现金？</span><span style="display:block;font-style:italic;color:var(--accent)">Zhīfùbǎo fù bu liǎo, kěyǐ yòng Wēixìn ma? Háishi zhǐ néng fù xiànjīn?</span><span style="display:block;color:var(--muted);font-size:14px">Alipay không trả được, dùng WeChat được không? Hay chỉ nhận tiền mặt?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我的手机快没电了，附近有共享充电宝吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒ de shǒujī kuài méi diàn le, fùjìn yǒu gòngxiǎng chōngdiànbǎo ma?</span><span style="display:block;color:var(--muted);font-size:14px">Điện thoại mình sắp hết pin, gần đây có trạm thuê sạc dự phòng không?</span></li>
@@ -652,27 +792,15 @@ body { font-size: 15.5px; line-height: 1.6; }
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">附近有药店吗？我有点感冒，想买点感冒药。</span><span style="display:block;font-style:italic;color:var(--accent)">Fùjìn yǒu yàodiàn ma? Wǒ yǒudiǎn gǎnmào, xiǎng mǎi diǎnr gǎnmàoyào.</span><span style="display:block;color:var(--muted);font-size:14px">Gần đây có hiệu thuốc không? Mình hơi cảm, muốn mua thuốc cảm.</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">不好意思，您能说慢一点吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Bù hǎoyìsi, nín néng shuō màn yìdiǎn ma?</span><span style="display:block;color:var(--muted);font-size:14px">Xin lỗi, anh/chị nói chậm lại chút được không?</span></li>
         </ul>
-        <h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">💬 Trò chuyện</h3>
+        </div>
+        <div class="pgrp" data-g="g9">
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">💬 Trò chuyện</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们是从越南来的，第一次来北京。</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen shì cóng Yuènán lái de, dì yī cì lái Běijīng.</span><span style="display:block;color:var(--muted);font-size:14px">Bọn mình đến từ Việt Nam, lần đầu tới Bắc Kinh.</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">您觉得附近有什么本地人常去的小馆子？</span><span style="display:block;font-style:italic;color:var(--accent)">Nín juéde fùjìn yǒu shénme běndì rén cháng qù de xiǎo guǎnzi?</span><span style="display:block;color:var(--muted);font-size:14px">Anh/chị thấy gần đây có quán nhỏ nào người địa phương hay ăn không?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">北京冬天一般什么时候开始下雪？</span><span style="display:block;font-style:italic;color:var(--accent)">Běijīng dōngtiān yìbān shénme shíhou kāishǐ xià xuě?</span><span style="display:block;color:var(--muted);font-size:14px">Mùa đông Bắc Kinh thường khi nào bắt đầu có tuyết?</span></li>
         </ul>
-        <h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">📍 Theo từng điểm trong lịch trình</h3>
-        <ul class="tips">
-          <li><b style="display:block;margin-bottom:4px;color:var(--accent)">Tới khách sạn đêm 23/11</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">师傅，导航上的位置不太准，酒店在胡同里，停在德寿堂药店门口就行。</span><span style="display:block;font-style:italic;color:var(--accent)">Shīfu, dǎoháng shang de wèizhi bú tài zhǔn, jiǔdiàn zài hútòng li, tíng zài Déshòutáng yàodiàn ménkǒu jiù xíng.</span><span style="display:block;color:var(--muted);font-size:14px">Bác tài, vị trí trên bản đồ không chuẩn lắm, khách sạn ở trong ngõ, dừng trước hiệu thuốc Đức Thọ Đường là được.</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">您好，我们订的是家庭复式房，名字是 TRAN THU HA，三个人入住。</span><span style="display:block;font-style:italic;color:var(--accent)">Nín hǎo, wǒmen dìng de shì jiātíng fùshì fáng, míngzi shì Tran Thu Ha, sān ge rén rùzhù.</span><span style="display:block;color:var(--muted);font-size:14px">Chào anh/chị, bọn mình đặt phòng gia đình duplex, tên Trần Thu Hà, 3 người ở.</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">房间里有点冷，暖气能不能调高一点？</span><span style="display:block;font-style:italic;color:var(--accent)">Fángjiān li yǒudiǎn lěng, nuǎnqì néng bu néng tiáo gāo yìdiǎn?</span><span style="display:block;color:var(--muted);font-size:14px">Phòng hơi lạnh, chỉnh sưởi cao hơn chút được không?</span></div></li>
-          <li><b style="display:block;margin-bottom:4px;color:var(--accent)">Quán vịt quay (24/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们三个人，点半只烤鸭再加两个菜够不够？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen sān ge rén, diǎn bàn zhī kǎoyā zài jiā liǎng ge cài gòu bu gòu?</span><span style="display:block;color:var(--muted);font-size:14px">Ba người gọi nửa con vịt thêm hai món thì có đủ không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">烤鸭怎么卷着吃？能教我们一下吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Kǎoyā zěnme juǎnzhe chī? Néng jiāo wǒmen yíxià ma?</span><span style="display:block;color:var(--muted);font-size:14px">Vịt quay cuốn ăn thế nào? Chỉ bọn mình với được không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">鸭架可以做汤，也可以椒盐，哪个更好吃？</span><span style="display:block;font-style:italic;color:var(--accent)">Yājià kěyǐ zuò tāng, yě kěyǐ jiāoyán, nǎge gèng hǎochī?</span><span style="display:block;color:var(--muted);font-size:14px">Xương vịt nấu canh hoặc rang muối tiêu, cách nào ngon hơn?</span></div></li>
-          <li><b style="display:block;margin-bottom:4px;color:var(--accent)">Tử Cấm Thành (25/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们是用护照预约的，入口直接刷护照就可以吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen shì yòng hùzhào yùyuē de, rùkǒu zhíjiē shuā hùzhào jiù kěyǐ ma?</span><span style="display:block;color:var(--muted);font-size:14px">Bọn mình đặt bằng hộ chiếu, ở cổng quẹt hộ chiếu là vào được phải không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">从午门走到神武门大概要多久？中间有休息的地方吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Cóng Wǔmén zǒu dào Shénwǔmén dàgài yào duō jiǔ? Zhōngjiān yǒu xiūxi de dìfang ma?</span><span style="display:block;color:var(--muted);font-size:14px">Từ Ngọ Môn đi tới cổng Thần Vũ mất bao lâu? Giữa đường có chỗ nghỉ không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">钟表馆要另外买票吗？在哪儿买？</span><span style="display:block;font-style:italic;color:var(--accent)">Zhōngbiǎoguǎn yào lìngwài mǎi piào ma? Zài nǎr mǎi?</span><span style="display:block;color:var(--muted);font-size:14px">Gian Đồng hồ có phải mua vé riêng không? Mua ở đâu?</span></div></li>
-          <li><b style="display:block;margin-bottom:4px;color:var(--accent)">Cảnh Sơn ngắm hoàng hôn (25/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">能帮我们拍一张吗？把后面的故宫全景拍进去，竖着拍。</span><span style="display:block;font-style:italic;color:var(--accent)">Néng bāng wǒmen pāi yì zhāng ma? Bǎ hòumiàn de Gùgōng quánjǐng pāi jìnqù, shùzhe pāi.</span><span style="display:block;color:var(--muted);font-size:14px">Chụp giúp bọn mình một tấm được không? Lấy cả toàn cảnh Cố Cung phía sau, chụp dọc nhé.</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">今天几点日落？现在上去还来得及吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Jīntiān jǐ diǎn rìluò? Xiànzài shàngqù hái láidejí ma?</span><span style="display:block;color:var(--muted);font-size:14px">Hôm nay mấy giờ mặt trời lặn? Giờ leo lên còn kịp không?</span></div></li>
-          <li><b style="display:block;margin-bottom:4px;color:var(--accent)">Lẩu bò Bát Hợp Lý (25/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们在大众点评上取了号，大概还要等多久？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen zài Dàzhòng Diǎnpíng shang qǔ le hào, dàgài hái yào děng duō jiǔ?</span><span style="display:block;color:var(--muted);font-size:14px">Bọn mình lấy số trên Dianping rồi, còn phải chờ khoảng bao lâu?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">第一次吃潮汕牛肉火锅，吊龙和嫩肉一般涮多久？</span><span style="display:block;font-style:italic;color:var(--accent)">Dì yī cì chī Cháoshàn niúròu huǒguō, diàolóng hé nènròu yìbān shuàn duō jiǔ?</span><span style="display:block;color:var(--muted);font-size:14px">Lần đầu ăn lẩu bò Triều Sán, thăn bò với thịt mềm thường nhúng bao lâu?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">蘸料有哪几种？沙茶酱是什么味道的？</span><span style="display:block;font-style:italic;color:var(--accent)">Zhànliào yǒu nǎ jǐ zhǒng? Shāchájiàng shì shénme wèidao de?</span><span style="display:block;color:var(--muted);font-size:14px">Có những loại nước chấm nào? Sốt sa tế vị thế nào?</span></div></li>
-          <li><b style="display:block;margin-bottom:4px;color:var(--accent)">Cổ Bắc Thủy Trấn (26/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">联票包括古北水镇、司马台长城和缆车吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Liánpiào bāokuò Gǔběi Shuǐzhèn, Sīmǎtái Chángchéng hé lǎnchē ma?</span><span style="display:block;color:var(--muted);font-size:14px">Vé combo có gồm trấn, Trường Thành Tư Mã Đài và cáp treo không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">回北京的末班车几点？在哪儿坐？</span><span style="display:block;font-style:italic;color:var(--accent)">Huí Běijīng de mòbānchē jǐ diǎn? Zài nǎr zuò?</span><span style="display:block;color:var(--muted);font-size:14px">Chuyến xe cuối về Bắc Kinh lúc mấy giờ? Lên xe ở đâu?</span></div></li>
-          <li><b style="display:block;margin-bottom:4px;color:var(--accent)">Trường Thành Tư Mã Đài (26/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">缆车上去以后，走到哪个敌楼风景最好？</span><span style="display:block;font-style:italic;color:var(--accent)">Lǎnchē shàngqù yǐhòu, zǒu dào nǎge dílóu fēngjǐng zuì hǎo?</span><span style="display:block;color:var(--muted);font-size:14px">Lên cáp treo xong thì đi tới tháp canh nào cảnh đẹp nhất?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">下山的缆车最后一班是几点？</span><span style="display:block;font-style:italic;color:var(--accent)">Xiàshān de lǎnchē zuìhòu yì bān shì jǐ diǎn?</span><span style="display:block;color:var(--muted);font-size:14px">Chuyến cáp treo xuống núi cuối cùng lúc mấy giờ?</span></div></li>
-          <li><b style="display:block;margin-bottom:4px;color:var(--accent)">Đổi đơn phòng, gửi hành lý (28/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们今天从第一个订单换到第二个订单，能不能不换房，直接续住？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen jīntiān cóng dì yī ge dìngdān huàn dào dì èr ge dìngdān, néng bu néng bú huàn fáng, zhíjiē xùzhù?</span><span style="display:block;color:var(--muted);font-size:14px">Hôm nay bọn mình chuyển từ đơn thứ nhất sang đơn thứ hai, có thể ở nguyên phòng không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">行李先寄存在前台，下午回来再办入住，可以吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Xíngli xiān jìcún zài qiántái, xiàwǔ huílái zài bàn rùzhù, kěyǐ ma?</span><span style="display:block;color:var(--muted);font-size:14px">Gửi hành lý ở lễ tân trước, chiều về làm thủ tục nhận phòng, được không?</span></div></li>
-          <li><b style="display:block;margin-bottom:4px;color:var(--accent)">Đại học Bắc Kinh (28/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们发邮件预约了今天下午两点参观，这是回复邮件，从东门进对吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen fā yóujiàn yùyuē le jīntiān xiàwǔ liǎng diǎn cānguān, zhè shì huífù yóujiàn, cóng Dōngmén jìn duì ma?</span><span style="display:block;color:var(--muted);font-size:14px">Bọn mình gửi email đăng ký tham quan 2 giờ chiều nay, đây là email trả lời, vào cổng Đông đúng không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">在哪个位置能拍到博雅塔和未名湖的倒影？</span><span style="display:block;font-style:italic;color:var(--accent)">Zài nǎge wèizhi néng pāi dào Bóyǎtǎ hé Wèimínghú de dàoyǐng?</span><span style="display:block;color:var(--muted);font-size:14px">Đứng chỗ nào chụp được tháp Bác Nhã và bóng trên hồ Vị Danh?</span></div></li>
-          <li><b style="display:block;margin-bottom:4px;color:var(--accent)">Lưu Ly Xưởng, mua quà (29/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">这幅字是手写的还是印刷的？</span><span style="display:block;font-style:italic;color:var(--accent)">Zhè fú zì shì shǒuxiě de háishi yìnshuā de?</span><span style="display:block;color:var(--muted);font-size:14px">Bức chữ này viết tay hay in?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我买三个，能不能便宜点？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒ mǎi sān ge, néng bu néng piányi diǎnr?</span><span style="display:block;color:var(--muted);font-size:14px">Mình mua ba cái, bớt chút được không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">能帮我包装得好看一点吗？是送人的。</span><span style="display:block;font-style:italic;color:var(--accent)">Néng bāng wǒ bāozhuāng de hǎokàn yìdiǎn ma? Shì sòng rén de.</span><span style="display:block;color:var(--muted);font-size:14px">Gói đẹp giúp mình được không? Mình mua làm quà.</span></div></li>
-          <li><b style="display:block;margin-bottom:4px;color:var(--accent)">Trả phòng (30/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们今天退房，行李能寄存到晚上六点半左右吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen jīntiān tuìfáng, xíngli néng jìcún dào wǎnshang liù diǎn bàn zuǒyòu ma?</span><span style="display:block;color:var(--muted);font-size:14px">Hôm nay bọn mình trả phòng, gửi hành lý đến khoảng 6 rưỡi tối được không?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">麻烦帮我们叫一辆六点四十五去大兴机场的车。</span><span style="display:block;font-style:italic;color:var(--accent)">Máfan bāng wǒmen jiào yí liàng liù diǎn sìshíwǔ qù Dàxīng jīchǎng de chē.</span><span style="display:block;color:var(--muted);font-size:14px">Phiền gọi giúp một xe lúc 6:45 đi sân bay Đại Hưng.</span></div></li>
-          <li><b style="display:block;margin-bottom:4px;color:var(--accent)">Taxi ra sân bay (30/11)</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">师傅，我们赶飞机，走机场高速吧，大概要多长时间？</span><span style="display:block;font-style:italic;color:var(--accent)">Shīfu, wǒmen gǎn fēijī, zǒu jīchǎng gāosù ba, dàgài yào duō cháng shíjiān?</span><span style="display:block;color:var(--muted);font-size:14px">Bác tài, bọn mình kịp giờ bay, đi cao tốc sân bay nhé, mất khoảng bao lâu?</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们在国际出发下车，后备箱的行李麻烦帮一下。</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen zài guójì chūfā xià chē, hòubèixiāng de xíngli máfan bāng yíxià.</span><span style="display:block;color:var(--muted);font-size:14px">Bọn mình xuống ở khu khởi hành quốc tế, phiền bác lấy giúp hành lý trong cốp.</span></div></li>
-        </ul>
+        </div>
       </div>
       <div class="sub" data-sub="outfit" hidden>
         <h2 class="sec-title">Gợi ý outfit từng ngày</h2>
@@ -930,6 +1058,7 @@ const state = {
   todoStatus: store.get("todoStatus2", {}),
   checked: store.get("checked3", {})
 };
+{ const t = new Date(); if (t.getFullYear() === 2026 && t.getMonth() === 10 && t.getDate() >= 23) state.day = t.getDate(); }
 CHECK.forEach((c, i) => { if (c[4] && !(i in state.checked)) state.checked[i] = true; });
 const SHEET_ST = {};   // trạng thái đọc từ sheet 3, theo tên hạng mục
 const DEFAULT_ST = { "Email xin vào Đại học Bắc Kinh": "book", "Email xin vào Đại học Thanh Hoa": "book" };
@@ -1076,6 +1205,176 @@ function go(id) {
   window.scrollTo({ top: 0 });
 }
 
+/* ---------- Cảnh nền theo ngày (SVG tự vẽ) ---------- */
+let SC_N = 0;
+function scRand(seed) { let x = seed * 9301 + 49297; return () => { x = (x * 9301 + 49297) % 233280; return x / 233280; }; }
+function hip(x1, x2, yb, h, ins, up) {
+  up = up == null ? 8 : up; const c = (x1 + x2) / 2;
+  return `M${x1 - up} ${yb - up} Q${x1 + ins * 0.55} ${yb - h * 0.12} ${x1 + ins} ${yb - h} L${x2 - ins} ${yb - h} Q${x2 - ins * 0.55} ${yb - h * 0.12} ${x2 + up} ${yb - up} Q${c} ${yb + 5} ${x1 - up} ${yb - up}Z`;
+}
+const R = (x, y, w, h, f, ex) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}" ${ex || ""}/>`;
+const P = (d, f, ex) => `<path d="${d}" fill="${f}" ${ex || ""}/>`;
+function scClouds(col, n, seed, yMax) {
+  const r = scRand(seed); let o = "";
+  for (let i = 0; i < n; i++) {
+    const y = 40 + r() * (yMax || 200), s = 0.6 + r() * 0.8, dur = 110 + r() * 90, del = -r() * dur;
+    o += `<g class="cl" style="animation-duration:${dur.toFixed(0)}s;animation-delay:${del.toFixed(0)}s"><g transform="translate(-260 ${y.toFixed(0)}) scale(${s.toFixed(2)})" fill="${col}" opacity=".85"><ellipse cx="60" cy="20" rx="60" ry="18"/><ellipse cx="100" cy="8" rx="42" ry="22"/><ellipse cx="140" cy="20" rx="50" ry="16"/></g></g>`;
+  }
+  return o;
+}
+function scBirds(col, y, dur) {
+  let o = `<g class="birds" style="animation-duration:${dur}s"><g transform="translate(-120 ${y})" stroke="${col}" stroke-width="2.4" fill="none" stroke-linecap="round">`;
+  [[0, 0], [26, -10], [40, 12], [62, -2]].forEach(([x, yy], i) => { o += `<path class="flap" style="animation-delay:${i * 0.15}s" d="M${x} ${yy} q7 -7 13 0 q6 -7 13 0"/>`; });
+  return o + "</g></g>";
+}
+function scStars(n, seed, yMax) {
+  const r = scRand(seed); let o = "";
+  for (let i = 0; i < n; i++) o += `<circle class="tw" style="animation-delay:${(-r() * 4).toFixed(1)}s" cx="${(r() * 1440).toFixed(0)}" cy="${(r() * yMax).toFixed(0)}" r="${(0.8 + r() * 1.6).toFixed(1)}" fill="#fff"/>`;
+  return o;
+}
+function scSun(id, cx, cy, r, col) {
+  return `<defs><radialGradient id="glow${id}"><stop offset="0" stop-color="${col}" stop-opacity=".9"/><stop offset=".35" stop-color="${col}" stop-opacity=".35"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></radialGradient></defs><circle class="sunglow" cx="${cx}" cy="${cy}" r="${r * 3.2}" fill="url(#glow${id})"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="${col}"/>`;
+}
+function scPlane(col, y1, y2, dur) {
+  return `<g class="plane" style="--py1:${y1}px;--py2:${y2}px;animation-duration:${dur}s"><g fill="${col}"><path d="M0 0 L46 -3 Q56 -2 58 0 Q56 2 46 3 L0 0Z"/><path d="M24 -1 L14 -16 L20 -16 L34 -1Z"/><path d="M24 1 L14 16 L20 16 L34 1Z"/><path d="M4 -1 L0 -9 L4 -9 L10 -1Z"/></g><circle class="blink" cx="58" cy="0" r="2.6" fill="#ff6b6b"/></g>`;
+}
+function scWater(y, h, col, line, seed) {
+  const r = scRand(seed); let o = R(0, y, 1440, h, col);
+  for (let i = 0; i < 9; i++) { const yy = y + 10 + r() * (h - 16), x = r() * 1300, w = 60 + r() * 160; o += `<line class="rip" x1="${x.toFixed(0)}" y1="${yy.toFixed(0)}" x2="${(x + w).toFixed(0)}" y2="${yy.toFixed(0)}" stroke="${line}" stroke-width="2" stroke-linecap="round" stroke-dasharray="14 10" style="animation-delay:${(-r() * 6).toFixed(1)}s"/>`; }
+  return o;
+}
+function scLeaves(col, n, seed) {
+  const r = scRand(seed); let o = "";
+  for (let i = 0; i < n; i++) { const d = 9 + r() * 8; o += `<g class="leaf" style="animation-duration:${d.toFixed(1)}s;animation-delay:${(-r() * d).toFixed(1)}s"><path transform="translate(${(r() * 1440).toFixed(0)} 0)" d="M0 0 q8 -10 16 0 q-8 6 -16 0z" fill="${col}"/></g>`; }
+  return o;
+}
+function lantern(x, y, s) {
+  s = s || 1;
+  return `<g class="lan" style="animation-delay:${(-(x % 7) / 3).toFixed(1)}s"><g transform="translate(${x} ${y}) scale(${s})"><line x1="0" y1="-26" x2="0" y2="0" stroke="#6b3d2e" stroke-width="2"/><rect x="-7" y="-2" width="14" height="5" rx="1" fill="#e2a83a"/><ellipse cx="0" cy="16" rx="16" ry="14" fill="#e0404f"/><ellipse cx="0" cy="16" rx="6" ry="14" fill="#f06a6f" opacity=".7"/><rect x="-7" y="29" width="14" height="5" rx="1" fill="#e2a83a"/><line x1="0" y1="34" x2="0" y2="46" stroke="#e2a83a" stroke-width="2"/></g></g>`;
+}
+function skyDefs(id, a, b) { return `<defs><linearGradient id="sky${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="1440" height="600" fill="url(#sky${id})"/>`; }
+
+const SCENES = {
+  23: { cap: "Đêm 23/11 · Tới Bắc Kinh", night: true, sky: ["#1d1a44", "#6a58a6"], draw(id) {
+    const r = scRand(23); let city = "";
+    for (let x = 0; x < 1440;) { const w = 40 + r() * 70, h = 50 + r() * 140; city += R(x.toFixed(0), (600 - h).toFixed(0), w.toFixed(0), h.toFixed(0), "#2b2560");
+      for (let wy = 600 - h + 12; wy < 590; wy += 18) for (let wx = x + 8; wx < x + w - 10; wx += 16) if (r() > 0.55) city += `<rect class="${r() > 0.8 ? "tw2" : ""}" style="animation-delay:${(-r() * 5).toFixed(1)}s" x="${wx.toFixed(0)}" y="${wy.toFixed(0)}" width="6" height="8" fill="#ffd98a" opacity=".85"/>`;
+      x += w + 6; }
+    return scStars(70, 23, 330) + `<path d="M1130 92 a44 44 0 1 0 30 78 a36 36 0 1 1 -30 -78z" fill="#fff4cf"/>` +
+      scPlane("#efeaff", 200, 90, 22) + city +
+      P("M300 600 Q720 360 1140 600Z", "#3a3278") + P("M380 600 Q720 410 1060 600Z", "#4a4192") +
+      `<g stroke="#8d80d6" stroke-width="2" fill="none" opacity=".7"><path d="M720 465 L720 600"/><path d="M560 520 Q640 470 720 465 Q800 470 880 520"/></g>` +
+      `<g fill="#ffd98a">${[430, 520, 610, 830, 920, 1010].map(x => `<circle class="tw" style="animation-delay:-${x % 5}s" cx="${x}" cy="${600 - Math.sqrt(Math.max(0, 1 - ((x - 720) / 340) ** 2)) * 140 + 12}" r="3"/>`).join("")}</g>`;
+  } },
+  24: { cap: "24/11 · Thiên Đàn, Thiên An Môn", sky: ["#c9dcff", "#fde8f1"], draw(id) {
+    const m = "#5c4b8f", far = "#a99bd8", red = "#c75b74", gold = "#e7b54a";
+    let tree = ""; [[300, 520], [360, 535], [420, 528], [1020, 528], [1080, 538], [1140, 522]].forEach(([x, y]) => { tree += `<ellipse cx="${x}" cy="${y}" rx="38" ry="52" fill="#6f8f7c"/>`; });
+    return scSun(id, 1180, 140, 34, "#fff1a8") + scClouds("#ffffff", 5, 24, 180) + scBirds("#6d5fa6", 150, 46) +
+      // Thiên An Môn ở xa bên trái
+      `<g opacity=".75">` + R(40, 500, 330, 100, red) + R(80, 452, 250, 48, red) + P(hip(70, 340, 462, 28, 28), far) + P(hip(96, 314, 438, 24, 30), far) +
+      [110, 165, 205, 245, 300].map(x => P(`M${x - 14} 600 v-40 a14 14 0 0 1 28 0 v40z`, "#7d3d52")).join("") + `</g>` +
+      tree +
+      // Kỳ Niên Điện
+      R(500, 560, 440, 40, "#efe7ff") + R(540, 528, 360, 32, "#e6dcfb") + R(585, 498, 270, 30, "#dcd0f7") +
+      `<g stroke="#b9acdf" stroke-width="3" stroke-dasharray="3 7"><line x1="500" y1="560" x2="940" y2="560"/><line x1="540" y1="528" x2="900" y2="528"/><line x1="585" y1="498" x2="855" y2="498"/></g>` +
+      R(650, 440, 140, 58, red) + P(hip(612, 828, 452, 40, 46), m) +
+      R(666, 400, 108, 24, red) + P(hip(632, 808, 410, 36, 42), m) +
+      R(682, 362, 76, 22, red) + P(hip(652, 788, 370, 44, 58), m) +
+      `<circle cx="720" cy="320" r="10" fill="${gold}"/><path d="M716 314 L720 292 L724 314Z" fill="${gold}"/>` +
+      `<g stroke="#f4d58a" stroke-width="2" opacity=".8"><line x1="660" y1="452" x2="780" y2="452"/><line x1="676" y1="411" x2="764" y2="411"/></g>`;
+  } },
+  25: { cap: "25/11 · Tử Cấm Thành, hoàng hôn Cảnh Sơn", night: true, sky: ["#6f55ae", "#ffb48c"], draw(id) {
+    const m = "#4a3470", far = "#8a5f99", wall = "#a3485e";
+    let rowRoofs = ""; for (let x = -40; x < 1480; x += 150) rowRoofs += P(hip(x, x + 120, 540, 22, 22), far);
+    return scSun(id, 720, 420, 56, "#ffd08a") + scClouds("#ffd6c2", 4, 25, 170) + scBirds("#4a3470", 190, 40) +
+      `<g opacity=".8">${rowRoofs}</g>` + R(0, 540, 1440, 60, wall) +
+      // Thái Hòa Điện
+      R(470, 566, 500, 34, "#c98a9c") + R(510, 548, 420, 18, "#b8788c") +
+      R(560, 492, 320, 56, wall) + P(hip(528, 912, 504, 32, 44), m) + R(592, 456, 256, 26, wall) + P(hip(560, 880, 466, 44, 64), m) +
+      `<path d="M626 422 l-10 -12 M814 422 l10 -12" stroke="${m}" stroke-width="6" stroke-linecap="round"/>` +
+      // Cảnh Sơn và đình Vạn Xuân bên phải
+      P("M980 600 Q1180 370 1480 470 L1480 600Z", "#3c2b5c") +
+      R(1186, 404, 44, 30, "#3c2b5c") + P(hip(1166, 1250, 412, 20, 18), "#2e2148") + P(hip(1176, 1240, 390, 18, 16), "#2e2148") + P(hip(1186, 1230, 370, 18, 16), "#2e2148") + `<circle cx="1208" cy="346" r="5" fill="#ffd08a"/>`;
+  } },
+  26: { cap: "26/11 · Cổ Bắc Thủy Trấn, Tư Mã Đài", sky: ["#bcd6f7", "#fde6c6"], draw(id) {
+    const ridge = [[-20, 470], [150, 418], [300, 448], [450, 380], [600, 410], [720, 330], [860, 392], [1000, 350], [1150, 420], [1300, 378], [1460, 430]];
+    const line = ridge.map((p, i) => (i ? "L" : "M") + p[0] + " " + p[1]).join(" ");
+    const towers = [[450, 380], [720, 330], [1000, 350], [1300, 378]].map(([x, y]) => R(x - 20, y - 36, 40, 40, "#8c78b3") + `<g fill="#8c78b3">${[-20, -8, 4, 16].map(dx => R(x + dx, y - 44, 6, 8, "#8c78b3")).join("")}</g>` + `<path d="M${x - 6} ${y - 10} v-10 a6 6 0 0 1 12 0 v10z" fill="#4e3f78"/>`).join("");
+    return scSun(id, 260, 130, 30, "#fff0b0") + scClouds("#ffffff", 5, 26, 160) + scBirds("#6d5fa6", 120, 52) +
+      P("M-20 600 L-20 400 Q200 300 420 380 Q620 300 820 360 Q1050 280 1250 350 Q1360 320 1460 360 L1460 600Z", "#c6bde6") +
+      P(line + " L1460 600 L-20 600Z", "#8f86c4") +
+      `<path d="${line}" stroke="#a796c9" stroke-width="16" fill="none" stroke-linejoin="round"/><path d="${ridge.map((p, i) => (i ? "L" : "M") + p[0] + " " + (p[1] - 10)).join(" ")}" stroke="#a796c9" stroke-width="7" fill="none" stroke-dasharray="7 6"/>` +
+      towers + P("M-20 600 L-20 520 Q260 470 520 530 Q800 480 1060 540 Q1260 500 1460 520 L1460 600Z", "#5d5094") +
+      lantern(560, 548, 0.8) + lantern(640, 556, 0.7) + lantern(820, 552, 0.75);
+  } },
+  27: { cap: "27/11 · Di Hòa Viên", sky: ["#d4e3ff", "#fff0db"], draw(id) {
+    const m = "#5d4b90", hill = "#8f9fc8";
+    const land = P("M330 480 Q520 330 720 320 Q930 330 1110 480Z", hill) +
+      R(640, 410, 160, 70, "#c9b7e6") + R(690, 300, 60, 110, "#c75b74") +
+      P(hip(668, 772, 400, 20, 18), m) + P(hip(676, 764, 366, 20, 18), m) + P(hip(684, 756, 332, 22, 20), m) + P(hip(692, 748, 302, 26, 24), m) + `<circle cx="720" cy="270" r="6" fill="#e7b54a"/>`;
+    return scSun(id, 1150, 150, 30, "#fff1a8") + scClouds("#ffffff", 5, 27, 170) + scBirds("#6d5fa6", 170, 48) +
+      P("M-20 480 Q200 400 420 470 L-20 480Z", "#b9c3e6") + P("M1000 480 Q1250 390 1460 450 L1460 480Z", "#b9c3e6") +
+      land + `<g transform="translate(0 960) scale(1 -1)" opacity=".22">${land}</g>` +
+      scWater(480, 120, "rgba(180,205,240,.55)", "#ffffff", 27) +
+      // cầu 17 nhịp
+      P("M20 532 Q300 500 580 532 L580 546 Q300 514 20 546Z", "#e9e1fb") +
+      [80, 140, 200, 260, 320, 380, 440, 500].map((x, i) => `<path d="M${x - 16} 548 a16 ${i === 3 || i === 4 ? 20 : 14} 0 0 1 32 0z" fill="#9fb6dd"/>`).join("") +
+      P("M1180 600 Q1250 520 1320 600Z", "#6f8f7c") + `<g stroke="#6f8f7c" stroke-width="3" fill="none">${[1210, 1235, 1260, 1285].map(x => `<path d="M1250 470 Q${x} 520 ${x - 10} 590"/>`).join("")}</g>`;
+  } },
+  28: { cap: "28/11 · Thanh Hoa, Bắc Đại", sky: ["#d3e4ff", "#fff4d2"], draw(id) {
+    let pag = ""; for (let i = 0; i < 13; i++) { const y = 468 - i * 17, w = 64 - i * 2.4; pag += R((760 - w / 2).toFixed(1), y, w.toFixed(1), 5, "#5d4b90") + R((760 - (w - 16) / 2).toFixed(1), y + 5, (w - 16).toFixed(1), 12, "#8a6fa8"); }
+    const pagoda = R(732, 474, 56, 26, "#7a68a8") + pag + `<path d="M752 252 L760 214 L768 252Z" fill="#e7b54a"/>`;
+    const ginkgo = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-6" y="0" width="12" height="80" fill="#7b5a45"/><ellipse cx="0" cy="-20" rx="70" ry="66" fill="#f1c34a"/><ellipse cx="-30" cy="-6" rx="44" ry="40" fill="#f6d36b"/><ellipse cx="30" cy="-36" rx="40" ry="36" fill="#eab53a"/></g>`;
+    const willow = x => `<g><rect x="${x - 5}" y="420" width="10" height="80" fill="#7b5a45"/><g stroke="#94b38a" stroke-width="3" fill="none">${[-50, -30, -10, 10, 30, 50].map(d => `<path d="M${x} 420 Q${x + d} 430 ${x + d * 1.2} 500"/>`).join("")}</g><ellipse cx="${x}" cy="420" rx="56" ry="26" fill="#a7c49b"/></g>`;
+    const land = pagoda + willow(560) + willow(980);
+    return scSun(id, 300, 130, 30, "#fff1a8") + scClouds("#ffffff", 4, 28, 170) +
+      P("M-20 500 Q300 440 640 490 Q1000 440 1460 490 L1460 500Z", "#b9c3e6") +
+      land + `<g transform="translate(0 1000) scale(1 -1)" opacity=".2">${pagoda}</g>` +
+      scWater(500, 100, "rgba(180,205,240,.55)", "#ffffff", 28) +
+      ginkgo(300, 470, 1) + ginkgo(1180, 470, 1.1) + ginkgo(430, 500, .7) +
+      scLeaves("#f1c34a", 18, 28);
+  } },
+  29: { cap: "29/11 · Lưu Ly Xưởng, hutong", sky: ["#e2d9ff", "#ffe6dc"], draw(id) {
+    const grey = "#8d86a8", roof = "#5f5585", red = "#c4445a";
+    const shop = (x1, x2) => R(x1, 480, x2 - x1, 120, "#b7b0cf") + P(hip(x1 - 10, x2 + 10, 488, 30, 26), roof) +
+      `<g stroke="#4e4570" stroke-width="2" opacity=".5">${Array.from({ length: Math.floor((x2 - x1) / 14) }, (_, i) => `<line x1="${x1 + 10 + i * 14}" y1="${470}" x2="${x1 + 6 + i * 14}" y2="${484}"/>`).join("")}</g>` +
+      R(x1 + 20, 520, 50, 80, red) + R(x2 - 70, 520, 50, 80, red) + R(x1 + 90, 515, x2 - x1 - 180, 40, "#f4ead8") +
+      lantern(x1 + 45, 508, 0.75) + lantern(x2 - 45, 508, 0.75);
+    return scSun(id, 1220, 130, 28, "#fff1a8") + scClouds("#ffffff", 4, 29, 160) + scBirds("#6d5fa6", 140, 50) +
+      P("M-20 470 L1460 470 L1460 480 L-20 480Z", grey) + shop(120, 520) + shop(920, 1320) +
+      // cổng bài lâu
+      [606, 662, 778, 834].map(x => R(x - 8, 410, 16, 190, red)).join("") + R(590, 420, 260, 16, "#3f7f8f") + R(600, 444, 240, 10, "#e7b54a") +
+      P(hip(640, 800, 404, 34, 30), roof) + P(hip(586, 680, 420, 24, 20), roof) + P(hip(760, 854, 420, 24, 20), roof) +
+      R(680, 452, 80, 22, "#3f7f8f") + `<text x="720" y="468" text-anchor="middle" font-size="16" font-weight="700" fill="#f4d58a" font-family="serif">琉璃厂</text>` +
+      lantern(634, 474, 0.9) + lantern(806, 474, 0.9);
+  } },
+  30: { cap: "30/11 · Ung Hòa Cung, bay về", night: true, sky: ["#3a2e6c", "#f0a4a0"], draw(id) {
+    const m = "#3a2b5c", wall = "#9d4660", gold = "#f0c060";
+    const hall = (x1, x2, yb, s) => R(x1 + 30 * s, yb, x2 - x1 - 60 * s, 600 - yb, wall) + P(hip(x1, x2, yb + 10, 34 * s, 38 * s), m) + R(x1 + 50 * s, yb - 44 * s, x2 - x1 - 100 * s, 20 * s, wall) + P(hip(x1 + 24 * s, x2 - 24 * s, yb - 32 * s, 38 * s, 50 * s), m) + `<circle cx="${(x1 + x2) / 2}" cy="${yb - 76 * s}" r="${7 * s}" fill="${gold}"/>`;
+    let smoke = ""; [690, 720, 750].forEach((x, i) => { smoke += `<path class="smoke" style="animation-delay:-${i * 1.6}s" d="M${x} 560 q-10 -20 0 -40 q10 -20 0 -40" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>`; });
+    return scStars(30, 30, 160) + scSun(id, 300, 300, 40, "#ffc69a") + scClouds("#f7c2c8", 3, 30, 200) + scPlane("#fff3f0", 330, 120, 26) +
+      `<g opacity=".7">${hall(-40, 360, 470, 0.8)}${hall(1080, 1480, 470, 0.8)}</g>` + hall(500, 940, 420, 1.15) +
+      R(640, 560, 160, 40, "#c98a9c") + `<rect x="700" y="540" width="40" height="22" fill="${gold}"/>` + smoke;
+  } }
+};
+const SC_CSS_KEYS = Object.keys(SCENES);
+function sceneSVG(day) {
+  const sc = SCENES[day] || SCENES[24], id = "s" + (++SC_N);
+  return `<svg viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${skyDefs(id, sc.sky[0], sc.sky[1])}${sc.draw(id)}</svg>`;
+}
+let curScene = null;
+function setScene(day) {
+  const box = document.getElementById("scene"); if (!box || curScene === day) return;
+  curScene = day; const sc = SCENES[day] || SCENES[24];
+  const lay = document.createElement("div"); lay.className = "layer"; lay.innerHTML = sceneSVG(day);
+  const old = [...box.children]; box.append(lay);
+  requestAnimationFrame(() => requestAnimationFrame(() => lay.classList.add("on")));
+  setTimeout(() => old.forEach(o => o.remove()), 1100);
+  document.getElementById("hero").dataset.night = sc.night ? "1" : "0";
+  document.getElementById("sceneCap").textContent = "📍 " + sc.cap;
+  const r = document.documentElement.style; r.setProperty("--sky1", sc.sky[0]); r.setProperty("--sky2", sc.sky[1]);
+}
+
 /* ---------- Lịch trình ---------- */
 const CAT_ICO = { "Di chuyển": "🚕", "Tham quan": "🏯", "Ăn uống": "🥢", "Mua sắm": "🛍️", "Nghỉ": "😴", "Khác": "📎" };
 function renderDays() {
@@ -1084,7 +1383,8 @@ function renderDays() {
     [el("span", { class: "n", text: String(d.d) }), el("span", { class: "w", text: d.w })])));
 }
 function renderPlan() {
-  renderDays();
+  const anim = renderPlan.last !== state.day; renderPlan.last = state.day;
+  renderDays(); $("#days").classList.toggle("anim", anim); setScene(state.day);
   const d = DAYS.find(x => x.d === state.day);
   const head = $("#dayHead"); head.textContent = "";
   head.append(el("h2", { text: d.w + " " + d.d + "/11 · " + d.t }), el("p", { text: d.n }));
@@ -1107,12 +1407,13 @@ function renderPlan() {
   bar.append(el("span", { class: "spacer" }), el("button", { class: "link-btn", onclick: () => { state.compact = !state.compact; renderPlan(); } }, [state.compact ? "Hiện chi tiết" : "Chỉ xem tiêu đề"]));
 
   // danh sách
-  const list = $("#timeline"); list.textContent = "";
+  const list = $("#timeline"); list.textContent = ""; list.classList.toggle("anim", anim);
   const rows = ACT.map((a, i) => ({ a, i })).filter(({ a }) => a[0] === state.day && (a[6] === "Chung" || a[6] === state.opt) && (state.cats.size === 0 || state.cats.has(a[3])));
   if (!rows.length) list.append(el("li", { class: "empty", text: "Không có hoạt động nào thuộc hạng mục đã chọn trong ngày này." }));
-  rows.forEach(({ a, i }) => {
+  rows.forEach(({ a, i }, k) => {
     const key = akey(a), done = state.doneAct.has(key);
     const card = el("li", { class: "card cat-" + CAT[a[3]] + (done ? " done" : "") + (state.compact ? " compact" : "") });
+    card.style.setProperty("--i", Math.min(k, 10));
     const cb = el("input", { type: "checkbox", id: "act" + i, onchange: e => { e.target.checked ? state.doneAct.add(key) : state.doneAct.delete(key); persist(); renderPlan(); } });
     cb.checked = done;
     card.append(
@@ -1369,6 +1670,36 @@ function renderSubs() {
 }
 renderSubs();
 
+/* ---------- Câu nói: chọn nhóm ---------- */
+const PG_SHORT = { "📍": "Theo lịch trình", "🏨": "Khách sạn", "📶": "Đăng ký SIM", "🚕": "Gọi xe, đi đường", "🍽️": "Nhà hàng", "🎫": "Vé, tham quan", "🛍️": "Mua sắm", "📸": "Nhờ chụp ảnh", "🆘": "Tình huống khó", "💬": "Trò chuyện" };
+let curPG = store.get("pg", "g0"), curPD = store.get("pd", "all");
+function renderPhr() {
+  const box = document.getElementById("pChips"); if (!box) return;
+  const grps = [...document.querySelectorAll("#v-luu-y .pgrp")];
+  if (curPG !== "all" && !grps.some(g => g.dataset.g === curPG)) curPG = "g0";
+  box.textContent = "";
+  const mk = (k, ico, label, n) => box.append(el("button", { class: "pchip", "aria-pressed": String(curPG === k), onclick: () => { curPG = k; store.set("pg", k); renderPhr(); } }, [el("span", { text: ico }), el("span", { text: label }), el("span", { class: "ct", text: String(n) })]));
+  let total = 0;
+  grps.forEach(g => {
+    const t = (g.querySelector("h3") || {}).textContent || "";
+    const ico = [...t][0] === "🍽" ? "🍽️" : t.split(" ")[0];
+    const n = g.querySelectorAll(".tips > li").length; total += n;
+    mk(g.dataset.g, ico, PG_SHORT[ico] || t.replace(ico, "").trim(), n);
+    g.hidden = !(curPG === "all" || curPG === g.dataset.g);
+  });
+  mk("all", "📚", "Xem tất cả", total);
+  const pd = document.getElementById("pDays");
+  if (pd) {
+    const items = [...pd.parentElement.querySelectorAll(".tips > li[data-day]")];
+    const days = [...new Set(items.map(li => li.dataset.day))];
+    if (curPD !== "all" && !days.includes(curPD)) curPD = "all";
+    pd.textContent = "";
+    [["all", "Tất cả ngày"], ...days.map(d => [d, d + "/11"])].forEach(([k, l]) => pd.append(el("button", { "aria-pressed": String(curPD === k), onclick: () => { curPD = k; store.set("pd", k); renderPhr(); } }, [l])));
+    items.forEach(li => { li.hidden = !(curPD === "all" || li.dataset.day === curPD); });
+  }
+}
+renderPhr();
+
 
 
 /* ---------- Nền sáng / tối ---------- */
@@ -1395,9 +1726,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261119161621" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261119162928" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261119161621";
+  var BUILD = "20261119162928";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
