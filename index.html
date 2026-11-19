@@ -2,7 +2,11 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Bắc Kinh">
 <meta name="theme-color" content="#faf8ff" id="tc">
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
@@ -80,6 +84,7 @@ header.top h1 { font-size: clamp(26px, 5vw, 38px); }
 
 .sync { font-size: 13px; color: var(--muted); margin: 10px 0 0; }
 .sync[data-ok="1"] { color: var(--good); font-weight: 700; }
+.alert[hidden] { display: none; }
 .alert { display: flex; gap: 12px; align-items: flex-start; background: var(--warn-soft); border: 1px solid var(--warn); border-left-width: 6px; border-radius: 10px; padding: 12px 14px; margin: 6px 0 14px; }
 .alert strong { color: var(--warn); }
 .alert p { margin: 2px 0 0; }
@@ -214,11 +219,54 @@ textarea.io { width: 100%; min-height: 90px; font: inherit; font-size: 14px; col
 
 footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
 
+.view-btn .ls { display: none; }
+.alert .hide { margin-left: auto; border: 0; background: none; color: var(--warn); font-weight: 800; font-size: 13px; padding: 2px 4px; flex: 0 0 auto; }
 @media (max-width: 640px) {
+  body { font-size: 15px; }
+  .wrap { padding: 0 14px; }
+  header.top { padding: calc(env(safe-area-inset-top) + 12px) 0 8px; }
+  header.top h1 { font-size: 26px; padding-right: 150px; }
+  .theme { position: absolute; top: calc(env(safe-area-inset-top) + 14px); right: 0; margin: 0; }
+  .theme button { padding: 4px 8px; font-size: 12px; }
+  .sub { font-size: 14px; margin-top: 4px; }
+  .meta { gap: 6px; margin-top: 10px; }
+  .meta .pill { font-size: 12.5px; padding: 3px 10px; }
+  .sync { display: none; }
+  .alert { padding: 10px 12px; margin: 4px 0 10px; font-size: 14px; border-left-width: 4px; }
+  /* thanh mục cố định ở đáy màn hình */
+  nav.views { position: fixed; top: auto; bottom: 0; left: 0; right: 0; z-index: 10; background: var(--surface); border-top: 1px solid var(--line); border-bottom: 0; padding: 6px 6px calc(env(safe-area-inset-bottom) + 6px); box-shadow: 0 -4px 16px rgba(0,0,0,.08); }
+  nav.views .row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; overflow: visible; }
+  .view-btn { border: 0; background: none; padding: 7px 2px; border-radius: 10px; font-size: 11.5px; line-height: 1.2; position: relative; color: var(--muted); }
+  .view-btn .lf { display: none; } .view-btn .ls { display: inline; }
+  .view-btn[aria-selected="true"] { background: var(--accent-soft); color: var(--accent); border: 0; }
+  .view-btn .badge { position: absolute; top: 0; right: 2px; margin: 0; padding: 0 5px; font-size: 10px; line-height: 15px; background: var(--warn); color: #fff; }
+  .view-btn[aria-selected="true"] .badge { background: var(--warn); color: #fff; }
+  main { padding: 12px 0 calc(env(safe-area-inset-bottom) + 90px); }
+  footer { padding-bottom: calc(env(safe-area-inset-bottom) + 90px); }
+  /* ngày: 4 cột x 2 hàng, không phải cuộn ngang */
+  .days { grid-template-columns: repeat(4, 1fr); gap: 6px; overflow: visible; }
+  .day-btn { padding: 6px 2px; border-radius: 12px; }
+  .day-btn .n { font-size: 19px; }
+  .day-btn .w { font-size: 11px; }
+  .day-head { margin: 14px 0 4px; }
+  .day-head h2 { font-size: 19px; }
+  .day-head p { font-size: 14px; }
+  /* chip hạng mục: một hàng, vuốt ngang */
+  .controls { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 10px -14px; padding: 0 14px; gap: 6px; }
+  .controls::-webkit-scrollbar { display: none; }
+  .chip { flex: 0 0 auto; font-size: 13px; padding: 4px 11px; }
+  .controls .spacer { display: none; }
+  .link-btn { flex: 0 0 auto; font-size: 13px; white-space: nowrap; }
   .options, .grid2 { grid-template-columns: 1fr; }
-  .card { grid-template-columns: 1fr; }
-  .time { margin-bottom: 2px; }
-  .days { grid-template-columns: repeat(8, 64px); }
+  .opt { padding: 10px 12px; }
+  .card { grid-template-columns: 1fr; padding: 12px; border-left-width: 5px; }
+  .card h3 { font-size: 16.5px; }
+  .card p { font-size: 14.5px; }
+  .card .how { font-size: 14px; }
+  .time { margin-bottom: 2px; font-size: 14px; }
+  .sec-title { font-size: 18px; }
+  .panel { padding: 12px 14px; }
+  .todo h3 { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .progress > span { transition: none; } }
 </style>
@@ -235,11 +283,12 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
     <p class="sync" id="sync" data-ok="0">Dữ liệu cập nhật ngày 19/11/2026.</p>
   </header>
 
-  <div class="alert" role="note">
+  <div class="alert" role="note" id="alertBox">
     <div>
       <strong>Việc gấp</strong>
       <p>Email xin vào Đại học Bắc Kinh (cho ngày 28/11) phải gửi chậm nhất <b>21/11</b>. Email Thanh Hoa gửi 1–7 ngày trước. Hai việc này đang ở mục Đặt trước.</p>
     </div>
+    <button class="hide" type="button" id="alertHide">Ẩn</button>
   </div>
 
   <nav class="views" aria-label="Chọn mục xem">
@@ -671,12 +720,14 @@ function renderMeta() {
 
 /* ---------- Tabs ---------- */
 const VIEWS = [
-  ["lich-trinh", "Lịch trình"], ["dat-truoc", "Đặt trước"], ["thong-tin", "Bay và khách sạn"], ["chi-phi", "Chi phí"], ["checklist", "Checklist"], ["luu-y", "Lưu ý"]
+  ["lich-trinh", "Lịch trình"], ["dat-truoc", "Đặt trước"], ["thong-tin", "Bay và khách sạn", "Bay & KS"], ["chi-phi", "Chi phí"], ["checklist", "Checklist"], ["luu-y", "Lưu ý"]
 ];
+try { if (localStorage.getItem("bk26:alertHidden") === "1") document.getElementById("alertBox").hidden = true; } catch (e) {}
+document.getElementById("alertHide").addEventListener("click", () => { document.getElementById("alertBox").hidden = true; try { localStorage.setItem("bk26:alertHidden", "1"); } catch (e) {} });
 function renderTabs() {
   const t = $("#tabs"); t.textContent = "";
-  VIEWS.forEach(([id, label]) => {
-    const b = el("button", { class: "view-btn", role: "tab", id: "t-" + id, "aria-selected": String(state.view === id), onclick: () => go(id) }, [label]);
+  VIEWS.forEach(([id, label, short]) => {
+    const b = el("button", { class: "view-btn", role: "tab", id: "t-" + id, "aria-selected": String(state.view === id), onclick: () => go(id) }, [el("span", { class: "lf", text: label }), el("span", { class: "ls", text: short || label })]);
     if (id === "dat-truoc") {
       const open = TODO.filter(t => statusOf(t) === "todo").length;
       b.append(el("span", { class: "badge", text: String(open) }));
@@ -970,7 +1021,7 @@ function renderCost() {
   });
 }
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119092733";
+const BUILD = "20261119123340";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
