@@ -1813,6 +1813,7 @@ function normItem(x) {
 let EXP = store.get("expenses", null);
 if (!Array.isArray(EXP)) EXP = [];
 EXP = EXP.map(normItem);
+const isTrSeed = x => x.type === "transfer";
 (function seed() {
   const v = store.get("seedv", 0), have = new Set(EXP.map(x => x.id));
   const add = it => { if (!have.has(it.id)) EXP.push(normItem(it)); };
@@ -1827,7 +1828,8 @@ EXP = EXP.map(normItem);
     add({ id: "seed-tr-hien", type: "transfer", day: "truoc", from: "Hiền", to: "Hà", amt: 10000000, desc: "Hiền chuyển cho Hà" });
     add({ id: "seed-tr-thanh", type: "transfer", day: "truoc", from: "Thanh", to: "Hà", amt: 10000000, desc: "Thanh chuyển cho Hà" });
   }
-  store.set("seedv", 3); store.set("expenses", EXP);
+  if (v < 4 && !EXP.some(x => /tử cấm|cố cung/i.test(x.desc || "") && !isTrSeed(x))) add({ id: "seed-ccc", day: "truoc", cat: "Tham quan", who: "Hà", for: "all", desc: "Vé Tử Cấm Thành 25/11 buổi sáng, 3 vé (mã đơn 20261120910091118973)", amt: 120, cur: "CNY" });
+  store.set("seedv", 4); store.set("expenses", EXP);
 })();
 let RATE = +store.get("rate", 4000) || 4000;
 let editId = null, confirmDel = null;
@@ -2204,9 +2206,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261119182413" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261119182947" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261119182413";
+  var BUILD = "20261119182947";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
