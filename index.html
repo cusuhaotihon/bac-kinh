@@ -350,6 +350,21 @@ body { font-size: 15.5px; line-height: 1.6; }
   .sec-title { font-size: 18px; }
   header.top h1 { font-size: 23px; }
 }
+
+.sub[hidden] { display: none; }
+.subbar { grid-template-columns: repeat(3, 1fr) !important; margin-bottom: 4px; }
+.subbar .day-btn { padding: 10px 6px; font-weight: 800; font-size: 14px; color: var(--sc); border-color: color-mix(in srgb, var(--sc) 40%, var(--line)); background: color-mix(in srgb, var(--sc) 7%, var(--surface)); }
+.subbar .day-btn[aria-pressed="true"] { background: var(--sc); color: #fff; border-color: var(--sc); }
+.pill-day { font-size: 12px; font-weight: 800; padding: 1px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; height: fit-content; }
+.kv { font-size: 14px; color: var(--muted); margin-top: 4px; }
+.kv span { display: inline-block; min-width: 68px; font-weight: 800; color: var(--ink); margin-right: 6px; }
+/* bảng báo bản mới ở giữa màn hình */
+.upd-back { position: fixed; inset: 0; z-index: 50; background: rgba(20,16,32,.45); display: grid; place-items: center; padding: 24px; }
+.upd-card { background: var(--surface); color: var(--ink); border-radius: 20px; padding: 22px 20px; width: min(340px, 100%); text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.3); border-top: 6px solid var(--accent); }
+.upd-card h3 { font-size: 20px; margin-bottom: 6px; }
+.upd-card p { color: var(--muted); margin: 0 0 16px; font-size: 14.5px; }
+.upd-card .btn { width: 100%; padding: 13px; font-size: 16px; border-radius: 14px; }
+.upd-card .later { margin-top: 8px; border: 0; background: none; color: var(--muted); font-weight: 700; padding: 8px; }
 </style>
 </head>
 <body>
@@ -510,8 +525,70 @@ body { font-size: 15.5px; line-height: 1.6; }
     </section>
     <!-- Lưu ý -->
     <section id="v-luu-y" hidden>
-      <h2 class="sec-title" style="margin-top:0">Ăn chơi vui</h2>
-      <ul class="tips" id="eatList" style="margin-bottom:22px">
+      <div class="days subbar" id="subBar" role="group" aria-label="Chọn phần lưu ý"></div>
+      <div class="sub" data-sub="anh">
+        <h2 class="sec-title">Điểm chụp ảnh đẹp</h2>
+        <ul class="tips">
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Toàn cảnh Tử Cấm Thành từ đỉnh Cảnh Sơn</b><span class="pill-day">25/11</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">景山万春亭</div>
+          <div class="kv"><span>Góc chụp</span>Lên đình Vạn Xuân (万春亭) trên đỉnh, đứng mặt về phía nam để chụp trọn trục giữa với mái ngói vàng. Ở lối mòn phía tây có ghế đá nhìn ra góc lâu, ít người hơn.</div><div class="kv"><span>Giờ đẹp</span>Đẹp nhất lúc hoàng hôn, cuối tháng 11 mặt trời lặn khoảng 16:50. Lịch đang để 12:30–14:15; muốn chụp hoàng hôn thì đổi: đi Nam La Cổ Hạng trước, khoảng 16:00 quay lại Cảnh Sơn (cách 1,5 km).</div></li>
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Góc lâu Tử Cấm Thành phản chiếu mặt hào</b><span class="pill-day">25/11</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">故宫角楼（西北角）</div>
+          <div class="kv"><span>Góc chụp</span>Góc phía tây bắc, đứng bên ngoài trên bờ hào, không cần vé. Đặt góc lâu ở giữa khung, đường chân trời chia đôi phần mặt nước để lấy bóng phản chiếu.</div><div class="kv"><span>Giờ đẹp</span>Hoàng hôn và lúc lên đèn (16:30–17:30). Từ cổng nam Cảnh Sơn đi bộ sang phía tây khoảng 5 phút.</div></li>
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Kỳ Niên Điện, Thiên Đàn</b><span class="pill-day">24/11</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">天坛祈年殿</div>
+          <div class="kv"><span>Góc chụp</span>Đứng trên cầu Đan Bệ (丹陛桥) phía nam, chụp thẳng lên điện tròn mái xanh; hạ thấp máy để lấy cả bậc thềm đá trắng.</div><div class="kv"><span>Giờ đẹp</span>Buổi sáng 10:45–12:00 nắng chiếu mặt trước, trời xanh, ít khách.</div></li>
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Chính Dương Môn và Quảng trường Thiên An Môn</b><span class="pill-day">24/11</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">正阳门</div>
+          <div class="kv"><span>Góc chụp</span>Sau lễ hạ cờ, đi về phía nam, chụp cổng Chính Dương từ phố Tiền Môn nhìn ngược lên.</div><div class="kv"><span>Giờ đẹp</span>Lúc đèn bật, khoảng 17:00–17:30, trời còn xanh đậm.</div></li>
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Phố Tiền Môn và xe điện leng keng</b><span class="pill-day">24/11 tối, 29/11 chiều</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">前门大街</div>
+          <div class="kv"><span>Góc chụp</span>Đứng giữa phố đi bộ, chụp dọc đường ray với dãy đèn lồng và cổng gỗ hai bên.</div><div class="kv"><span>Giờ đẹp</span>Tối khi đèn lồng đã sáng.</div></li>
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Cầu Ngân Đĩnh, Thập Sát Hải</b><span class="pill-day">25/11</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">银锭桥</div>
+          <div class="kv"><span>Góc chụp</span>Đứng trên cầu nhìn về phía tây, mặt hồ, mái nhà cổ và hàng liễu ven bờ. Đây là cảnh 银锭观山 nổi tiếng.</div><div class="kv"><span>Giờ đẹp</span>Hoàng hôn khoảng 16:30–17:00, trùng lúc đang dạo Thập Sát Hải.</div></li>
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Cầu 17 nhịp, Di Hòa Viên</b><span class="pill-day">27/11</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">十七孔桥</div>
+          <div class="kv"><span>Góc chụp</span>Chụp từ đình Khuếch Như (廓如亭) ở đầu đông cầu, hoặc từ Phật Hương Các nhìn xuống hồ Côn Minh.</div><div class="kv"><span>Giờ đẹp</span>Hiện tượng nắng vàng xuyên qua các vòm cầu (金光穿洞) chỉ đẹp quanh Đông chí 21/12, khung 15:30–16:30, nên 27/11 khó thấy. Buổi sáng chụp cầu và mặt hồ vẫn đẹp.</div></li>
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Cổ Bắc Thủy Trấn với Trường Thành phía sau</b><span class="pill-day">26/11</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">古北水镇</div>
+          <div class="kv"><span>Góc chụp</span>Đứng ở cầu đá giữa trấn, lấy kênh nước và dãy nhà phía trước, Tư Mã Đài trên núi phía sau.</div><div class="kv"><span>Giờ đẹp</span>Sau 16:00 nắng chiều vàng; đèn trong trấn bật khoảng 17:00.</div></li>
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Tháp canh Tư Mã Đài</b><span class="pill-day">26/11</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">司马台长城</div>
+          <div class="kv"><span>Góc chụp</span>Chụp dải tường thành chạy theo sống núi từ tháp canh phía trên, hoặc chụp từ cabin cáp treo.</div><div class="kv"><span>Giờ đẹp</span>13:30–15:30 nắng xiên đẹp, nhớ đi giày chống trơn.</div></li>
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Cổng trăng nhà sách Zhongshuge</b><span class="pill-day">27/11 (A)</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">钟书阁（西单）</div>
+          <div class="kv"><span>Góc chụp</span>Đứng ngay chính giữa cổng tròn, chụp xuyên vào hành lang giá sách.</div><div class="kv"><span>Giờ đẹp</span>Buổi chiều trong tuần ít người hơn.</div></li>
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Hồ Vị Danh và tháp Bác Nhã, Bắc Đại</b><span class="pill-day">28/11</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">未名湖 · 博雅塔</div>
+          <div class="kv"><span>Góc chụp</span>Đứng ở bờ nam hồ, lấy tháp Bác Nhã và bóng tháp dưới nước.</div><div class="kv"><span>Giờ đẹp</span>Chiều 14:00–16:00, nắng chiếu nghiêng từ phía tây.</div></li>
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Cổng Nhị Hiệu Môn, Thanh Hoa</b><span class="pill-day">28/11</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">清华二校门</div>
+          <div class="kv"><span>Góc chụp</span>Chụp chính diện cổng trắng, đứng lùi xa để lấy cả bãi cỏ phía trước.</div><div class="kv"><span>Giờ đẹp</span>Buổi sáng 10:00–11:00.</div></li>
+        <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Tàn tích Đại Thủy Pháp, Viên Minh Viên</b><span class="pill-day">28/11</span></div>
+          <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">大水法遗址</div>
+          <div class="kv"><span>Góc chụp</span>Chụp các cột đá chạm khắc kiểu châu Âu với trời xanh phía sau.</div><div class="kv"><span>Giờ đẹp</span>Chiều tà khoảng 16:15–16:45, nắng ấm màu.</div></li>
+        </ul>
+      </div>
+      <div class="sub" data-sub="diem" hidden>
+        <h2 class="sec-title">Đến đâu ăn gì, làm gì</h2>
+        <ul class="tips">
+        <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Thiên Đàn</b><span class="pill-day">24/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Buổi sáng có người già tập thái cực quyền, hát, đá cầu ở hành lang dài (长廊), có thể đứng xem hoặc tham gia. Thử nói nhỏ vào Hồi Âm Bích (回音壁).</div></li>
+        <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Thiên An Môn, Tiền Môn</b><span class="pill-day">24/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Xem lễ hạ cờ. Ăn vịt quay (全聚德 hoặc 便宜坊), xíu mại 都一处 ở phố 鲜鱼口, kem trà 吴裕泰.</div></li>
+        <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Tử Cấm Thành</b><span class="pill-day">25/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Đi một chiều từ Ngọ Môn lên cổng Thần Vũ. Mang nước và đồ ăn nhẹ. Mua quà văn hóa phẩm của Cố Cung (故宫文创) như bookmark, sổ, quạt.</div></li>
+        <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Nam La Cổ Hạng, Thập Sát Hải</b><span class="pill-day">25/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Ăn váng sữa 文宇奶酪, sữa chua hũ sứ, rẽ vào ngõ phụ cho đỡ đông. Ngắm hoàng hôn trên cầu Ngân Đĩnh.</div></li>
+        <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Vương Phủ Tỉnh</b><span class="pill-day">25/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Ăn kẹo hồ lô 冰糖葫芦 ở phố ăn vặt. Sau đó ăn lẩu bò Bát Hợp Lý ở Jinbao Hui.</div></li>
+        <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Cổ Bắc Thủy Trấn, Tư Mã Đài</b><span class="pill-day">26/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Ăn lê nướng 古北烤梨, xem xưởng nhuộm 永顺染坊 và xưởng rượu 司马小烧. Lên Trường Thành bằng cáp treo, mặc thật ấm.</div></li>
+        <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Di Hòa Viên</b><span class="pill-day">27/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Ăn vặt ở phố Tô Châu (苏州街) trong vườn. Đi hết Trường Lang để xem hàng nghìn bức tranh vẽ trên xà.</div></li>
+        <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Ung Hòa Cung, Ngũ Đạo Doanh</b><span class="pill-day">27/11 (B), 30/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Vé vào cửa thường kèm nhang miễn phí. Ra hutong Ngũ Đạo Doanh uống cà phê; quán mì 六面寿面馆 ngay đầu ngõ.</div></li>
+        <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Thanh Hoa, Bắc Đại</b><span class="pill-day">28/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Mua đồ lưu niệm có logo trường ở cửa hàng của trường. Đi chậm quanh hồ, không vào các tòa nhà.</div></li>
+        <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Lưu Ly Xưởng, Đại Sách Lan</b><span class="pill-day">29/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Xem bút lông, giấy, tranh ở 荣宝斋. Đi qua 杨梅竹斜街. Dám thử thì uống 豆汁 ở 尹三豆汁.</div></li>
+        <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Sanlitun Taikoo Li</b><span class="pill-day">27/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Dạo khu Nam và khu Bắc, ăn tối tại đây. Nơi đông vui nhất vào buổi tối.</div></li>
+        </ul>
+      </div>
+      <div class="sub" data-sub="an" hidden>
+        <h2 class="sec-title">Ăn chơi vui</h2>
+        <ul class="tips" id="eatList">
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Sữa đậu nành và quẩy</b><span class="cn" style="font-size:17px;font-weight:800;color:var(--c-eat);user-select:all">豆浆油条</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Sáng 24/11 (và 29/11 nếu thích), quán ăn sáng quanh Tiền Môn. Đừng nhầm với 豆汁 (nước đậu xanh lên men, chua).</div></li>
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Sữa chua hũ sứ Bắc Kinh</b><span class="cn" style="font-size:17px;font-weight:800;color:var(--c-eat);user-select:all">老北京酸奶</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Bán ở quầy ven đường và trong các hutong. Uống bằng ống hút tại chỗ rồi trả hũ.</div></li>
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Váng sữa cung đình 文宇奶酪</b><span class="cn" style="font-size:17px;font-weight:800;color:var(--c-eat);user-select:all">文宇奶酪</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Số 49 Nam La Cổ Hạng, chiều 25/11. Gọi vị nguyên bản (原味) hoặc hoa quế (桂花).</div></li>
@@ -521,9 +598,11 @@ body { font-size: 15.5px; line-height: 1.6; }
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Ngõ mới sửa ở Thiên Kiều</b><span class="cn" style="font-size:17px;font-weight:800;color:var(--c-eat);user-select:all">赵锥子胡同</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Sát khách sạn, có quán cà phê đẹp để ngồi ngắm hutong.</div></li>
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Thử thách cho người dám thử</b><span class="cn" style="font-size:17px;font-weight:800;color:var(--c-eat);user-select:all">尹三豆汁</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Số 1 phố Đại Sách Lan: 豆汁 với 焦圈, có cả kem vị 豆汁.</div></li>
       </ul>
-      <h2 class="sec-title">Tìm trên WeChat</h2>
-      <p style="color:var(--muted);font-size:14px;margin:0 0 10px">Mở WeChat, kéo màn hình chính xuống hoặc vào Khám phá (Discover) → Mini Programs, rồi gõ đúng tên chữ Hán màu xanh. Chạm giữ vào tên để sao chép. Chọn cái có tên khớp và biểu tượng chính thức, tránh các bên bán lại thu phí.</p>
-      <ul class="tips" id="wcList" style="margin-bottom:22px">
+      </div>
+      <div class="sub" data-sub="wechat" hidden>
+        <h2 class="sec-title">Tìm trên WeChat</h2>
+        <p style="color:var(--muted);font-size:14px;margin:0 0 10px">Mở WeChat, kéo màn hình chính xuống hoặc vào Khám phá (Discover) → Mini Programs, rồi gõ đúng tên chữ Hán màu xanh. Chạm giữ vào tên để sao chép. Chọn cái có tên khớp và biểu tượng chính thức, tránh các bên bán lại thu phí.</p>
+        <ul class="tips" id="wcList">
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Quảng trường Thiên An Môn (hạ cờ 24/11)</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">天安门广场预约参观</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Chọn ngày 24/11, khung 降旗 (hạ cờ). Giấy tờ chọn 护照 (hộ chiếu). Đặt được 1–7 ngày trước, lịch mở thêm ngày mới lúc 12:00 trưa giờ Bắc Kinh.</div></li>
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Bảo tàng Quốc gia (24/11)</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">国家博物馆</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Chọn mini program chính thức, bấm 预约 (đặt chỗ), thêm người với loại giấy tờ Passport, gõ tên đúng như hộ chiếu.</div></li>
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Tử Cấm Thành (25/11)</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">故宫博物院</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Mở bán lúc 20:00 giờ Bắc Kinh (19:00 giờ VN), 7 ngày trước ngày đi. Cũng đặt được bằng tiếng Anh ở intl.dpm.org.cn.</div></li>
@@ -533,10 +612,15 @@ body { font-size: 15.5px; line-height: 1.6; }
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Lấy số quán ăn, xem đánh giá</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">大众点评 / 美团</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Dùng để lấy số trước ở quán lẩu Bát Hợp Lý và xem quán gần đó.</div></li>
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Tìm chung nhiều điểm tham quan Bắc Kinh</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">京通</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Mini program của thành phố, gom nhiều chỗ đặt vé vào một nơi.</div></li>
       </ul>
-      <h2 class="sec-title">Cảnh báo quan trọng</h2>
-      <ul class="tips" id="warnList"></ul>
-      <h2 class="sec-title">Lưu ý chung</h2>
-      <ul class="tips" id="tipList"></ul>
+      </div>
+      <div class="sub" data-sub="canh-bao" hidden>
+        <h2 class="sec-title">Cảnh báo quan trọng</h2>
+        <ul class="tips" id="warnList"></ul>
+      </div>
+      <div class="sub" data-sub="chung" hidden>
+        <h2 class="sec-title">Lưu ý chung</h2>
+        <ul class="tips" id="tipList"></ul>
+      </div>
     </section>
   </main>
   <footer>Giá vé và giờ mở cửa lấy từ các trang du lịch, có thể thay đổi. Kiểm tra lại trên trang chính thức gần ngày đi. Tích chọn và trạng thái chỉ lưu trên trình duyệt đang dùng.</footer>
@@ -1133,16 +1217,34 @@ function renderCost() {
     list.append(el("div", { class: "exp-day" }, [el("h3", {}, [d.l, el("span", { text: "Chi trong ngày " + vnd(dt) + " · Cộng dồn " + vnd(run) })]), ul]));
   });
 }
+
+/* ---------- Lưu ý: chọn phần ---------- */
+const SUBS = [["anh", "Chụp ảnh", "#8a6fdc"], ["diem", "Ăn gì, làm gì", "#d6578f"], ["an", "Ăn chơi vui", "#e07b39"], ["wechat", "WeChat", "#2f9e68"], ["canh-bao", "Cảnh báo", "#c94a4a"], ["chung", "Lưu ý chung", "#c9921a"]];
+let curSub = store.get("sub", "anh");
+function renderSubs() {
+  const bar = $("#subBar"); bar.textContent = "";
+  SUBS.forEach(([k, l, c]) => bar.append(el("button", { class: "day-btn", style: "--sc:" + c, "aria-pressed": String(curSub === k), onclick: () => { curSub = k; store.set("sub", k); renderSubs(); } }, [l])));
+  document.querySelectorAll("#v-luu-y .sub").forEach(d => { d.hidden = d.dataset.sub !== curSub; });
+}
+renderSubs();
+
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119154510";
+const BUILD = "20261119154716";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
     const m = /const BUILD = "(\d+)"/.exec(await r.text());
     if (m && m[1] !== BUILD) {
-      const bar = el("button", { class: "btn", style: "position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:20;box-shadow:0 4px 16px rgba(0,0,0,.25)",
-        onclick: () => { location.replace(location.pathname + "?v=" + m[1] + location.hash); } }, ["Có bản mới, bấm để cập nhật"]);
-      document.body.append(bar);
+      if (document.querySelector(".upd-back")) return;
+      const back = el("div", { class: "upd-back", role: "dialog", "aria-modal": "true", "aria-label": "Có bản cập nhật mới" }, [
+        el("div", { class: "upd-card" }, [
+          el("h3", { text: "Có bản cập nhật mới" }),
+          el("p", { text: "Lịch trình hoặc thông tin vừa được sửa. Bấm để tải bản mới nhất." }),
+          el("button", { class: "btn", type: "button", onclick: () => { location.replace(location.pathname + "?v=" + m[1] + location.hash); } }, ["Cập nhật ngay"]),
+          el("button", { class: "later", type: "button", onclick: () => back.remove() }, ["Để sau"])
+        ])
+      ]);
+      document.body.append(back);
     }
   } catch (e) {}
 }
