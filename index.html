@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#faf8ff" id="tc">
+<script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +19,7 @@
   --line: #e3ddf2;
   --accent: #7c5cd6;
   --accent-soft: #ece6ff;
+  --on-accent: #ffffff;
   --warn: #c2410c;
   --warn-soft: #fff1e6;
   --good: #15803d;
@@ -32,29 +35,29 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #171424; --surface: #221e34; --ink: #f0ecfb; --muted: #a9a2c4; --line: #38324f;
-    --accent: #a98bff; --accent-soft: #34294f; --warn: #ffab70; --warn-soft: #3a2619;
-    --good: #6fdc98; --good-soft: #17301f;
-    --c-move: #7db8f5; --c-move-bg: #1c3149;
-    --c-see: #f58fb6; --c-see-bg: #44202f;
-    --c-eat: #f5b46a; --c-eat-bg: #44301a;
-    --c-shop: #c9a1f5; --c-shop-bg: #34244a;
-    --c-rest: #7fdca3; --c-rest-bg: #1b3a29;
-    --c-other: #e8cf5d; --c-other-bg: #3d3615;
+    --bg: #121417; --surface: #1c1f24; --ink: #eceef1; --muted: #a3a9b2; --line: #30353d;
+    --accent: #8ab4f8; --accent-soft: #1f2b3d; --on-accent: #0d1420; --warn: #ffb27a; --warn-soft: #33251b;
+    --good: #7ad7a0; --good-soft: #17291f;
+    --c-move: #8ab4f8; --c-move-bg: #1b2a3d;
+    --c-see: #f39abd; --c-see-bg: #3a2029;
+    --c-eat: #f5b871; --c-eat-bg: #3a2b19;
+    --c-shop: #c6a8f0; --c-shop-bg: #2c2538;
+    --c-rest: #86dba8; --c-rest-bg: #1a3224;
+    --c-other: #e6cf6a; --c-other-bg: #353016;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #171424; --surface: #221e34; --ink: #f0ecfb; --muted: #a9a2c4; --line: #38324f;
-  --accent: #a98bff; --accent-soft: #34294f; --warn: #ffab70; --warn-soft: #3a2619;
-  --good: #6fdc98; --good-soft: #17301f;
-  --c-move: #7db8f5; --c-move-bg: #1c3149;
-  --c-see: #f58fb6; --c-see-bg: #44202f;
-  --c-eat: #f5b46a; --c-eat-bg: #44301a;
-  --c-shop: #c9a1f5; --c-shop-bg: #34244a;
-  --c-rest: #7fdca3; --c-rest-bg: #1b3a29;
-  --c-other: #e8cf5d; --c-other-bg: #3d3615;
-  color-scheme: dark;
+  --bg: #121417; --surface: #1c1f24; --ink: #eceef1; --muted: #a3a9b2; --line: #30353d;
+    --accent: #8ab4f8; --accent-soft: #1f2b3d; --on-accent: #0d1420; --warn: #ffb27a; --warn-soft: #33251b;
+    --good: #7ad7a0; --good-soft: #17291f;
+    --c-move: #8ab4f8; --c-move-bg: #1b2a3d;
+    --c-see: #f39abd; --c-see-bg: #3a2029;
+    --c-eat: #f5b871; --c-eat-bg: #3a2b19;
+    --c-shop: #c6a8f0; --c-shop-bg: #2c2538;
+    --c-rest: #86dba8; --c-rest-bg: #1a3224;
+    --c-other: #e6cf6a; --c-other-bg: #353016;
+    color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
@@ -64,7 +67,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
 
-header.top { padding: 28px 0 18px; }
+header.top { padding: 28px 0 18px; position: relative; }
+.theme { position: absolute; top: 24px; right: 0; display: inline-flex; border: 1.5px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--surface); }
+.theme button { border: 0; background: none; padding: 5px 11px; font-size: 13px; font-weight: 800; color: var(--muted); }
+.theme button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+@media (max-width: 640px) { .theme { position: static; margin-bottom: 12px; } }
 header.top h1 { font-size: clamp(26px, 5vw, 38px); }
 .sub { color: var(--muted); margin: 6px 0 0; }
 .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
@@ -80,9 +87,9 @@ header.top h1 { font-size: clamp(26px, 5vw, 38px); }
 nav.views { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0; border-bottom: 1px solid var(--line); }
 nav.views .row { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
 .view-btn { flex: 0 0 auto; border: 1.5px solid var(--line); background: var(--surface); border-radius: 12px; padding: 9px 16px; font-weight: 700; }
-.view-btn[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.view-btn[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .view-btn .badge { margin-left: 6px; background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 0 7px; font-size: 13px; }
-.view-btn[aria-selected="true"] .badge { background: rgba(255,255,255,.25); color: #fff; }
+.view-btn[aria-selected="true"] .badge { background: rgba(255,255,255,.3); color: var(--on-accent); }
 
 main { padding: 18px 0 60px; }
 section[hidden] { display: none; }
@@ -187,6 +194,9 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
 <body>
 <div class="wrap">
   <header class="top">
+    <div class="theme" role="group" aria-label="Chế độ nền">
+      <button data-t="auto">Tự động</button><button data-t="light">Sáng</button><button data-t="dark">Tối</button>
+    </div>
     <h1>Cẩm nang Bắc Kinh</h1>
     <p class="sub">23–30/11/2026 · Trần Thu Hà và Phạm Thúy Hiền</p>
     <div class="meta" id="meta"></div>
@@ -702,6 +712,20 @@ function renderTips() {
   WARN.forEach(w => $("#warnList").append(el("li", { text: w })));
   TIPS.forEach(t => $("#tipList").append(el("li", { text: t })));
 }
+
+/* ---------- Nền sáng / tối ---------- */
+function applyTheme(t) {
+  const root = document.documentElement;
+  if (t === "light" || t === "dark") root.dataset.theme = t; else delete root.dataset.theme;
+  try { localStorage.setItem("bk26:theme", t); } catch (e) {}
+  document.querySelectorAll(".theme button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.t === t)));
+  const dark = t === "dark" || (t === "auto" && matchMedia("(prefers-color-scheme: dark)").matches);
+  $("#tc").setAttribute("content", dark ? "#121417" : "#faf8ff");
+}
+let themePref = "auto"; try { themePref = localStorage.getItem("bk26:theme") || "auto"; } catch (e) {}
+document.querySelectorAll(".theme button").forEach(b => b.addEventListener("click", () => { themePref = b.dataset.t; applyTheme(themePref); }));
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => applyTheme(themePref)); } catch (e) {}
+applyTheme(themePref);
 
 /* ---------- Khởi động ---------- */
 renderMeta(); renderTips(); renderPlan(); renderTodo(); renderCheck();
