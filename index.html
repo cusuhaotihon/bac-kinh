@@ -925,10 +925,19 @@ function renderCost() {
         el("div", { class: "big", text: left >= 0 ? vnd(left) : "Âm " + vnd(-left) }),
         el("div", { class: "small", text: "Hiền và Thanh đã góp " + vnd(got) + ". Đây là phần tiền góp còn lại sau khi trừ phần của Hiền và Thanh trong các khoản Hà đã trả." + (left < 0 ? " Quỹ đã âm, tức Hà đang ứng trước." : "") })]);
     })(),
-    el("div", { class: "panel" }, [el("p", { class: "k", text: "Chốt sổ tính đến hiện tại" }),
-      ...(moves.length ? moves.map(t => el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: t })) : [el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: "Đã sòng phẳng" })]),
-      ...PEOPLE.map(p => el("div", { class: "small", text: p + ": " + (Math.abs(net[p]) < 1 ? "hòa" : net[p] > 0 ? "được nhận lại " + vnd(net[p]) : "cần trả lại " + vnd(-net[p])) }))]),
-    el("div", { class: "panel", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "Mỗi người đã tiêu (phần của mình)" }), el("div", { class: "row-btns", style: "gap:18px" }, PEOPLE.map(p => el("div", {}, [el("div", { class: "small", text: p }), el("div", { class: "big", style: "font-size:18px", text: vnd(used[p]) })])))])
+    (() => {
+      const out = p => EXP.filter(e => !isTr(e) && e.who === p).reduce((s, e) => s + toVnd(e), 0);
+      const gave = p => EXP.filter(e => isTr(e) && e.from === p).reduce((s, e) => s + toVnd(e), 0);
+      const got = p => EXP.filter(e => isTr(e) && e.to === p).reduce((s, e) => s + toVnd(e), 0);
+      const th = t => el("th", { text: t, style: "text-align:right;padding:6px 8px;font-size:13px;color:var(--muted)" });
+      const td = (t, b) => el("td", { text: t, style: "text-align:right;padding:6px 8px;font-variant-numeric:tabular-nums" + (b ? ";font-weight:800" : "") });
+      const rows = PEOPLE.map(p => el("tr", { style: "border-top:1px solid var(--line)" }, [el("td", { text: p, style: "padding:6px 8px;font-weight:800" }), td(vnd(out(p))), td(gave(p) ? vnd(gave(p)) : got(p) ? "nhận " + vnd(got(p)) : "–"), td(vnd(out(p) + gave(p)), true), td(vnd(used[p]))]));
+      return el("div", { class: "panel", style: "grid-column:1 / -1;overflow-x:auto" }, [el("p", { class: "k", text: "Mỗi người đã chi ra" }),
+        el("table", { style: "width:100%;border-collapse:collapse;font-size:14px;min-width:420px" }, [
+          el("thead", {}, [el("tr", {}, [el("th", { text: "", style: "padding:6px 8px" }), th("Tự trả"), th("Góp quỹ"), th("Tổng bỏ ra"), th("Phần đã tiêu")])]),
+          el("tbody", {}, rows)]),
+        el("div", { class: "small", style: "margin-top:6px", text: "Tự trả: các khoản người đó đứng ra thanh toán. Phần đã tiêu: phần thuộc về người đó (vé riêng cộng 1/3 các khoản chung)." })]);
+    })()
   );
   const bars = $("#catBars"); bars.textContent = "";
   const cats = COST_CATS.map(c => [c, spend.filter(e => e.cat === c).reduce((s, e) => s + toVnd(e), 0)]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
@@ -957,7 +966,7 @@ function renderCost() {
   });
 }
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119091531";
+const BUILD = "20261119092611";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
