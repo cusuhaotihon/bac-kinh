@@ -1245,7 +1245,7 @@ const CHECK = [
  ["Đại học", "Email Đại học Bắc Kinh xin tham quan Thứ Bảy 28/11, khung 14:00", "Xong (đã gửi 19/11)", "Chờ trả lời qua email hoặc WeChat suhao2410.", 1],
  ["Đại học", "Email Đại học Thanh Hoa xin tham quan Thứ Bảy 28/11, buổi sáng", "Xong (đã gửi 19/11)", "Chờ trả lời qua email hoặc WeChat suhao2410.", 1],
  ["Vé", "Vé Tử Cấm Thành ngày 25/11, suất sáng", "Xong (đã đặt 20/11)", "Mã đơn 20261120910091118973, 3 vé thường, 120 ¥. Vào cổng trước 12:00, mang đúng hộ chiếu đã đặt. Muốn hoàn vé thì làm trước 24:00 ngày 24/11.", 1],
- ["Vé", "Đặt khung giờ 降旗 (hạ cờ) Quảng trường Thiên An Môn ngày 24/11", "Từ 17/11", "Mini program 天安门广场预约参观, đặt bằng hộ chiếu.", 0],
+ ["Vé", "Đặt khung giờ 降旗 (hạ cờ) Quảng trường Thiên An Môn ngày 24/11", "Xong (đã đặt 20/11)", "Khung 降旗及夜间 14:53–20:30, 3 người, vào qua cửa an ninh 03 (广场东侧路北安检03), gần Bảo tàng Quốc gia.", 1],
  ["Vé", "Vé Bảo tàng Quốc gia ngày 24/11", "Khoảng 17/11", "Mini program 国家博物馆, chọn loại giấy tờ Passport.", 0],
  ["Vé", "Xe buýt Đông Trực Môn – Cổ Bắc ngày 26/11 và vé trấn + Tư Mã Đài + cáp treo", "Trước 26/11", "Xe: mini program 北京定制公交. Vé combo khoảng 220–280 tệ.", 0],
  ["Vé", "Vé Bảo tàng Thủ Đô ngày 29/11", "Khoảng 22/11", "Tìm 首都博物馆 trên WeChat, đặt bằng hộ chiếu.", 0],
@@ -1310,8 +1310,9 @@ const state = {
 { const t = new Date(); if (t.getFullYear() === 2026 && t.getMonth() === 10 && t.getDate() >= 23) state.day = t.getDate(); }
 CHECK.forEach((c, i) => { if (c[4] && !(i in state.checked)) state.checked[i] = true; });
 if (!store.get("ccDone1", false)) { state.checked[6] = true; store.set("ccDone1", true); store.set("checked3", state.checked); }
+if (!store.get("hcDone1", false)) { state.checked[7] = true; store.set("hcDone1", true); store.set("checked3", state.checked); }
 const SHEET_ST = {};   // trạng thái đọc từ sheet 3, theo tên hạng mục
-const DEFAULT_ST = { "Email xin vào Đại học Bắc Kinh": "book", "Email xin vào Đại học Thanh Hoa": "book", "Vé Tử Cấm Thành": "done" };
+const DEFAULT_ST = { "Email xin vào Đại học Bắc Kinh": "book", "Email xin vào Đại học Thanh Hoa": "book", "Vé Tử Cấm Thành": "done", "Đặt khung giờ Quảng trường Thiên An Môn": "done" };
 const statusOf = t => state.todoStatus[t[0]] || SHEET_ST[t[0]] || DEFAULT_ST[t[0]] || "todo";
 const partOK = a => a[6] === "Chung" || a[6] === (a[0] === 26 ? state.opt26 : state.opt);
 const akey = a => a[0] + "|" + a[1] + "|" + a[2] + "|" + a[6];
@@ -1671,6 +1672,7 @@ function setScene(day) {
 
 /* ---------- Vé và giấy tờ ---------- */
 const DOCS = [
+  { img: "img/ha-co-thien-an-mon-24-11.jpg", t: "Đặt chỗ hạ cờ Thiên An Môn", sub: "24/11 · 降旗及夜间 14:53–20:30 · 3 người", day: 24, note: "Vào qua cửa an ninh 03 (广场东侧路北安检03), quẹt hộ chiếu" },
   { img: "img/ve-tu-cam-thanh-25-11.jpg", t: "Vé Tử Cấm Thành", sub: "25/11 buổi sáng · 3 vé · mã đơn 20261120910091118973", day: 25, note: "Vào cổng trước 12:00, quẹt đúng hộ chiếu đã đặt" }
 ];
 function openDoc(d) {
@@ -2202,9 +2204,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261119181129" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261119182342" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261119181129";
+  var BUILD = "20261119182342";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
