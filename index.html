@@ -286,8 +286,8 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
 
   <div class="alert" role="note" id="alertBox">
     <div>
-      <strong>Việc gấp</strong>
-      <p>Email xin vào Đại học Bắc Kinh (cho ngày 28/11) phải gửi chậm nhất <b>21/11</b>. Email Thanh Hoa gửi 1–7 ngày trước. Hai việc này đang ở mục Đặt trước.</p>
+      <strong>Đã gửi email cho 2 trường (19/11)</strong>
+      <p>Đang chờ Bắc Đại và Thanh Hoa trả lời qua email hoặc WeChat <b>suhao2410</b>. Khi nhận được xác nhận, nhớ lưu lại để đưa bảo vệ xem ngày 28/11.</p>
     </div>
     <button class="hide" type="button" id="alertHide">Ẩn</button>
   </div>
@@ -448,7 +448,7 @@ const DAYS = [
   { d: 25, w: "Thứ Tư", t: "Tử Cấm Thành, Cảnh Sơn, Nam La Cổ Hạng, lẩu bò", n: "Xuất phát 9:00. Vé Tử Cấm Thành nếu là suất sáng thì phải vào trước 12:00. Mang hộ chiếu gốc dùng để đặt vé." },
   { d: 26, w: "Thứ Năm", t: "Cổ Bắc Thủy Trấn và Trường Thành Tư Mã Đài", n: "Ngày duy nhất phải dậy sớm: rời khách sạn 7:30 để kịp xe buýt. Muốn ngủ thêm thì thuê xe riêng hoặc DiDi đi khoảng 2 giờ. Tư Mã Đài nằm ngay trong khu Cổ Bắc Thủy Trấn. Xe buýt về lúc 12:00 và 17:00 theo một nguồn." },
   { d: 27, w: "Thứ Sáu", t: "Di Hòa Viên và chọn 1 trong 3 phương án A/B/C", n: "Xuất phát 9:00. Buổi sáng đều đi Di Hòa Viên, buổi chiều chọn một trong ba phương án bên dưới." },
-  { d: 28, w: "Thứ Bảy", t: "Thanh Hoa, Bắc Đại, Viên Minh Viên (tùy sức)", n: "Email xin vào Bắc Đại đến hạn 21/11. Thanh Hoa gửi email 1–7 ngày trước. Đơn phòng 2 bắt đầu, mã 50512095." },
+  { d: 28, w: "Thứ Bảy", t: "Thanh Hoa, Bắc Đại, Viên Minh Viên (tùy sức)", n: "Đã gửi email xin vào Bắc Đại và Thanh Hoa (19/11), chờ xác nhận. Đơn phòng 2 bắt đầu, mã 50512095." },
   { d: 29, w: "Chủ Nhật", t: "Ngày nhẹ: Bảo tàng Thủ Đô, Lưu Ly Xưởng, mua quà", n: "Bảo tàng Thủ Đô đặt qua WeChat. Ngày dự phòng nếu muốn đổi kế hoạch." },
   { d: 30, w: "Thứ Hai", t: "Ung Hòa Cung, mua quà, bay về lúc 23:15, về nhà sau 02:05", n: "Trả phòng trước 12:00, gửi hành lý. Rời khách sạn khoảng 18:45. VJ6043 cất cánh 23:15, đáp Hà Nội 02:05 ngày 1/12." }
 ];
@@ -527,8 +527,8 @@ let ACT = [
 ];
 /* [hạng mục, hạn chót, cách làm] */
 let TODO = [
- ["Email xin vào Đại học Bắc Kinh","Chậm nhất 21/11, nên gửi hôm nay","Gửi tới campus.visit@pku.edu.cn (địa chỉ từ một nguồn bên ngoài, hãy xác nhận trên trang pku.edu.cn). Người nước ngoài không đặt được qua mini program WeChat thường. Mẫu email nằm ở sheet 8."],
- ["Email xin vào Đại học Thanh Hoa","Gửi 1–7 ngày trước, nên gửi hôm nay","Gửi tới bwb@mail.tsinghua.edu.cn (theo trang chính thức của trường). Mini program “Visit Tsinghua” chỉ nhận CMND Trung Quốc đại lục. Mẫu email nằm ở sheet 8."],
+ ["Email xin vào Đại học Bắc Kinh","Đã gửi 19/11, chờ trường trả lời","Gửi tới campus.visit@pku.edu.cn (địa chỉ từ một nguồn bên ngoài, hãy xác nhận trên trang pku.edu.cn). Người nước ngoài không đặt được qua mini program WeChat thường. Mẫu email nằm ở sheet 8."],
+ ["Email xin vào Đại học Thanh Hoa","Đã gửi 19/11, chờ trường trả lời","Gửi tới bwb@mail.tsinghua.edu.cn (theo trang chính thức của trường). Mini program “Visit Tsinghua” chỉ nhận CMND Trung Quốc đại lục. Mẫu email nằm ở sheet 8."],
  ["Vé Bảo tàng Quốc gia","Khoảng 17/11 cho ngày 24/11","Miễn phí, đặt theo tên bằng hộ chiếu, mở đặt tối đa 7 ngày trước. Vé rất nhanh hết. Nếu không đặt được, đổi sang Bảo tàng Thủ Đô (đặt qua WeChat chính thức, mở khoảng 7 ngày trước, mang hộ chiếu)."],
  ["Đặt khung giờ Quảng trường Thiên An Môn","Từ 17/11 (đặt được 1–7 ngày trước), cho ngày 24/11","Miễn phí, đặt theo tên bằng hộ chiếu trên WeChat mini program 天安门广场预约. Chọn khung giờ 降旗 (hạ cờ) cho chiều 24/11. Vé Bảo tàng Quốc gia hoặc Tử Cấm Thành có nguồn ghi cũng cho vào quảng trường, nhưng không dùng được cho lễ hạ cờ, nên đặt riêng để chắc chắn."],
  ["Vé Tử Cấm Thành","18/11 lúc 19:00 giờ Hà Nội (20:00 Bắc Kinh), cho ngày 25/11","Đặt trên trang chính thức của Cố Cung bằng hộ chiếu. Vé 40 tệ vào mùa đông, đóng cửa thứ Hai. Hết trong 1–5 phút. Dự phòng: ngày 24/11 (mở bán 17/11) hoặc 26/11 (mở bán 19/11), cùng giờ 19:00 Hà Nội."],
@@ -545,8 +545,8 @@ const CHECK = [
  ["Khách sạn","Đặt phòng Super8 Tiền Môn Đại Sách Lan 23/11–28/11 qua Trip.com","Xong","Đơn 2.772 CNY, 5 đêm. Hủy miễn phí đến 18:00 ngày 23/11, sau đó phí 540 CNY",1],
  ["Khách sạn","Khách sạn đã trả lời (Trip.com 13/11): gửi hành lý được trong ngày, không qua đêm; nhận phòng sớm nhất 14:00; trả phòng 12:00 ngày 28/11","Xong","Khi đi xe: định vị 德寿堂药店 (hiệu thuốc Đức Thọ Đường) rồi đi bộ hơn 200 m vào ngõ tới số 33 陕西巷.",1],
  ["Khách sạn","Nhắn khách sạn xin ở nguyên phòng khi chuyển từ đơn 1 sang đơn 2 ngày 28/11 (mã 50512095)","Trước 28/11","Đơn 2 đã đặt thành công, 28–30/11.",0],
- ["Đại học","Email Đại học Bắc Kinh xin tham quan Thứ Bảy 28/11, khung 14:00","Chậm nhất 21/11 (nên gửi hôm nay)","Gửi tới pkuvisit@pku.edu.cn và campus.visit@pku.edu.cn. Mẫu email ở sheet 8.",0],
- ["Đại học","Email Đại học Thanh Hoa xin tham quan Thứ Bảy 28/11, buổi sáng","Gửi 1–7 ngày trước, nên gửi hôm nay","Gửi tới bwb@mail.tsinghua.edu.cn.",0],
+ ["Đại học","Email Đại học Bắc Kinh xin tham quan Thứ Bảy 28/11, khung 14:00","Đã gửi 19/11","Đã gửi tới pkuvisit@pku.edu.cn và campus.visit@pku.edu.cn. Chờ trả lời qua email hoặc WeChat suhao2410.",1],
+ ["Đại học","Email Đại học Thanh Hoa xin tham quan Thứ Bảy 28/11, buổi sáng","Đã gửi 19/11","Đã gửi tới bwb@mail.tsinghua.edu.cn. Chờ trả lời qua email hoặc WeChat suhao2410.",1],
  ["Vé","Đặt vé Tử Cấm Thành ngày 25/11, suất sáng","18/11 lúc 19:00 giờ VN","intl.dpm.org.cn. Vé hết trong vài phút; chuẩn bị sẵn thông tin hộ chiếu. Dự phòng: 24/11 hoặc 26/11.",0],
  ["Vé","Đặt khung giờ Quảng trường Thiên An Môn ngày 24/11, giờ hạ cờ","Từ 17/11","WeChat mini-program 天安门广场预约参观",0],
  ["Vé","Đặt vé Bảo tàng Quốc gia ngày 24/11","Khoảng 17/11","Miễn phí, theo tên, bằng hộ chiếu.",0],
@@ -610,7 +610,8 @@ const state = {
 };
 CHECK.forEach((c, i) => { if (c[4] && !(i in state.checked)) state.checked[i] = true; });
 const SHEET_ST = {};   // trạng thái đọc từ sheet 3, theo tên hạng mục
-const statusOf = t => state.todoStatus[t[0]] || SHEET_ST[t[0]] || "todo";
+const DEFAULT_ST = { "Email xin vào Đại học Bắc Kinh": "book", "Email xin vào Đại học Thanh Hoa": "book" };
+const statusOf = t => state.todoStatus[t[0]] || SHEET_ST[t[0]] || DEFAULT_ST[t[0]] || "todo";
 const akey = a => a[0] + "|" + a[1] + "|" + a[2] + "|" + a[6];
 
 /* ---------- Lưu trạng thái: trình duyệt + db của trang ---------- */
@@ -729,8 +730,8 @@ function renderMeta() {
 const VIEWS = [
   ["lich-trinh", "Lịch trình"], ["dat-truoc", "Đặt trước"], ["thong-tin", "Bay và khách sạn", "Bay & KS"], ["chi-phi", "Chi phí"], ["checklist", "Checklist"], ["luu-y", "Lưu ý"]
 ];
-try { if (localStorage.getItem("bk26:alertHidden") === "1") document.getElementById("alertBox").hidden = true; } catch (e) {}
-document.getElementById("alertHide").addEventListener("click", () => { document.getElementById("alertBox").hidden = true; try { localStorage.setItem("bk26:alertHidden", "1"); } catch (e) {} });
+try { if (localStorage.getItem("bk26:alertHidden2") === "1") document.getElementById("alertBox").hidden = true; } catch (e) {}
+document.getElementById("alertHide").addEventListener("click", () => { document.getElementById("alertBox").hidden = true; try { localStorage.setItem("bk26:alertHidden2", "1"); } catch (e) {} });
 function renderTabs() {
   const t = $("#tabs"); t.textContent = "";
   VIEWS.forEach(([id, label, short]) => {
@@ -1028,7 +1029,7 @@ function renderCost() {
   });
 }
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119152159";
+const BUILD = "20261119153138";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
