@@ -268,7 +268,7 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
           <p class="k">Chuyến đi · 23/11</p>
           <h3>VJ6042 · HAN → PKX</h3>
           <p class="price">18:00 → 22:15</p>
-          <p>Mã đặt chỗ Vietjet <b>57UGQ6</b>. Hành khách: Trần Thu Hà, Phạm Thúy Hiền.</p>
+          <p>Mã đặt chỗ Vietjet <b>57UGQ6</b>. Hành khách: Trần Thu Hà, Phạm Thúy Hiền. Nguyễn Phương Thanh đặt vé riêng.</p>
         </div>
         <div class="panel">
           <p class="k">Chuyến về · 30/11</p>
@@ -329,9 +329,10 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
       <div class="panel" style="margin-top:12px">
         <h3 id="formTitle">Thêm khoản chi</h3>
         <form class="form" id="expForm" autocomplete="off">
-          <label class="w2">Ngày<select id="fDay"></select></label>
-          <label class="w2">Hạng mục<select id="fCat"></select></label>
-          <label class="w2">Ai trả<select id="fWho"><option>Hà</option><option>Hiền</option><option>Thanh</option><option value="Chung">Chung (quỹ chung)</option></select></label>
+          <label class="w3">Ngày<select id="fDay"></select></label>
+          <label class="w3">Hạng mục<select id="fCat"></select></label>
+          <label class="w3">Chia thế nào<select id="fSplit"><option value="all">Chia đều 3 người</option><option value="own">Riêng của người trả</option></select></label>
+          <label class="w3">Ai trả<select id="fWho"><option>Hà</option><option>Hiền</option><option>Thanh</option><option value="Chung">Chung (quỹ chung)</option></select></label>
           <label class="w6">Chi cho gì, ở đâu<input id="fDesc" placeholder="Ví dụ: Vé Tử Cấm Thành, 2 người" required></label>
           <label class="w3">Số tiền<input id="fAmt" type="number" inputmode="decimal" min="0" step="any" placeholder="0" required></label>
           <label class="w3">Đơn vị<select id="fCur"><option value="CNY">¥ (tệ)</option><option value="VND">VNĐ</option></select></label>
@@ -791,6 +792,12 @@ if (!Array.isArray(EXP)) {
   EXP = [{ id: "seed-hotel", day: "truoc", cat: "Khách sạn", who: "Chung", desc: "Super 8 Tiền Môn, 2 đơn 23–30/11 (Trip.com)", amt: 4260, cur: "CNY" }];
   store.set("expenses", EXP);
 }
+if (store.get("seedv", 0) < 2) {
+  const have = new Set(EXP.map(x => x.id));
+  [["seed-fl-ha", "Hà", 4600000, "Vé máy bay khứ hồi của Hà (Vietjet 57UGQ6)"], ["seed-fl-hien", "Hiền", 4600000, "Vé máy bay khứ hồi của Hiền (Vietjet 57UGQ6)"], ["seed-fl-thanh", "Thanh", 5680000, "Vé máy bay của Thanh (đặt riêng)"]]
+    .forEach(([id, who, amt, desc]) => { if (!have.has(id)) EXP.push({ id, day: "truoc", cat: "Máy bay", who, desc, amt, cur: "VND", split: "own" }); });
+  store.set("expenses", EXP); store.set("seedv", 2);
+}
 let RATE = +store.get("rate", 4000) || 4000;
 let editId = null;
 const toVnd = e => e.cur === "VND" ? e.amt : e.amt * RATE;
@@ -814,7 +821,7 @@ function initCostForm() {
     e.preventDefault();
     const amt = +$("#fAmt").value, desc = $("#fDesc").value.trim();
     if (!(amt > 0) || !desc) return;
-    const item = { id: editId || ("e" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)), day: $("#fDay").value, cat: $("#fCat").value, who: $("#fWho").value, desc, amt, cur: $("#fCur").value };
+    const item = { id: editId || ("e" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)), day: $("#fDay").value, cat: $("#fCat").value, who: $("#fWho").value, desc, amt, cur: $("#fCur").value, split: $("#fSplit").value };
     if (editId) EXP = EXP.map(x => x.id === editId ? item : x); else EXP.push(item);
     saveExp(); resetForm(); renderCost();
   });
@@ -828,10 +835,10 @@ function initCostForm() {
     catch (e) { $("#ioBox").value = txt; $("#ioBox").select(); $("#ioMsg").textContent = "Dữ liệu ở ô trên, bạn tự sao chép."; }
   });
   $("#bCsv").addEventListener("click", () => {
-    const head = ["Ngày", "Hạng mục", "Ai trả", "Chi cho gì", "Số tiền", "Đơn vị", "Quy ra VNĐ"];
+    const head = ["Ngày", "Hạng mục", "Ai trả", "Chia", "Chi cho gì", "Số tiền", "Đơn vị", "Quy ra VNĐ"];
     const lab = k => (EXP_DAYS.find(d => d.k === k) || {}).l || k;
     const q = v => '"' + String(v).replace(/"/g, '""') + '"';
-    const rows = EXP.map(e => [lab(e.day), e.cat, e.who, e.desc, e.amt, e.cur === "VND" ? "VNĐ" : "¥", Math.round(toVnd(e))].map(q).join(","));
+    const rows = EXP.map(e => [lab(e.day), e.cat, e.who, e.split === "own" ? "Riêng" : "Chia 3", e.desc, e.amt, e.cur === "VND" ? "VNĐ" : "¥", Math.round(toVnd(e))].map(q).join(","));
     const blob = new Blob(["﻿" + [head.map(q).join(","), ...rows].join("\n")], { type: "text/csv;charset=utf-8" });
     const a = el("a", { href: URL.createObjectURL(blob), download: "chi-phi-bac-kinh.csv" }); document.body.append(a); a.click(); a.remove();
   });
@@ -841,7 +848,7 @@ function initCostForm() {
       const list = Array.isArray(d) ? d : d.expenses;
       if (!Array.isArray(list)) throw 0;
       const have = new Set(EXP.map(x => x.id)); let n = 0;
-      list.forEach(x => { if (x && x.id && !have.has(x.id) && x.amt > 0) { EXP.push({ id: x.id, day: String(x.day), cat: x.cat, who: x.who || "Chung", desc: String(x.desc || ""), amt: +x.amt, cur: x.cur === "VND" ? "VND" : "CNY" }); n++; } });
+      list.forEach(x => { if (x && x.id && !have.has(x.id) && x.amt > 0) { EXP.push({ id: x.id, day: String(x.day), cat: x.cat, who: x.who || "Chung", desc: String(x.desc || ""), amt: +x.amt, cur: x.cur === "VND" ? "VND" : "CNY", split: x.split === "own" ? "own" : "all" }); n++; } });
       saveExp(); renderCost(); $("#ioBox").value = ""; $("#ioMsg").textContent = "Đã nhập thêm " + n + " khoản (bỏ qua khoản trùng).";
     } catch (e) { $("#ioMsg").textContent = "Dữ liệu dán vào không đúng định dạng."; }
   });
@@ -851,7 +858,7 @@ function resetForm() {
   $("#formTitle").textContent = "Thêm khoản chi"; $("#fSubmit").textContent = "Thêm"; $("#fCancel").hidden = true;
 }
 function startEdit(e) {
-  editId = e.id; $("#fDay").value = e.day; $("#fCat").value = e.cat; $("#fWho").value = e.who; $("#fDesc").value = e.desc; $("#fAmt").value = e.amt; $("#fCur").value = e.cur;
+  editId = e.id; $("#fDay").value = e.day; $("#fCat").value = e.cat; $("#fWho").value = e.who; $("#fDesc").value = e.desc; $("#fAmt").value = e.amt; $("#fCur").value = e.cur; $("#fSplit").value = e.split === "own" ? "own" : "all";
   $("#formTitle").textContent = "Sửa khoản chi"; $("#fSubmit").textContent = "Lưu"; $("#fCancel").hidden = false;
   $("#expForm").scrollIntoView({ behavior: "smooth", block: "center" });
 }
@@ -859,9 +866,12 @@ function renderCost() {
   const total = EXP.reduce((s, e) => s + toVnd(e), 0);
   const today = defaultDay();
   const todayT = EXP.filter(e => e.day === today).reduce((s, e) => s + toVnd(e), 0);
-  const by = w => EXP.filter(e => e.who === w).reduce((s, e) => s + toVnd(e), 0);
   const PEOPLE = ["Hà", "Hiền", "Thanh"];
-  const paid = PEOPLE.map(by), share = paid.reduce((a, b) => a + b, 0) / PEOPLE.length;
+  const shared = EXP.filter(e => e.split !== "own");
+  const paid = PEOPLE.map(p => shared.filter(e => e.who === p).reduce((s, e) => s + toVnd(e), 0));
+  const share = paid.reduce((a, b) => a + b, 0) / PEOPLE.length;
+  const chungShare = shared.filter(e => !PEOPLE.includes(e.who)).reduce((s, e) => s + toVnd(e), 0) / PEOPLE.length;
+  const spent = PEOPLE.map(p => EXP.filter(e => e.split === "own" && e.who === p).reduce((s, e) => s + toVnd(e), 0) + share + chungShare);
   const bal = PEOPLE.map((p, i) => ({ p, v: paid[i] - share }));
   const debt = bal.filter(x => x.v < -1).map(x => ({ ...x, v: -x.v })), cred = bal.filter(x => x.v > 1);
   const moves = [];
@@ -870,9 +880,10 @@ function renderCost() {
   sum.append(
     el("div", { class: "panel" }, [el("p", { class: "k", text: "Tổng đã chi" }), el("div", { class: "big", text: vnd(total) }), el("div", { class: "small", text: "≈ " + cny(total / RATE) + " · " + EXP.length + " khoản" })]),
     el("div", { class: "panel" }, [el("p", { class: "k", text: today === "truoc" ? "Chi trước chuyến đi" : "Hôm nay " + today + "/11" }), el("div", { class: "big", text: vnd(todayT) })]),
-    el("div", { class: "panel" }, [el("p", { class: "k", text: "Ai trả bao nhiêu" }), ...PEOPLE.map((p, i) => el("div", { class: "small", text: p + " " + vnd(paid[i]) })),
-      el("div", { class: "small", text: "Mỗi người nên chịu " + vnd(share) }),
-      ...(moves.length ? moves.map(t => el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: t })) : [el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: "Ba bạn đang bằng nhau" })])])
+    el("div", { class: "panel" }, [el("p", { class: "k", text: "Chia tiền (khoản chia 3)" }), ...PEOPLE.map((p, i) => el("div", { class: "small", text: p + " đã trả " + vnd(paid[i]) })),
+      el("div", { class: "small", text: "Mỗi người chịu " + vnd(share) }),
+      ...(moves.length ? moves.map(t => el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: t })) : [el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: "Ba bạn đang bằng nhau" })])]),
+    el("div", { class: "panel", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "Mỗi người đã tiêu (gồm vé riêng)" }), el("div", { class: "row-btns", style: "gap:18px" }, PEOPLE.map((p, i) => el("div", {}, [el("div", { class: "small", text: p }), el("div", { class: "big", style: "font-size:18px", text: vnd(spent[i]) })])))])
   );
   const bars = $("#catBars"); bars.textContent = "";
   const cats = COST_CATS.map(c => [c, EXP.filter(e => e.cat === c).reduce((s, e) => s + toVnd(e), 0)]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
@@ -887,7 +898,7 @@ function renderCost() {
     const dt = items.reduce((s, e) => s + toVnd(e), 0); run += dt;
     const ul = el("ul", { class: "exp" });
     items.forEach(e => ul.append(el("li", { class: "cat-" + CC[e.cat] }, [
-      el("div", {}, [el("div", { class: "d", text: e.desc }), el("div", { class: "m", text: e.cat + " · " + e.who + " trả" })]),
+      el("div", {}, [el("div", { class: "d", text: e.desc }), el("div", { class: "m", text: e.cat + " · " + e.who + " trả" + (e.split === "own" ? " · riêng" : "") })]),
       el("div", { class: "amt", text: showAmt(e) }),
       el("div", { class: "acts" }, [
         el("button", { type: "button", onclick: () => startEdit(e) }, ["Sửa"]),
