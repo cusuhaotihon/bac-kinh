@@ -918,9 +918,9 @@ function renderCost() {
   sum.append(
     el("div", { class: "panel" }, [el("p", { class: "k", text: "Tổng đã chi" }), el("div", { class: "big", text: vnd(total) }), el("div", { class: "small", text: "≈ " + cny(total / RATE) + " · " + spend.length + " khoản" })]),
     el("div", { class: "panel" }, [el("p", { class: "k", text: today === "truoc" ? "Chi trước chuyến đi" : "Hôm nay " + today + "/11" }), el("div", { class: "big", text: vnd(todayT) })]),
-    el("div", { class: "panel" }, [el("p", { class: "k", text: "Còn nợ nhau" }),
+    el("div", { class: "panel" }, [el("p", { class: "k", text: "Nếu chốt sổ bây giờ" }), el("div", { class: "small", text: "Tiền chuyển cho Hà được tính như tiền góp. Khi Hà trả thêm các khoản chia 3 trong chuyến đi, số này tự giảm." }),
       ...(moves.length ? moves.map(t => el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: t })) : [el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: "Đã sòng phẳng" })]),
-      ...PEOPLE.map(p => el("div", { class: "small", text: p + ": " + (Math.abs(net[p]) < 1 ? "hòa" : net[p] > 0 ? "được nhận lại " + vnd(net[p]) : "còn thiếu " + vnd(-net[p])) }))]),
+      ...PEOPLE.map(p => el("div", { class: "small", text: p + ": " + (Math.abs(net[p]) < 1 ? "hòa" : net[p] > 0 ? "được nhận lại " + vnd(net[p]) : "cần trả lại " + vnd(-net[p])) }))]),
     el("div", { class: "panel", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "Mỗi người đã tiêu (phần của mình)" }), el("div", { class: "row-btns", style: "gap:18px" }, PEOPLE.map(p => el("div", {}, [el("div", { class: "small", text: p }), el("div", { class: "big", style: "font-size:18px", text: vnd(used[p]) })])))])
   );
   const bars = $("#catBars"); bars.textContent = "";
@@ -950,7 +950,7 @@ function renderCost() {
   });
 }
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119091123";
+const BUILD = "20261119091248";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
