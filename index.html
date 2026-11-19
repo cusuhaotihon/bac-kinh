@@ -1224,12 +1224,16 @@ let curSub = store.get("sub", "anh");
 function renderSubs() {
   const bar = $("#subBar"); bar.textContent = "";
   SUBS.forEach(([k, l, c]) => bar.append(el("button", { class: "day-btn", style: "--sc:" + c, "aria-pressed": String(curSub === k), onclick: () => { curSub = k; store.set("sub", k); renderSubs(); } }, [l])));
-  document.querySelectorAll("#v-luu-y .sub").forEach(d => { d.hidden = d.dataset.sub !== curSub; });
+  document.querySelectorAll("#v-luu-y .sub").forEach(d => {
+    d.hidden = d.dataset.sub !== curSub;
+    const c = (SUBS.find(x => x[0] === d.dataset.sub) || [])[2];
+    if (c) { d.style.setProperty("--accent", c); d.style.setProperty("--accent-soft", "color-mix(in srgb, " + c + " 14%, var(--surface))"); }
+  });
 }
 renderSubs();
 
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119154716";
+const BUILD = "20261119154847";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
