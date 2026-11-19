@@ -645,6 +645,33 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
   .st-count::after { width: 64px; height: 64px; }
 }
 
+/* nhắc việc gọn hơn, tiêu đề mục to hơn */
+.remind { margin: 4px 0 12px; border-radius: 14px; }
+.rm-head { padding: 8px 12px; gap: 8px; }
+.rm-head .bell { font-size: 15px; }
+.rm-head b { font-size: 14px; }
+.rm-sum { font-size: 12px; }
+.rm-tog { padding: 3px 10px; font-size: 12px; }
+.rm-list { padding: 2px 0; }
+.rm-item { padding: 7px 12px; gap: 0 10px; grid-template-columns: 3px 1fr auto; }
+.rm-item .tt { font-size: 13.5px; line-height: 1.3; }
+.rm-item .dd { font-size: 12px; margin-top: 1px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.rm-item .side { gap: 4px; }
+.rm-item .when { font-size: 11px; padding: 1px 8px; }
+.rm-item .acts button { padding: 2px 8px; font-size: 11.5px; }
+.rm-more { padding: 6px; font-size: 12.5px; }
+.vhead { margin: 10px 0 18px; gap: 16px; }
+.vh-ico { width: 60px; height: 60px; font-size: 30px; border-radius: 18px; }
+.vh-t { font-size: 32px; font-weight: 800; letter-spacing: -.01em; line-height: 1.1; }
+.vh-s { font-size: 15px; margin-top: 4px; }
+@media (max-width: 640px) {
+  .rm-item { grid-template-columns: 3px 1fr; }
+  .rm-item .side { margin-top: 4px; }
+  .vh-ico { width: 52px; height: 52px; font-size: 26px; border-radius: 16px; }
+  .vh-t { font-size: 27px; }
+  .vh-s { font-size: 13.5px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .scene .plane, .scene .leaf, .scene .smoke, .scene .cl, .scene .birds { display: none; }
@@ -2094,13 +2121,13 @@ function renderRemind() {
   const body = el("div", { class: "rm-body" }); body.hidden = collapsed; box.append(body);
   if (!items.length) { body.append(el("div", { class: "rm-empty", text: "Mọi việc đã xong, chỉ việc đi chơi thôi 💜" })); return; }
   const list = el("ul", { class: "rm-list" });
-  const show = rmOpen ? items : items.slice(0, 4);
+  const show = rmOpen ? items : items.slice(0, 3);
   show.forEach((x, i) => {
     const acts = el("div", { class: "acts" }, [x.r.go ? el("button", { type: "button", onclick: () => go(x.r.go) }, ["Mở"]) : "", x.can ? el("button", { class: "ok", type: "button", onclick: () => rmDone(x) }, ["Xong ✓"]) : ""]);
     list.append(el("li", { class: "rm-item " + x.lv, style: "--i:" + i }, [el("span", { class: "bar" }), el("div", {}, [el("div", { class: "tt", text: x.r.t }), el("div", { class: "dd", text: x.r.d })]), el("div", { class: "side" }, [el("span", { class: "when", text: x.when }), acts])]));
   });
   body.append(list);
-  if (items.length > 4) body.append(el("button", { class: "rm-more", type: "button", onclick: () => { rmOpen = !rmOpen; renderRemind(); } }, [rmOpen ? "Thu gọn" : "Xem tất cả " + items.length + " việc"]));
+  if (items.length > 3) body.append(el("button", { class: "rm-more", type: "button", onclick: () => { rmOpen = !rmOpen; renderRemind(); } }, [rmOpen ? "Thu gọn" : "Xem tất cả " + items.length + " việc"]));
 }
 renderRemind(); window.__rmReady = true;
 setInterval(renderRemind, 60000);
@@ -2113,9 +2140,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261119165820" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261119171301" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261119165820";
+  var BUILD = "20261119171301";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
