@@ -331,12 +331,21 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
         <form class="form" id="expForm" autocomplete="off">
           <label class="w3">Ngày<select id="fDay"></select></label>
           <label class="w3">Hạng mục<select id="fCat"></select></label>
-          <label class="w3">Chia thế nào<select id="fSplit"><option value="all">Chia đều 3 người</option><option value="own">Riêng của người trả</option></select></label>
-          <label class="w3">Ai trả<select id="fWho"><option>Hà</option><option>Hiền</option><option>Thanh</option><option value="Chung">Chung (quỹ chung)</option></select></label>
-          <label class="w6">Chi cho gì, ở đâu<input id="fDesc" placeholder="Ví dụ: Vé Tử Cấm Thành, 2 người" required></label>
+          <label class="w3">Ai trả<select id="fWho"><option>Hà</option><option>Hiền</option><option>Thanh</option><option value="Chung">Quỹ chung</option></select></label>
+          <label class="w3">Chi cho ai<select id="fFor"><option value="all">Cả 3 người (chia đều)</option><option value="Hà">Riêng Hà</option><option value="Hiền">Riêng Hiền</option><option value="Thanh">Riêng Thanh</option></select></label>
+          <label class="w6">Chi cho gì, ở đâu<input id="fDesc" placeholder="Ví dụ: Vé Tử Cấm Thành, 3 người" required></label>
           <label class="w3">Số tiền<input id="fAmt" type="number" inputmode="decimal" min="0" step="any" placeholder="0" required></label>
           <label class="w3">Đơn vị<select id="fCur"><option value="CNY">¥ (tệ)</option><option value="VND">VNĐ</option></select></label>
           <div class="w6 row-btns"><button class="btn" type="submit" id="fSubmit">Thêm</button><button class="btn ghost" type="button" id="fCancel" hidden>Hủy sửa</button></div>
+        </form>
+      </div>
+      <div class="panel" style="margin-top:12px">
+        <h3>Ghi chuyển tiền giữa các bạn</h3>
+        <form class="form" id="trForm" autocomplete="off">
+          <label class="w2">Người chuyển<select id="tFrom"><option>Hiền</option><option>Thanh</option><option>Hà</option></select></label>
+          <label class="w2">Người nhận<select id="tTo"><option>Hà</option><option>Hiền</option><option>Thanh</option></select></label>
+          <label class="w2">Số tiền (VNĐ)<input id="tAmt" type="number" inputmode="decimal" min="0" step="any" placeholder="0" required></label>
+          <div class="w6 row-btns"><button class="btn" type="submit">Ghi chuyển tiền</button></div>
         </form>
       </div>
       <div class="panel" style="margin-top:12px">
@@ -349,7 +358,7 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
         <div class="form">
           <label class="w3">Tỉ giá (VNĐ cho 1 ¥)<input id="fRate" type="number" inputmode="decimal" min="0" step="any"></label>
         </div>
-        <p class="small" style="color:var(--muted);font-size:14px">Các khoản chi lưu trên máy này. Muốn chuyển sang máy khác hoặc gửi cho Hiền và Thanh, bấm "Sao chép dữ liệu", dán vào tin nhắn, rồi ở máy kia dán vào ô bên dưới và bấm "Nhập".</p>
+        <p style="color:var(--muted);font-size:14px">Các khoản chi lưu trên máy này. Muốn chuyển sang máy khác hoặc gửi cho Hiền và Thanh, bấm "Sao chép dữ liệu", dán vào tin nhắn, rồi ở máy kia dán vào ô bên dưới và bấm "Nhập".</p>
         <div class="row-btns">
           <button class="btn ghost" type="button" id="bCopy">Sao chép dữ liệu</button>
           <button class="btn ghost" type="button" id="bCsv">Tải file Excel (CSV)</button>
@@ -361,7 +370,6 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
         </div>
       </div>
     </section>
-
     <!-- Lưu ý -->
     <section id="v-luu-y" hidden>
       <h2 class="sec-title" style="margin-top:0">Cảnh báo quan trọng</h2>
@@ -784,27 +792,46 @@ function renderTips() {
 
 
 /* ---------- Chi phí ---------- */
+const PEOPLE = ["Hà", "Hiền", "Thanh"];
 const COST_CATS = ["Ăn uống", "Di chuyển", "Tham quan", "Mua sắm", "Khách sạn", "Máy bay", "Khác"];
-const CC = { "Ăn uống": "An", "Di chuyển": "Di", "Tham quan": "Th", "Mua sắm": "Mu", "Khách sạn": "Ng", "Máy bay": "Di", "Khác": "Kh" };
+const CC = { "Ăn uống": "An", "Di chuyển": "Di", "Tham quan": "Th", "Mua sắm": "Mu", "Khách sạn": "Ng", "Máy bay": "Di", "Khác": "Kh", "Chuyển tiền": "Kh" };
 const EXP_DAYS = [{ k: "truoc", l: "Trước chuyến đi" }, ...DAYS.map(d => ({ k: String(d.d), l: d.w + " " + d.d + "/11" }))];
+function normItem(x) {
+  const o = { id: String(x.id), day: String(x.day || "truoc"), desc: String(x.desc || ""), amt: +x.amt, cur: x.cur === "VND" ? "VND" : "CNY" };
+  if (x.type === "transfer") return { ...o, type: "transfer", from: x.from, to: x.to, cat: "Chuyển tiền", cur: "VND" };
+  o.cat = COST_CATS.includes(x.cat) ? x.cat : "Khác";
+  o.who = PEOPLE.includes(x.who) ? x.who : "Chung";
+  o.for = x.for ? x.for : (x.split === "own" && PEOPLE.includes(x.who) ? x.who : "all");
+  return o;
+}
 let EXP = store.get("expenses", null);
-if (!Array.isArray(EXP)) {
-  EXP = [{ id: "seed-hotel", day: "truoc", cat: "Khách sạn", who: "Chung", desc: "Super 8 Tiền Môn, 2 đơn 23–30/11 (Trip.com)", amt: 4260, cur: "CNY" }];
-  store.set("expenses", EXP);
-}
-if (store.get("seedv", 0) < 2) {
-  const have = new Set(EXP.map(x => x.id));
-  [["seed-fl-ha", "Hà", 4600000, "Vé máy bay khứ hồi của Hà (Vietjet 57UGQ6)"], ["seed-fl-hien", "Hiền", 4600000, "Vé máy bay khứ hồi của Hiền (Vietjet 57UGQ6)"], ["seed-fl-thanh", "Thanh", 5680000, "Vé máy bay của Thanh (đặt riêng)"]]
-    .forEach(([id, who, amt, desc]) => { if (!have.has(id)) EXP.push({ id, day: "truoc", cat: "Máy bay", who, desc, amt, cur: "VND", split: "own" }); });
-  store.set("expenses", EXP); store.set("seedv", 2);
-}
+if (!Array.isArray(EXP)) EXP = [];
+EXP = EXP.map(normItem);
+(function seed() {
+  const v = store.get("seedv", 0), have = new Set(EXP.map(x => x.id));
+  const add = it => { if (!have.has(it.id)) EXP.push(normItem(it)); };
+  if (v < 1) add({ id: "seed-hotel", day: "truoc", cat: "Khách sạn", who: "Hà", for: "all", desc: "Super 8 Tiền Môn, 2 đơn 23–30/11 (Trip.com)", amt: 4260, cur: "CNY" });
+  if (v < 2) {
+    add({ id: "seed-fl-ha", day: "truoc", cat: "Máy bay", who: "Hà", for: "Hà", desc: "Vé máy bay khứ hồi của Hà (Vietjet 57UGQ6)", amt: 4600000, cur: "VND" });
+    add({ id: "seed-fl-hien", day: "truoc", cat: "Máy bay", who: "Hiền", for: "Hiền", desc: "Vé máy bay khứ hồi của Hiền (Vietjet 57UGQ6)", amt: 4600000, cur: "VND" });
+    add({ id: "seed-fl-thanh", day: "truoc", cat: "Máy bay", who: "Thanh", for: "Thanh", desc: "Vé máy bay của Thanh (đặt riêng)", amt: 5680000, cur: "VND" });
+  }
+  if (v < 3) {
+    EXP = EXP.map(x => x.id === "seed-hotel" ? { ...x, who: "Hà", for: "all" } : x);
+    add({ id: "seed-tr-hien", type: "transfer", day: "truoc", from: "Hiền", to: "Hà", amt: 10000000, desc: "Hiền chuyển cho Hà" });
+    add({ id: "seed-tr-thanh", type: "transfer", day: "truoc", from: "Thanh", to: "Hà", amt: 10000000, desc: "Thanh chuyển cho Hà" });
+  }
+  store.set("seedv", 3); store.set("expenses", EXP);
+})();
 let RATE = +store.get("rate", 4000) || 4000;
-let editId = null;
+let editId = null, confirmDel = null;
 const toVnd = e => e.cur === "VND" ? e.amt : e.amt * RATE;
 const vnd = n => Math.round(n).toLocaleString("vi-VN") + " đ";
 const cny = n => "¥" + (Math.round(n * 100) / 100).toLocaleString("vi-VN");
 const showAmt = e => e.cur === "VND" ? vnd(e.amt) : cny(e.amt) + " · " + vnd(e.amt * RATE);
+const isTr = e => e.type === "transfer";
 function saveExp() { store.set("expenses", EXP); }
+const newId = () => "e" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 function defaultDay() {
   const n = new Date();
   if (n.getFullYear() === 2026 && n.getMonth() === 10 && n.getDate() >= 23) return String(n.getDate());
@@ -821,24 +848,29 @@ function initCostForm() {
     e.preventDefault();
     const amt = +$("#fAmt").value, desc = $("#fDesc").value.trim();
     if (!(amt > 0) || !desc) return;
-    const item = { id: editId || ("e" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)), day: $("#fDay").value, cat: $("#fCat").value, who: $("#fWho").value, desc, amt, cur: $("#fCur").value, split: $("#fSplit").value };
+    const item = normItem({ id: editId || newId(), day: $("#fDay").value, cat: $("#fCat").value, who: $("#fWho").value, for: $("#fFor").value, desc, amt, cur: $("#fCur").value });
     if (editId) EXP = EXP.map(x => x.id === editId ? item : x); else EXP.push(item);
     saveExp(); resetForm(); renderCost();
   });
+  $("#trForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const from = $("#tFrom").value, to = $("#tTo").value, amt = +$("#tAmt").value;
+    if (!(amt > 0) || from === to) return;
+    EXP.push(normItem({ id: newId(), type: "transfer", day: defaultDay(), from, to, amt, desc: from + " chuyển cho " + to }));
+    saveExp(); $("#tAmt").value = ""; renderCost();
+  });
   $("#fCancel").addEventListener("click", resetForm);
   $("#bCopy").addEventListener("click", async () => {
-    const txt = JSON.stringify({ bk26: 1, expenses: EXP });
-    try {
-      if (navigator.share) { await navigator.share({ title: "Chi phí Bắc Kinh", text: txt }); $("#ioMsg").textContent = "Đã mở chia sẻ."; return; }
-    } catch (e) {}
+    const txt = JSON.stringify({ bk26: 2, expenses: EXP });
+    try { if (navigator.share) { await navigator.share({ title: "Chi phí Bắc Kinh", text: txt }); $("#ioMsg").textContent = "Đã mở chia sẻ."; return; } } catch (e) {}
     try { await navigator.clipboard.writeText(txt); $("#ioMsg").textContent = "Đã sao chép."; }
     catch (e) { $("#ioBox").value = txt; $("#ioBox").select(); $("#ioMsg").textContent = "Dữ liệu ở ô trên, bạn tự sao chép."; }
   });
   $("#bCsv").addEventListener("click", () => {
-    const head = ["Ngày", "Hạng mục", "Ai trả", "Chia", "Chi cho gì", "Số tiền", "Đơn vị", "Quy ra VNĐ"];
+    const head = ["Ngày", "Loại", "Hạng mục", "Ai trả / chuyển", "Cho ai / nhận", "Nội dung", "Số tiền", "Đơn vị", "Quy ra VNĐ"];
     const lab = k => (EXP_DAYS.find(d => d.k === k) || {}).l || k;
     const q = v => '"' + String(v).replace(/"/g, '""') + '"';
-    const rows = EXP.map(e => [lab(e.day), e.cat, e.who, e.split === "own" ? "Riêng" : "Chia 3", e.desc, e.amt, e.cur === "VND" ? "VNĐ" : "¥", Math.round(toVnd(e))].map(q).join(","));
+    const rows = EXP.map(e => [lab(e.day), isTr(e) ? "Chuyển tiền" : "Chi tiêu", e.cat, isTr(e) ? e.from : e.who, isTr(e) ? e.to : (e.for === "all" ? "Cả 3" : e.for), e.desc, e.amt, e.cur === "VND" ? "VNĐ" : "¥", Math.round(toVnd(e))].map(q).join(","));
     const blob = new Blob(["﻿" + [head.map(q).join(","), ...rows].join("\n")], { type: "text/csv;charset=utf-8" });
     const a = el("a", { href: URL.createObjectURL(blob), download: "chi-phi-bac-kinh.csv" }); document.body.append(a); a.click(); a.remove();
   });
@@ -848,7 +880,7 @@ function initCostForm() {
       const list = Array.isArray(d) ? d : d.expenses;
       if (!Array.isArray(list)) throw 0;
       const have = new Set(EXP.map(x => x.id)); let n = 0;
-      list.forEach(x => { if (x && x.id && !have.has(x.id) && x.amt > 0) { EXP.push({ id: x.id, day: String(x.day), cat: x.cat, who: x.who || "Chung", desc: String(x.desc || ""), amt: +x.amt, cur: x.cur === "VND" ? "VND" : "CNY", split: x.split === "own" ? "own" : "all" }); n++; } });
+      list.forEach(x => { if (x && x.id && !have.has(x.id) && +x.amt > 0) { EXP.push(normItem(x)); n++; } });
       saveExp(); renderCost(); $("#ioBox").value = ""; $("#ioMsg").textContent = "Đã nhập thêm " + n + " khoản (bỏ qua khoản trùng).";
     } catch (e) { $("#ioMsg").textContent = "Dữ liệu dán vào không đúng định dạng."; }
   });
@@ -858,35 +890,41 @@ function resetForm() {
   $("#formTitle").textContent = "Thêm khoản chi"; $("#fSubmit").textContent = "Thêm"; $("#fCancel").hidden = true;
 }
 function startEdit(e) {
-  editId = e.id; $("#fDay").value = e.day; $("#fCat").value = e.cat; $("#fWho").value = e.who; $("#fDesc").value = e.desc; $("#fAmt").value = e.amt; $("#fCur").value = e.cur; $("#fSplit").value = e.split === "own" ? "own" : "all";
+  editId = e.id; $("#fDay").value = e.day; $("#fCat").value = e.cat; $("#fWho").value = e.who; $("#fFor").value = e.for; $("#fDesc").value = e.desc; $("#fAmt").value = e.amt; $("#fCur").value = e.cur;
   $("#formTitle").textContent = "Sửa khoản chi"; $("#fSubmit").textContent = "Lưu"; $("#fCancel").hidden = false;
   $("#expForm").scrollIntoView({ behavior: "smooth", block: "center" });
 }
-function renderCost() {
-  const total = EXP.reduce((s, e) => s + toVnd(e), 0);
-  const today = defaultDay();
-  const todayT = EXP.filter(e => e.day === today).reduce((s, e) => s + toVnd(e), 0);
-  const PEOPLE = ["Hà", "Hiền", "Thanh"];
-  const shared = EXP.filter(e => e.split !== "own");
-  const paid = PEOPLE.map(p => shared.filter(e => e.who === p).reduce((s, e) => s + toVnd(e), 0));
-  const share = paid.reduce((a, b) => a + b, 0) / PEOPLE.length;
-  const chungShare = shared.filter(e => !PEOPLE.includes(e.who)).reduce((s, e) => s + toVnd(e), 0) / PEOPLE.length;
-  const spent = PEOPLE.map(p => EXP.filter(e => e.split === "own" && e.who === p).reduce((s, e) => s + toVnd(e), 0) + share + chungShare);
-  const bal = PEOPLE.map((p, i) => ({ p, v: paid[i] - share }));
-  const debt = bal.filter(x => x.v < -1).map(x => ({ ...x, v: -x.v })), cred = bal.filter(x => x.v > 1);
+function ledger() {
+  const used = Object.fromEntries(PEOPLE.map(p => [p, 0])), net = Object.fromEntries(PEOPLE.map(p => [p, 0]));
+  EXP.forEach(e => {
+    const v = toVnd(e);
+    if (isTr(e)) { if (e.from in net) net[e.from] += v; if (e.to in net) net[e.to] -= v; return; }
+    if (e.for === "all") PEOPLE.forEach(p => { used[p] += v / 3; if (e.who !== "Chung") net[p] -= v / 3; });
+    else if (e.for in used) { used[e.for] += v; if (e.who !== "Chung") net[e.for] -= v; }
+    if (e.who in net) net[e.who] += v;
+  });
+  const debt = PEOPLE.filter(p => net[p] < -1).map(p => ({ p, v: -net[p] })), cred = PEOPLE.filter(p => net[p] > 1).map(p => ({ p, v: net[p] }));
   const moves = [];
-  for (const d of debt) for (const c of cred) { const m = Math.min(d.v, c.v); if (m > 1) { moves.push(d.p + " gửi " + c.p + " " + vnd(m)); d.v -= m; c.v -= m; } }
+  for (const d of debt) for (const c of cred) { const m = Math.min(d.v, c.v); if (m > 1) { moves.push(d.p + " cần gửi " + c.p + " " + vnd(m)); d.v -= m; c.v -= m; } }
+  return { used, net, moves };
+}
+function renderCost() {
+  const spend = EXP.filter(e => !isTr(e));
+  const total = spend.reduce((s, e) => s + toVnd(e), 0);
+  const today = defaultDay();
+  const todayT = spend.filter(e => e.day === today).reduce((s, e) => s + toVnd(e), 0);
+  const { used, net, moves } = ledger();
   const sum = $("#costSum"); sum.textContent = "";
   sum.append(
-    el("div", { class: "panel" }, [el("p", { class: "k", text: "Tổng đã chi" }), el("div", { class: "big", text: vnd(total) }), el("div", { class: "small", text: "≈ " + cny(total / RATE) + " · " + EXP.length + " khoản" })]),
+    el("div", { class: "panel" }, [el("p", { class: "k", text: "Tổng đã chi" }), el("div", { class: "big", text: vnd(total) }), el("div", { class: "small", text: "≈ " + cny(total / RATE) + " · " + spend.length + " khoản" })]),
     el("div", { class: "panel" }, [el("p", { class: "k", text: today === "truoc" ? "Chi trước chuyến đi" : "Hôm nay " + today + "/11" }), el("div", { class: "big", text: vnd(todayT) })]),
-    el("div", { class: "panel" }, [el("p", { class: "k", text: "Chia tiền (khoản chia 3)" }), ...PEOPLE.map((p, i) => el("div", { class: "small", text: p + " đã trả " + vnd(paid[i]) })),
-      el("div", { class: "small", text: "Mỗi người chịu " + vnd(share) }),
-      ...(moves.length ? moves.map(t => el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: t })) : [el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: "Ba bạn đang bằng nhau" })])]),
-    el("div", { class: "panel", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "Mỗi người đã tiêu (gồm vé riêng)" }), el("div", { class: "row-btns", style: "gap:18px" }, PEOPLE.map((p, i) => el("div", {}, [el("div", { class: "small", text: p }), el("div", { class: "big", style: "font-size:18px", text: vnd(spent[i]) })])))])
+    el("div", { class: "panel" }, [el("p", { class: "k", text: "Còn nợ nhau" }),
+      ...(moves.length ? moves.map(t => el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: t })) : [el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: "Đã sòng phẳng" })]),
+      ...PEOPLE.map(p => el("div", { class: "small", text: p + ": " + (Math.abs(net[p]) < 1 ? "hòa" : net[p] > 0 ? "được nhận lại " + vnd(net[p]) : "còn thiếu " + vnd(-net[p])) }))]),
+    el("div", { class: "panel", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "Mỗi người đã tiêu (phần của mình)" }), el("div", { class: "row-btns", style: "gap:18px" }, PEOPLE.map(p => el("div", {}, [el("div", { class: "small", text: p }), el("div", { class: "big", style: "font-size:18px", text: vnd(used[p]) })])))])
   );
   const bars = $("#catBars"); bars.textContent = "";
-  const cats = COST_CATS.map(c => [c, EXP.filter(e => e.cat === c).reduce((s, e) => s + toVnd(e), 0)]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
+  const cats = COST_CATS.map(c => [c, spend.filter(e => e.cat === c).reduce((s, e) => s + toVnd(e), 0)]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
   const max = cats.length ? cats[0][1] : 1;
   if (!cats.length) bars.append(el("p", { class: "empty", text: "Chưa có khoản chi nào." }));
   cats.forEach(([c, v]) => bars.append(el("div", { class: "bar cat-" + CC[c] }, [el("span", { text: c }), el("div", { class: "track" }, [el("div", { class: "fill", style: "width:" + Math.max(3, v / max * 100) + "%" })]), el("span", { class: "v", text: vnd(v) })])));
@@ -895,24 +933,24 @@ function renderCost() {
   EXP_DAYS.forEach(d => {
     const items = EXP.filter(e => e.day === d.k);
     if (!items.length) return;
-    const dt = items.reduce((s, e) => s + toVnd(e), 0); run += dt;
+    const dt = items.filter(e => !isTr(e)).reduce((s, e) => s + toVnd(e), 0); run += dt;
     const ul = el("ul", { class: "exp" });
-    items.forEach(e => ul.append(el("li", { class: "cat-" + CC[e.cat] }, [
-      el("div", {}, [el("div", { class: "d", text: e.desc }), el("div", { class: "m", text: e.cat + " · " + e.who + " trả" + (e.split === "own" ? " · riêng" : "") })]),
-      el("div", { class: "amt", text: showAmt(e) }),
-      el("div", { class: "acts" }, [
-        el("button", { type: "button", onclick: () => startEdit(e) }, ["Sửa"]),
-        el("button", { type: "button", style: "color:var(--warn)", onclick: () => { if (confirmDel === e.id) { EXP = EXP.filter(x => x.id !== e.id); saveExp(); confirmDel = null; renderCost(); } else { confirmDel = e.id; renderCost(); } } }, [confirmDel === e.id ? "Bấm lần nữa để xóa" : "Xóa"])
-      ])
-    ])));
-    list.append(el("div", { class: "exp-day" }, [el("h3", {}, [d.l, el("span", { text: "Trong ngày " + vnd(dt) + " · Cộng dồn " + vnd(run) })]), ul]));
+    items.forEach(e => {
+      const meta = isTr(e) ? "Chuyển tiền · " + e.from + " → " + e.to : e.cat + " · " + (e.who === "Chung" ? "quỹ chung" : e.who) + " trả · " + (e.for === "all" ? "chia 3" : "riêng " + e.for);
+      const acts = [];
+      if (!isTr(e)) acts.push(el("button", { type: "button", onclick: () => startEdit(e) }, ["Sửa"]));
+      acts.push(el("button", { type: "button", style: "color:var(--warn)", onclick: () => { if (confirmDel === e.id) { EXP = EXP.filter(x => x.id !== e.id); saveExp(); confirmDel = null; } else confirmDel = e.id; renderCost(); } }, [confirmDel === e.id ? "Bấm lần nữa để xóa" : "Xóa"]));
+      ul.append(el("li", { class: "cat-" + CC[e.cat] }, [
+        el("div", {}, [el("div", { class: "d", text: e.desc }), el("div", { class: "m", text: meta })]),
+        el("div", { class: "amt", text: showAmt(e) }),
+        el("div", { class: "acts" }, acts)
+      ]));
+    });
+    list.append(el("div", { class: "exp-day" }, [el("h3", {}, [d.l, el("span", { text: "Chi trong ngày " + vnd(dt) + " · Cộng dồn " + vnd(run) })]), ul]));
   });
 }
-let confirmDel = null;
-
-
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119090857";
+const BUILD = "20261119091123";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
