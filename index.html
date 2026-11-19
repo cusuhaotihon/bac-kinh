@@ -430,7 +430,19 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
     </section>
     <!-- Lưu ý -->
     <section id="v-luu-y" hidden>
-      <h2 class="sec-title" style="margin-top:0">Cảnh báo quan trọng</h2>
+      <h2 class="sec-title" style="margin-top:0">Tìm trên WeChat</h2>
+      <p style="color:var(--muted);font-size:14px;margin:0 0 10px">Mở WeChat, kéo màn hình chính xuống hoặc vào Khám phá (Discover) → Mini Programs, rồi gõ đúng tên chữ Hán màu xanh. Chạm giữ vào tên để sao chép. Chọn cái có tên khớp và biểu tượng chính thức, tránh các bên bán lại thu phí.</p>
+      <ul class="tips" style="margin-bottom:22px">
+        <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Quảng trường Thiên An Môn (hạ cờ 24/11)</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">天安门广场预约参观</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Chọn ngày 24/11, khung 降旗 (hạ cờ). Giấy tờ chọn 护照 (hộ chiếu). Đặt được 1–7 ngày trước, lịch mở thêm ngày mới lúc 12:00 trưa giờ Bắc Kinh.</div></li>
+        <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Bảo tàng Quốc gia (24/11)</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">国家博物馆</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Chọn mini program chính thức, bấm 预约 (đặt chỗ), thêm người với loại giấy tờ Passport, gõ tên đúng như hộ chiếu.</div></li>
+        <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Tử Cấm Thành (25/11)</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">故宫博物院</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Mở bán lúc 20:00 giờ Bắc Kinh (19:00 giờ VN), 7 ngày trước ngày đi. Cũng đặt được bằng tiếng Anh ở intl.dpm.org.cn.</div></li>
+        <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Bảo tàng Thủ Đô (29/11)</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">首都博物馆</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Chọn tài khoản hoặc mini program chính thức, tìm mục 预约 và chọn hộ chiếu.</div></li>
+        <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Xe buýt Đông Trực Môn – Cổ Bắc Thủy Trấn (26/11)</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">北京定制公交</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Tìm tuyến 东直门 → 古北水镇. Một bài viết cũ ghi xe đi lúc 9:00, 11:00, 13:00, xe về lúc 12:00, 14:00, 17:00; kiểm tra lại giờ khi đặt.</div></li>
+        <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Gọi xe</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">滴滴出行</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">DiDi có sẵn trong WeChat (và Alipay). Nhập điểm đến bằng tiếng Trung; về khách sạn thì chọn 德寿堂药店.</div></li>
+        <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Lấy số quán ăn, xem đánh giá</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">大众点评 / 美团</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Dùng để lấy số trước ở quán lẩu Bát Hợp Lý và xem quán gần đó.</div></li>
+        <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Tìm chung nhiều điểm tham quan Bắc Kinh</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">京通</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Mini program của thành phố, gom nhiều chỗ đặt vé vào một nơi.</div></li>
+      </ul>
+      <h2 class="sec-title">Cảnh báo quan trọng</h2>
       <ul class="tips" id="warnList"></ul>
       <h2 class="sec-title">Lưu ý chung</h2>
       <ul class="tips" id="tipList"></ul>
@@ -1029,7 +1041,7 @@ function renderCost() {
   });
 }
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119153138";
+const BUILD = "20261119153616";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
