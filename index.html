@@ -12,17 +12,17 @@
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
 <style>
 /* Layout: a sticky top bar of four views; inside "Lịch trình", a day strip, category chips, then a timeline of cards. */
 :root {
-  --bg: #faf8ff;
+  --bg: #f9f6ff;
   --surface: #ffffff;
   --ink: #2b2540;
   --muted: #6d6786;
-  --line: #e3ddf2;
-  --accent: #7c5cd6;
-  --accent-soft: #ece6ff;
+  --line: #e7dff8;
+  --accent: #9479e0;
+  --accent-soft: #f1ecff;
   --on-accent: #ffffff;
   --warn: #c2410c;
   --warn-soft: #fff1e6;
@@ -34,8 +34,8 @@
   --c-shop: #7b3fc4;  --c-shop-bg: #ecdffa;
   --c-rest: #1f8a52;  --c-rest-bg: #dcf3e5;
   --c-other: #8a6d00; --c-other-bg: #fff3bf;
-  --display: "Quicksand", "Nunito", system-ui, sans-serif;
-  --body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Quicksand", "Be Vietnam Pro", system-ui, sans-serif;
+  --body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -148,6 +148,9 @@ section[hidden] { display: none; }
 .cat-Mu { --cat: var(--c-shop); --cat-bg: var(--c-shop-bg); }
 .cat-Ng { --cat: var(--c-rest); --cat-bg: var(--c-rest-bg); }
 .cat-Kh { --cat: var(--c-other); --cat-bg: var(--c-other-bg); }
+.cat-KS { --cat: #1a9a8e; --cat-bg: #d8f3ef; }
+.cat-MB { --cat: #4f6ad6; --cat-bg: #e3e8fd; }
+.cat-CT { --cat: #b8860b; --cat-bg: #fbf0cf; }
 .empty { color: var(--muted); padding: 24px 0; text-align: center; }
 
 .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -270,6 +273,82 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
   .todo h3 { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .progress > span { transition: none; } }
+
+/* ---------- Mỗi mục một màu ---------- */
+#v-lich-trinh, .view-btn[data-v="lich-trinh"] { --accent: #8a6fdc; --accent-soft: #f1ecff; --on-accent: #ffffff; }
+#v-dat-truoc, .view-btn[data-v="dat-truoc"] { --accent: #e07b39; --accent-soft: #ffefe2; --on-accent: #ffffff; }
+#v-thong-tin, .view-btn[data-v="thong-tin"] { --accent: #3b8fd6; --accent-soft: #e3f1fd; --on-accent: #ffffff; }
+#v-chi-phi, .view-btn[data-v="chi-phi"] { --accent: #2f9e68; --accent-soft: #e0f5ea; --on-accent: #ffffff; }
+#v-checklist, .view-btn[data-v="checklist"] { --accent: #d6578f; --accent-soft: #fde8f1; --on-accent: #ffffff; }
+#v-luu-y, .view-btn[data-v="luu-y"] { --accent: #c9921a; --accent-soft: #fdf3d9; --on-accent: #ffffff; }
+:root[data-theme="dark"] #v-lich-trinh, :root[data-theme="dark"] .view-btn[data-v="lich-trinh"] { --accent: #b9a6f5; --accent-soft: #29243d; --on-accent: #14121a; }
+:root[data-theme="dark"] #v-dat-truoc, :root[data-theme="dark"] .view-btn[data-v="dat-truoc"] { --accent: #f5a66e; --accent-soft: #3a2a1d; --on-accent: #14121a; }
+:root[data-theme="dark"] #v-thong-tin, :root[data-theme="dark"] .view-btn[data-v="thong-tin"] { --accent: #82bdf2; --accent-soft: #1b2c3e; --on-accent: #14121a; }
+:root[data-theme="dark"] #v-chi-phi, :root[data-theme="dark"] .view-btn[data-v="chi-phi"] { --accent: #78d6a4; --accent-soft: #183326; --on-accent: #14121a; }
+:root[data-theme="dark"] #v-checklist, :root[data-theme="dark"] .view-btn[data-v="checklist"] { --accent: #f29bc0; --accent-soft: #3a2030; --on-accent: #14121a; }
+:root[data-theme="dark"] #v-luu-y, :root[data-theme="dark"] .view-btn[data-v="luu-y"] { --accent: #ecc65e; --accent-soft: #3a3117; --on-accent: #14121a; }
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) #v-lich-trinh, :root:not([data-theme="light"]) .view-btn[data-v="lich-trinh"] { --accent: #b9a6f5; --accent-soft: #29243d; --on-accent: #14121a; }
+:root:not([data-theme="light"]) #v-dat-truoc, :root:not([data-theme="light"]) .view-btn[data-v="dat-truoc"] { --accent: #f5a66e; --accent-soft: #3a2a1d; --on-accent: #14121a; }
+:root:not([data-theme="light"]) #v-thong-tin, :root:not([data-theme="light"]) .view-btn[data-v="thong-tin"] { --accent: #82bdf2; --accent-soft: #1b2c3e; --on-accent: #14121a; }
+:root:not([data-theme="light"]) #v-chi-phi, :root:not([data-theme="light"]) .view-btn[data-v="chi-phi"] { --accent: #78d6a4; --accent-soft: #183326; --on-accent: #14121a; }
+:root:not([data-theme="light"]) #v-checklist, :root:not([data-theme="light"]) .view-btn[data-v="checklist"] { --accent: #f29bc0; --accent-soft: #3a2030; --on-accent: #14121a; }
+:root:not([data-theme="light"]) #v-luu-y, :root:not([data-theme="light"]) .view-btn[data-v="luu-y"] { --accent: #ecc65e; --accent-soft: #3a3117; --on-accent: #14121a; }
+}
+main section .sec-title { color: var(--accent); }
+@media (max-width: 640px) { .view-btn { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); background: color-mix(in srgb, var(--accent) 8%, var(--bg)); color: var(--accent); } .view-btn[aria-selected="true"] { background: var(--accent); color: var(--on-accent); } }
+main section .panel { border-top: 4px solid var(--accent); }
+main section .panel .k { color: var(--accent); }
+.view-btn { color: var(--accent); }
+.view-btn .badge { background: var(--accent-soft); color: var(--accent); }
+.view-btn[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+/* Đặt trước: viền trái theo trạng thái */
+.todo li { border-left: 6px solid var(--warn); }
+.todo li.st-book { border-left-color: var(--c-move); }
+.todo li.st-done { border-left-color: var(--good); opacity: .75; }
+.todo .deadline { display: inline-block; width: fit-content; background: var(--warn-soft); padding: 2px 10px; border-radius: 999px; font-size: 13px; }
+.todo li.st-book .deadline { background: var(--c-move-bg); color: var(--c-move); }
+.todo li.st-done .deadline { background: var(--good-soft); color: var(--good); }
+/* Checklist: màu theo nhóm */
+.checks label { border-left: 6px solid var(--cat, var(--accent)); }
+.checks .dl { color: var(--cat, var(--warn)); }
+.checks input { accent-color: var(--cat, var(--accent)); }
+/* Lưu ý: mỗi danh sách một màu */
+#eatList li { border-left: 6px solid var(--c-eat); }
+#wcList li { border-left: 6px solid var(--good); }
+#wcList .cn { color: var(--good) !important; }
+#warnList li { border-left: 6px solid var(--warn); background: var(--warn-soft); }
+#tipList li { border-left: 6px solid var(--c-other); }
+/* Chi phí */
+.cost-sum > .panel:nth-child(1) { border-top-color: #2f9e68; }
+.cost-sum > .panel:nth-child(1) .big { color: #2f9e68; }
+.cost-sum > .panel:nth-child(2) { border-top-color: #3b8fd6; }
+.cost-sum > .panel:nth-child(2) .big, .cost-sum > .panel:nth-child(2) .k { color: #3b8fd6; }
+.cost-sum > .panel:nth-child(3) { border-top-color: #8a6fdc; background: color-mix(in srgb, #8a6fdc 6%, var(--surface)); }
+.cost-sum > .panel:nth-child(3) .big, .cost-sum > .panel:nth-child(3) .k { color: #8a6fdc; }
+.cost-sum > .panel:nth-child(4) { border-top-color: #d6578f; }
+.cost-sum > .panel:nth-child(4) .k { color: #d6578f; }
+#expForm .btn { background: #2f9e68; border-color: #2f9e68; }
+#trForm .btn { background: #b8860b; border-color: #b8860b; color: #fff; }
+#trForm { }
+.exp li { background: color-mix(in srgb, var(--cat) 6%, var(--surface)); }
+.exp .amt { color: var(--cat); }
+.exp-day h3 { color: var(--accent); }
+.bar span:first-child { color: var(--cat); font-weight: 700; }
+/* Bay & khách sạn */
+#v-thong-tin .price { color: var(--accent); }
+/* chữ */
+body { font-size: 15.5px; line-height: 1.6; }
+.card h3, .todo h3, .panel h3 { font-weight: 700; }
+.card p { line-height: 1.6; }
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+  .card h3 { font-size: 16px; }
+  .card p, .todo p { font-size: 14px; }
+  .card .how { font-size: 13.5px; }
+  .sec-title { font-size: 18px; }
+  header.top h1 { font-size: 23px; }
+}
 </style>
 </head>
 <body>
@@ -431,7 +510,7 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
     <!-- Lưu ý -->
     <section id="v-luu-y" hidden>
       <h2 class="sec-title" style="margin-top:0">Ăn chơi vui</h2>
-      <ul class="tips" style="margin-bottom:22px">
+      <ul class="tips" id="eatList" style="margin-bottom:22px">
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Sữa đậu nành và quẩy</b><span class="cn" style="font-size:17px;font-weight:800;color:var(--c-eat);user-select:all">豆浆油条</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Sáng 24/11 (và 29/11 nếu thích), quán ăn sáng quanh Tiền Môn. Đừng nhầm với 豆汁 (nước đậu xanh lên men, chua).</div></li>
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Sữa chua hũ sứ Bắc Kinh</b><span class="cn" style="font-size:17px;font-weight:800;color:var(--c-eat);user-select:all">老北京酸奶</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Bán ở quầy ven đường và trong các hutong. Uống bằng ống hút tại chỗ rồi trả hũ.</div></li>
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Váng sữa cung đình 文宇奶酪</b><span class="cn" style="font-size:17px;font-weight:800;color:var(--c-eat);user-select:all">文宇奶酪</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Số 49 Nam La Cổ Hạng, chiều 25/11. Gọi vị nguyên bản (原味) hoặc hoa quế (桂花).</div></li>
@@ -443,7 +522,7 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
       </ul>
       <h2 class="sec-title">Tìm trên WeChat</h2>
       <p style="color:var(--muted);font-size:14px;margin:0 0 10px">Mở WeChat, kéo màn hình chính xuống hoặc vào Khám phá (Discover) → Mini Programs, rồi gõ đúng tên chữ Hán màu xanh. Chạm giữ vào tên để sao chép. Chọn cái có tên khớp và biểu tượng chính thức, tránh các bên bán lại thu phí.</p>
-      <ul class="tips" style="margin-bottom:22px">
+      <ul class="tips" id="wcList" style="margin-bottom:22px">
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Quảng trường Thiên An Môn (hạ cờ 24/11)</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">天安门广场预约参观</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Chọn ngày 24/11, khung 降旗 (hạ cờ). Giấy tờ chọn 护照 (hộ chiếu). Đặt được 1–7 ngày trước, lịch mở thêm ngày mới lúc 12:00 trưa giờ Bắc Kinh.</div></li>
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Bảo tàng Quốc gia (24/11)</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">国家博物馆</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Chọn mini program chính thức, bấm 预约 (đặt chỗ), thêm người với loại giấy tờ Passport, gõ tên đúng như hộ chiếu.</div></li>
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Tử Cấm Thành (25/11)</b><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">故宫博物院</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Mở bán lúc 20:00 giờ Bắc Kinh (19:00 giờ VN), 7 ngày trước ngày đi. Cũng đặt được bằng tiếng Anh ở intl.dpm.org.cn.</div></li>
@@ -758,7 +837,7 @@ document.getElementById("alertHide").addEventListener("click", () => { document.
 function renderTabs() {
   const t = $("#tabs"); t.textContent = "";
   VIEWS.forEach(([id, label, short]) => {
-    const b = el("button", { class: "view-btn", role: "tab", id: "t-" + id, "aria-selected": String(state.view === id), onclick: () => go(id) }, [el("span", { class: "lf", text: label }), el("span", { class: "ls", text: short || label })]);
+    const b = el("button", { class: "view-btn", "data-v": id, role: "tab", id: "t-" + id, "aria-selected": String(state.view === id), onclick: () => go(id) }, [el("span", { class: "lf", text: label }), el("span", { class: "ls", text: short || label })]);
     if (id === "dat-truoc") {
       const open = TODO.filter(t => statusOf(t) === "todo").length;
       b.append(el("span", { class: "badge", text: String(open) }));
@@ -842,7 +921,7 @@ function renderTodo() {
     if (state.todoFilter !== "all" && s !== state.todoFilter) return;
     const grp = el("div", { class: "status", role: "group", "aria-label": "Trạng thái: " + t[0] });
     ST.forEach(([k, l]) => grp.append(el("button", { class: "s-" + k, "aria-pressed": String(s === k), onclick: () => { state.todoStatus[t[0]] = k; persist(); renderTodo(); renderTabs(); } }, [l])));
-    ul.append(el("li", {}, [
+    ul.append(el("li", { class: "st-" + s }, [
       el("div", { class: "head" }, [el("h3", { text: t[0] }), grp]),
       el("span", { class: "deadline", text: "Hạn: " + t[1] }),
       el("p", { text: t[2] })
@@ -851,6 +930,7 @@ function renderTodo() {
 }
 
 /* ---------- Checklist ---------- */
+const CHK_COL = ["#d6578f", "#3b8fd6", "#2f9e68", "#e07b39", "#8a6fdc", "#1a9a8e", "#c9921a", "#c94a4a"];
 function renderCheck() {
   const cats = ["all", ...new Set(CHECK.map(c => c[0]))];
   const f = $("#checkFilter"); f.textContent = "";
@@ -863,7 +943,7 @@ function renderCheck() {
     if (state.checkFilter !== "all" && c[0] !== state.checkFilter) return;
     const cb = el("input", { type: "checkbox", id: "ck" + i, onchange: e => { state.checked[i] = e.target.checked; persist(); renderCheck(); renderTabs(); } });
     cb.checked = !!state.checked[i];
-    ul.append(el("li", { class: state.checked[i] ? "is-done" : "" }, [el("label", { for: "ck" + i }, [cb,
+    ul.append(el("li", { class: state.checked[i] ? "is-done" : "", style: "--cat:" + CHK_COL[[...new Set(CHECK.map(x => x[0]))].indexOf(c[0]) % CHK_COL.length] }, [el("label", { for: "ck" + i }, [cb,
       el("span", {}, [el("span", { class: "t", text: c[1] }), el("span", { class: "dl", text: c[0] + " · " + c[2] }), c[3] ? el("span", { class: "n", text: c[3] }) : ""])])]));
   });
 }
@@ -878,7 +958,7 @@ function renderTips() {
 /* ---------- Chi phí ---------- */
 const PEOPLE = ["Hà", "Hiền", "Thanh"];
 const COST_CATS = ["Ăn uống", "Di chuyển", "Tham quan", "Mua sắm", "Khách sạn", "Máy bay", "Khác"];
-const CC = { "Ăn uống": "An", "Di chuyển": "Di", "Tham quan": "Th", "Mua sắm": "Mu", "Khách sạn": "Ng", "Máy bay": "Di", "Khác": "Kh", "Chuyển tiền": "Kh" };
+const CC = { "Ăn uống": "An", "Di chuyển": "Di", "Tham quan": "Th", "Mua sắm": "Mu", "Khách sạn": "KS", "Máy bay": "MB", "Khác": "Kh", "Chuyển tiền": "CT" };
 const EXP_DAYS = [{ k: "truoc", l: "Trước chuyến đi" }, ...DAYS.map(d => ({ k: String(d.d), l: d.w + " " + d.d + "/11" }))];
 function normItem(x) {
   const o = { id: String(x.id), day: String(x.day || "truoc"), desc: String(x.desc || ""), amt: +x.amt, cur: x.cur === "VND" ? "VND" : "CNY" };
@@ -1014,8 +1094,9 @@ function renderCost() {
       const gave = p => EXP.filter(e => isTr(e) && e.from === p).reduce((s, e) => s + toVnd(e), 0);
       const got = p => EXP.filter(e => isTr(e) && e.to === p).reduce((s, e) => s + toVnd(e), 0);
       const line = (k, v, strong) => el("div", { style: "display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:3px 0" + (strong ? ";font-weight:800" : "") }, [el("span", { text: k, style: strong ? "" : "color:var(--muted)" }), el("span", { text: v, style: "font-variant-numeric:tabular-nums;white-space:nowrap" })]);
-      const cards = PEOPLE.map(p => el("div", { style: "border:1px solid var(--line);border-radius:12px;padding:10px 12px" }, [
-        el("div", { text: p, style: "font-family:var(--display);font-weight:700;font-size:17px;margin-bottom:4px" }),
+      const PCOL = { "Hà": "#d6578f", "Hiền": "#3b8fd6", "Thanh": "#2f9e68" };
+      const cards = PEOPLE.map(p => el("div", { style: "border:1px solid var(--line);border-top:5px solid " + PCOL[p] + ";border-radius:12px;padding:10px 12px;background:color-mix(in srgb, " + PCOL[p] + " 7%, var(--surface))" }, [
+        el("div", { text: p, style: "font-family:var(--display);font-weight:700;font-size:17px;margin-bottom:4px;color:" + PCOL[p] }),
         line("Tự trả", vnd(out(p))),
         gave(p) ? line("Góp quỹ", vnd(gave(p))) : got(p) ? line("Nhận góp", vnd(got(p))) : line("Góp quỹ", "–"),
         line("Tổng bỏ ra", vnd(out(p) + gave(p)), true),
@@ -1052,7 +1133,7 @@ function renderCost() {
   });
 }
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119154028";
+const BUILD = "20261119154234";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
