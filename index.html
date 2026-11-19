@@ -476,6 +476,77 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
 @media (hover: hover) { .card:hover, .tips > li:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -16px rgba(70, 45, 140, .5); } .tips > li { transition: transform .25s ease, box-shadow .25s ease; } }
 .upd-card { animation: pop .45s ease; }
 
+/* ---------- Thẻ thông tin đầu trang ---------- */
+.stats { display: grid; grid-template-columns: .85fr 1.25fr 1.25fr 1.05fr; gap: 10px; margin-top: 12px; }
+.stat { position: relative; min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 3px; box-shadow: 0 8px 20px -16px rgba(70, 45, 140, .55); animation: rise .55s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--d, 0) * 90ms + .15s); }
+.st-k { font-size: 11.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-v { font-family: var(--display); font-size: 19px; font-weight: 800; color: var(--ink); line-height: 1.2; }
+.st-v .cnt { font-size: 30px; font-variant-numeric: tabular-nums; }
+.st-s { font-size: 12.5px; color: var(--muted); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-count { background: linear-gradient(135deg, #8a6ee0, #c98ade); border-color: transparent; overflow: hidden; }
+.st-count::after { content: ""; position: absolute; right: -18px; bottom: -22px; width: 86px; height: 86px; border-radius: 50%; background: rgba(255, 255, 255, .16); }
+.st-count .st-k, .st-count .st-v, .st-count .st-s { color: #fff; }
+.st-count .st-k { opacity: .88; }
+.st-bar { height: 6px; background: rgba(255, 255, 255, .35); border-radius: 6px; overflow: hidden; margin-top: 4px; }
+.st-bar i { display: block; height: 100%; background: #fff; border-radius: 6px; }
+.route { display: flex; align-items: center; gap: 8px; margin: 2px 0 1px; }
+.ap b { display: block; font-family: var(--display); font-size: 20px; font-weight: 800; line-height: 1.1; color: var(--ink); }
+.ap small { font-size: 12.5px; color: var(--muted); font-weight: 700; }
+.ap sup { font-size: 10px; color: var(--fc); font-weight: 800; }
+.ap.r { text-align: right; }
+.trk { flex: 1; position: relative; height: 20px; min-width: 34px; }
+.trk::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px dashed color-mix(in srgb, var(--fc) 45%, var(--line)); }
+.trk svg { position: absolute; top: 50%; left: 0; width: 20px; height: 20px; margin-top: -10px; color: var(--fc); animation: flyx 3.8s ease-in-out infinite; }
+@keyframes flyx { 0% { left: 0; opacity: 0; } 12% { opacity: 1; } 85% { opacity: 1; } 100% { left: calc(100% - 20px); opacity: 0; } }
+.st-fly { --fc: #2f7fd1; }
+.st-back { --fc: #c9306f; }
+.st-fly .st-k { color: #2f7fd1; } .st-back .st-k { color: #c9306f; } .st-hotel .st-k { color: #c2670a; }
+:root[data-theme="dark"] .st-fly { --fc: #82bdf2; } :root[data-theme="dark"] .st-back { --fc: #f29bc0; }
+:root[data-theme="dark"] .st-fly .st-k { color: #82bdf2; } :root[data-theme="dark"] .st-back .st-k { color: #f29bc0; } :root[data-theme="dark"] .st-hotel .st-k { color: #f5a66e; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .st-fly { --fc: #82bdf2; } :root:not([data-theme="light"]) .st-back { --fc: #f29bc0; } :root:not([data-theme="light"]) .st-fly .st-k { color: #82bdf2; } :root:not([data-theme="light"]) .st-back .st-k { color: #f29bc0; } :root:not([data-theme="light"]) .st-hotel .st-k { color: #f5a66e; } }
+.st-hotel .st-v { font-size: 17px; }
+@media (max-width: 640px) {
+  .stats { grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .stat { padding: 10px 12px; border-radius: 14px; }
+  .st-v { font-size: 17px; } .st-v .cnt { font-size: 26px; }
+  .ap b { font-size: 17px; } .ap small { font-size: 12px; }
+  .st-hotel .st-v { font-size: 15px; }
+  .st-k { font-size: 10.5px; }
+}
+
+/* ---------- Đầu mục có chuyển động ---------- */
+.vhead { display: flex; align-items: center; gap: 14px; margin: 4px 0 16px; }
+.vh-ico { position: relative; overflow: hidden; flex: none; width: 52px; height: 52px; display: grid; place-items: center; font-size: 26px; border-radius: 16px; background: linear-gradient(135deg, var(--accent-soft), color-mix(in srgb, var(--accent) 24%, var(--surface))); box-shadow: 0 10px 22px -12px color-mix(in srgb, var(--accent) 75%, transparent), inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 30%, transparent); }
+.vh-ico::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, .65) 50%, transparent 70%); transform: translateX(-130%); }
+.vh-t { font-size: 24px; color: var(--accent); }
+.vh-s { margin: 2px 0 0; color: var(--muted); font-size: 14.5px; }
+section:not([hidden]) .vh-ico { animation: icoIn .65s cubic-bezier(.3, 1.6, .5, 1) both, bob 3.4s .9s ease-in-out infinite; }
+section:not([hidden]) .vh-ico::after { animation: shine 5s 1.2s ease-in-out infinite; }
+section:not([hidden]) .vh-t { animation: slideIn .5s .1s both; }
+section:not([hidden]) .vh-s { animation: slideIn .5s .2s both; }
+@keyframes icoIn { from { transform: scale(.3) rotate(-25deg); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes bob { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-4px) rotate(-5deg); } }
+@keyframes shine { 0% { transform: translateX(-130%); } 25%, 100% { transform: translateX(130%); } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: none; } }
+@keyframes wiggle { 0% { transform: scale(.5); } 35% { transform: scale(1.18) rotate(-12deg); } 65% { transform: rotate(8deg); } 100% { transform: none; } }
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+h2.sec-title::after { content: ""; display: block; width: 44px; height: 3px; margin-top: 7px; border-radius: 3px; background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 25%, transparent)); transform-origin: left; }
+section:not([hidden]) h2.sec-title::after { animation: grow .7s .25s cubic-bezier(.2, .7, .2, 1) both; }
+section:not([hidden]) .sec-title { animation: slideIn .5s both; }
+.sec-title .em { display: inline-block; margin-right: 2px; }
+section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
+.view-btn .ico { display: inline-block; }
+.view-btn[aria-selected="true"] .ico { animation: bob 3s ease-in-out infinite; }
+.day-head.anim h2 { animation: slideIn .45s both; }
+.day-head.anim p { animation: slideIn .45s .08s both; }
+@media (max-width: 640px) {
+  .vhead { gap: 12px; margin: 2px 0 12px; }
+  .vh-ico { width: 44px; height: 44px; font-size: 22px; border-radius: 14px; }
+  .vh-t { font-size: 20px; }
+  .vh-s { font-size: 13.5px; }
+}
+@media (prefers-reduced-motion: reduce) { .trk svg { left: calc(50% - 10px); } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .scene .plane, .scene .leaf, .scene .smoke, .scene .cl, .scene .birds { display: none; }
@@ -496,7 +567,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
       <button data-t="auto" aria-label="Tự động"><span class="ti">🌗</span><span class="tl">Tự động</span></button><button data-t="light" aria-label="Sáng"><span class="ti">☀️</span><span class="tl">Sáng</span></button><button data-t="dark" aria-label="Tối"><span class="ti">🌙</span><span class="tl">Tối</span></button>
     </div>
     </div>
-    <div class="meta" id="meta"></div>
+    <div class="stats" id="meta"></div>
     <p class="sync" id="sync" data-ok="0">Dữ liệu cập nhật ngày 19/11/2026.</p>
   </header>
 
@@ -515,6 +586,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
   <main>
     <!-- Lịch trình -->
     <section id="v-lich-trinh" aria-labelledby="t-lich-trinh">
+      <div class="vhead"><span class="vh-ico" aria-hidden="true"></span><div><h2 class="vh-t"></h2><p class="vh-s"></p></div></div>
       <div class="days" id="days" role="group" aria-label="Chọn ngày"></div>
       <div class="day-head" id="dayHead"></div>
       <div id="optBox"></div>
@@ -524,13 +596,15 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
 
     <!-- Đặt trước -->
     <section id="v-dat-truoc" hidden>
+      <div class="vhead"><span class="vh-ico" aria-hidden="true"></span><div><h2 class="vh-t"></h2><p class="vh-s"></p></div></div>
       <div class="controls" id="todoFilter" role="group" aria-label="Lọc theo trạng thái"></div>
       <ul class="todo" id="todoList"></ul>
     </section>
 
     <!-- Chuyến bay và khách sạn -->
     <section id="v-thong-tin" hidden>
-      <h2 class="sec-title" style="margin-top:0">✈️ Chuyến bay</h2>
+      <div class="vhead"><span class="vh-ico" aria-hidden="true"></span><div><h2 class="vh-t"></h2><p class="vh-s"></p></div></div>
+      <h2 class="sec-title" style="margin-top:0"><span class="em">✈️</span> Chuyến bay</h2>
       <div class="grid2">
         <div class="panel">
           <p class="k">Chuyến đi · 23/11</p>
@@ -546,7 +620,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         </div>
       </div>
 
-      <h2 class="sec-title">🏨 Khách sạn</h2>
+      <h2 class="sec-title"><span class="em">🏨</span> Khách sạn</h2>
       <div class="panel" style="border:2px solid var(--accent);margin-bottom:12px">
         <p class="k">🚕 Đưa tài xế xem khi đặt xe về khách sạn</p>
         <p style="font-size:24px;font-weight:800;line-height:1.4;margin:6px 0 0">德寿堂药店</p><p class="py" style="text-align:left;font-size:14px;margin:0 0 6px">dé shòu táng yào diàn</p>
@@ -589,6 +663,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
 
     <!-- Checklist -->
     <section id="v-checklist" hidden>
+      <div class="vhead"><span class="vh-ico" aria-hidden="true"></span><div><h2 class="vh-t"></h2><p class="vh-s"></p></div></div>
       <div class="panel">
         <h3 id="progLabel">Đã xong 0/0</h3>
         <div class="progress" aria-hidden="true"><span id="progBar"></span></div>
@@ -599,6 +674,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
 
     <!-- Chi phí -->
     <section id="v-chi-phi" hidden>
+      <div class="vhead"><span class="vh-ico" aria-hidden="true"></span><div><h2 class="vh-t"></h2><p class="vh-s"></p></div></div>
       <div class="cost-sum" id="costSum"></div>
       <div class="panel" style="margin-top:12px">
         <h3 id="formTitle">➕ Thêm khoản chi</h3>
@@ -646,9 +722,10 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
     </section>
     <!-- Lưu ý -->
     <section id="v-luu-y" hidden>
+      <div class="vhead"><span class="vh-ico" aria-hidden="true"></span><div><h2 class="vh-t"></h2><p class="vh-s"></p></div></div>
       <div class="days subbar" id="subBar" role="group" aria-label="Chọn phần lưu ý"></div>
       <div class="sub" data-sub="anh">
-        <h2 class="sec-title">Điểm chụp ảnh đẹp</h2>
+        <h2 class="sec-title"><span class="em">📸</span> Điểm chụp ảnh đẹp</h2>
         <ul class="tips">
         <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Toàn cảnh Tử Cấm Thành từ đỉnh Cảnh Sơn</b><span class="pill-day">25/11</span></div>
           <div class="cn" style="font-size:16px;font-weight:800;color:var(--accent);user-select:all;margin:2px 0 6px">景山万春亭<span class="py" style="text-align:left">jǐng shān wàn chūn tíng</span></div>
@@ -692,11 +769,11 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         </ul>
       </div>
       <div class="sub" data-sub="noi" hidden>
-        <h2 class="sec-title">Câu nói theo tình huống</h2>
+        <h2 class="sec-title"><span class="em">🗣️</span> Câu nói theo tình huống</h2>
         <p style="color:var(--muted);font-size:14px;margin:0 0 6px">Các câu dài, đủ ngữ cảnh cho lúc cần giải thích hoặc hỏi kỹ. Chọn nhóm tình huống bên dưới để xem. Câu ngắn cho từng điểm vẫn có trong Lịch trình, ở khung "🗣️ Nói thế nào".</p>
         <div class="pchips" id="pChips" role="group" aria-label="Chọn nhóm câu nói"></div>
         <div class="pgrp" data-g="g0">
-<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">📍 Theo từng điểm trong lịch trình</h3>
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px"><span class="em">📍</span> Theo từng điểm trong lịch trình</h3>
         <div class="pdays" id="pDays"></div>
         <ul class="tips">
           <li data-day="23"><b style="display:block;margin-bottom:4px;color:var(--accent)">Tới khách sạn đêm 23/11</b><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">师傅，导航上的位置不太准，酒店在胡同里，停在德寿堂药店门口就行。</span><span style="display:block;font-style:italic;color:var(--accent)">Shīfu, dǎoháng shang de wèizhi bú tài zhǔn, jiǔdiàn zài hútòng li, tíng zài Déshòutáng yàodiàn ménkǒu jiù xíng.</span><span style="display:block;color:var(--muted);font-size:14px">Bác tài, vị trí trên bản đồ không chuẩn lắm, khách sạn ở trong ngõ, dừng trước hiệu thuốc Đức Thọ Đường là được.</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">您好，我们订的是家庭复式房，名字是 TRAN THU HA，三个人入住。</span><span style="display:block;font-style:italic;color:var(--accent)">Nín hǎo, wǒmen dìng de shì jiātíng fùshì fáng, míngzi shì Tran Thu Ha, sān ge rén rùzhù.</span><span style="display:block;color:var(--muted);font-size:14px">Chào anh/chị, bọn mình đặt phòng gia đình duplex, tên Trần Thu Hà, 3 người ở.</span></div><div style="padding:4px 0;border-top:1px dotted var(--line)"><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">房间里有点冷，暖气能不能调高一点？</span><span style="display:block;font-style:italic;color:var(--accent)">Fángjiān li yǒudiǎn lěng, nuǎnqì néng bu néng tiáo gāo yìdiǎn?</span><span style="display:block;color:var(--muted);font-size:14px">Phòng hơi lạnh, chỉnh sưởi cao hơn chút được không?</span></div></li>
@@ -715,7 +792,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
       
         </div>
         <div class="pgrp" data-g="g1">
-<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🏨 Khách sạn</h3>
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px"><span class="em">🏨</span> Khách sạn</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们的航班晚上十点多才落地，到酒店大概要十二点以后，麻烦帮我们把房间留着。</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen de hángbān wǎnshang shí diǎn duō cái luòdì, dào jiǔdiàn dàgài yào shí&#x27;èr diǎn yǐhòu, máfan bāng wǒmen bǎ fángjiān liúzhe.</span><span style="display:block;color:var(--muted);font-size:14px">Chuyến bay hơn 10 giờ tối mới hạ cánh, khoảng sau 12 giờ mới tới, phiền giữ phòng giúp.</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">麻烦再给我们加一床被子和两瓶水。</span><span style="display:block;font-style:italic;color:var(--accent)">Máfan zài gěi wǒmen jiā yì chuáng bèizi hé liǎng píng shuǐ.</span><span style="display:block;color:var(--muted);font-size:14px">Phiền cho thêm một cái chăn và hai chai nước.</span></li>
@@ -723,7 +800,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         </ul>
         </div>
         <div class="pgrp" data-g="g2">
-<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">📶 Đăng ký SIM bằng hộ chiếu</h3>
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px"><span class="em">📶</span> Đăng ký SIM bằng hộ chiếu</h3>
         <p style="color:var(--muted);font-size:14px;margin:0 0 8px">Mang hộ chiếu gốc có visa. SIM nội địa Trung Quốc không vào được Google, Facebook nếu không có VPN, nhưng có số điện thoại Trung Quốc thì đăng ký DiDi, lấy số quán ăn, nhận mã xác minh dễ hơn.</p>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">附近有中国移动或者联通的营业厅吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Fùjìn yǒu Zhōngguó Yídòng huòzhě Liántōng de yíngyètīng ma?</span><span style="display:block;color:var(--muted);font-size:14px">Gần đây có cửa hàng giao dịch China Mobile hoặc Unicom không?</span></li>
@@ -741,7 +818,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         </ul>
         </div>
         <div class="pgrp" data-g="g3">
-<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🚕 Gọi xe, đi đường</h3>
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px"><span class="em">🚕</span> Gọi xe, đi đường</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我在路口等你，穿白色羽绒服。</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒ zài lùkǒu děng nǐ, chuān báisè yǔróngfú.</span><span style="display:block;color:var(--muted);font-size:14px">Mình đợi ở ngã tư, mặc áo phao trắng (nhắn cho tài xế DiDi).</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">师傅，我们赶时间，走不堵的路吧。</span><span style="display:block;font-style:italic;color:var(--accent)">Shīfu, wǒmen gǎn shíjiān, zǒu bù dǔ de lù ba.</span><span style="display:block;color:var(--muted);font-size:14px">Bác tài, bọn mình đang vội, đi đường không tắc nhé.</span></li>
@@ -750,7 +827,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         </ul>
         </div>
         <div class="pgrp" data-g="g4">
-<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🍽️ Nhà hàng</h3>
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px"><span class="em">🍽️</span> Nhà hàng</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们三个人，大概点几个菜够吃？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen sān ge rén, dàgài diǎn jǐ ge cài gòu chī?</span><span style="display:block;color:var(--muted);font-size:14px">Ba người thì gọi khoảng mấy món là đủ?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">你们家的招牌菜是什么？有没有不太油、不太辣的？</span><span style="display:block;font-style:italic;color:var(--accent)">Nǐmen jiā de zhāopáicài shì shénme? Yǒu méiyǒu bú tài yóu, bú tài là de?</span><span style="display:block;color:var(--muted);font-size:14px">Món đặc trưng của quán là gì? Có món nào không quá dầu mỡ, không quá cay không?</span></li>
@@ -760,7 +837,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         </ul>
         </div>
         <div class="pgrp" data-g="g5">
-<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🎫 Vé, tham quan</h3>
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px"><span class="em">🎫</span> Vé, tham quan</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们是用护照预约的，系统里查不到，能帮我们看一下吗？</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen shì yòng hùzhào yùyuē de, xìtǒng li chá bu dào, néng bāng wǒmen kàn yíxià ma?</span><span style="display:block;color:var(--muted);font-size:14px">Bọn mình đặt bằng hộ chiếu mà hệ thống không thấy, xem giúp được không?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">护照上的名字是姓在前、名在后，会不会填反了？</span><span style="display:block;font-style:italic;color:var(--accent)">Hùzhào shang de míngzi shì xìng zài qián, míng zài hòu, huì bu huì tián fǎn le?</span><span style="display:block;color:var(--muted);font-size:14px">Tên trên hộ chiếu họ trước tên sau, có khi nào điền ngược không?</span></li>
@@ -769,7 +846,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         </ul>
         </div>
         <div class="pgrp" data-g="g6">
-<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">🛍️ Mua sắm</h3>
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px"><span class="em">🛍️</span> Mua sắm</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">这是手工做的还是机器做的？</span><span style="display:block;font-style:italic;color:var(--accent)">Zhè shì shǒugōng zuò de háishi jīqì zuò de?</span><span style="display:block;color:var(--muted);font-size:14px">Cái này làm thủ công hay làm bằng máy?</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">有没有小一点、方便带上飞机的？</span><span style="display:block;font-style:italic;color:var(--accent)">Yǒu méiyǒu xiǎo yìdiǎn, fāngbiàn dài shàng fēijī de?</span><span style="display:block;color:var(--muted);font-size:14px">Có loại nhỏ hơn, tiện mang lên máy bay không?</span></li>
@@ -777,7 +854,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         </ul>
         </div>
         <div class="pgrp" data-g="g7">
-<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">📸 Nhờ chụp ảnh</h3>
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px"><span class="em">📸</span> Nhờ chụp ảnh</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">能帮我们拍一张全身的吗？把后面的角楼也拍进去。</span><span style="display:block;font-style:italic;color:var(--accent)">Néng bāng wǒmen pāi yì zhāng quánshēn de ma? Bǎ hòumiàn de jiǎolóu yě pāi jìnqù.</span><span style="display:block;color:var(--muted);font-size:14px">Chụp giúp bọn mình một tấm toàn thân được không? Lấy cả góc lâu phía sau.</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">竖着拍，稍微蹲低一点，多拍几张，谢谢！</span><span style="display:block;font-style:italic;color:var(--accent)">Shùzhe pāi, shāowēi dūn dī yìdiǎn, duō pāi jǐ zhāng, xièxie!</span><span style="display:block;color:var(--muted);font-size:14px">Chụp dọc, ngồi thấp xuống chút, chụp vài tấm nhé, cảm ơn!</span></li>
@@ -794,7 +871,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         </ul>
         </div>
         <div class="pgrp" data-g="g9">
-<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px">💬 Trò chuyện</h3>
+<h3 class="sec-title" style="font-size:17px;margin:16px 0 8px"><span class="em">💬</span> Trò chuyện</h3>
         <ul class="tips">
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">我们是从越南来的，第一次来北京。</span><span style="display:block;font-style:italic;color:var(--accent)">Wǒmen shì cóng Yuènán lái de, dì yī cì lái Běijīng.</span><span style="display:block;color:var(--muted);font-size:14px">Bọn mình đến từ Việt Nam, lần đầu tới Bắc Kinh.</span></li>
           <li><span class="zh" style="display:block;font-size:17px;font-weight:700;user-select:all">您觉得附近有什么本地人常去的小馆子？</span><span style="display:block;font-style:italic;color:var(--accent)">Nín juéde fùjìn yǒu shénme běndì rén cháng qù de xiǎo guǎnzi?</span><span style="display:block;color:var(--muted);font-size:14px">Anh/chị thấy gần đây có quán nhỏ nào người địa phương hay ăn không?</span></li>
@@ -803,7 +880,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         </div>
       </div>
       <div class="sub" data-sub="outfit" hidden>
-        <h2 class="sec-title">Gợi ý outfit từng ngày</h2>
+        <h2 class="sec-title"><span class="em">👗</span> Gợi ý outfit từng ngày</h2>
         <p style="color:var(--muted);font-size:14px;margin:0 0 10px">Nhiệt độ 23–27/11 theo dự báo ngày 19/11, có thể thay đổi; xem lại dự báo trước khi đi.</p>
         <ul class="tips" style="margin-bottom:16px">
         <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>23/11 · Ngày bay</b><span class="pill-day">Đêm hạ cánh khoảng −2°C</span></div>
@@ -823,7 +900,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         <li style="border-left:6px solid var(--accent)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>30/11 · Ung Hòa Cung, mua quà, bay về</b><span class="pill-day">Ra sân bay lúc tối, lạnh</span></div>
           <div class="kv"><span>Mặc gì</span>Ung Hòa Cung là chùa: mặc kín đáo, không váy quá ngắn. Mặc luôn bộ đồ bay: áo phao, đồ dày nhất lên người để hành lý xách tay đủ chỗ cho quà.</div><div class="kv"><span>Lưu ý</span>Hạ cánh Nội Bài lúc 2:05 sáng, Hà Nội ấm hơn nhiều: mặc nhiều lớp để cởi bớt.</div></li>
         </ul>
-        <h2 class="sec-title">Mẹo chung</h2>
+        <h2 class="sec-title"><span class="em">💡</span> Mẹo chung</h2>
         <ul class="tips">
         <li>Trong nhà, metro, bảo tàng ở Bắc Kinh sưởi rất ấm, ngoài trời lại lạnh và gió: mặc theo kiểu nhiều lớp mỏng thay vì một áo thật dày.</li>
         <li>Không khí rất khô: mang son dưỡng, kem dưỡng tay, xịt khoáng; uống nhiều nước.</li>
@@ -832,7 +909,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         </ul>
       </div>
       <div class="sub" data-sub="diem" hidden>
-        <h2 class="sec-title">Đến đâu ăn gì, làm gì</h2>
+        <h2 class="sec-title"><span class="em">🍜</span> Đến đâu ăn gì, làm gì</h2>
         <ul class="tips">
         <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Thiên Đàn</b><span class="pill-day">24/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Buổi sáng có người già tập thái cực quyền, hát, đá cầu ở hành lang dài (长廊), có thể đứng xem hoặc tham gia. Thử nói nhỏ vào Hồi Âm Bích (回音壁).</div></li>
         <li style="border-left:6px solid var(--c-see)"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Thiên An Môn, Tiền Môn</b><span class="pill-day">24/11</span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Xem lễ hạ cờ. Ăn vịt quay (全聚德 hoặc 便宜坊), xíu mại 都一处 ở phố 鲜鱼口, kem trà 吴裕泰.</div></li>
@@ -848,7 +925,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
         </ul>
       </div>
       <div class="sub" data-sub="an" hidden>
-        <h2 class="sec-title">Ăn chơi vui</h2>
+        <h2 class="sec-title"><span class="em">🍡</span> Ăn chơi vui</h2>
         <ul class="tips" id="eatList">
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Sữa đậu nành và quẩy</b><span style="text-align:right"><span class="cn" style="font-size:17px;font-weight:800;color:var(--c-eat);user-select:all">豆浆油条</span><span class="py">dòu jiāng yóu tiáo</span></span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Sáng 24/11 (và 29/11 nếu thích), quán ăn sáng quanh Tiền Môn. Đừng nhầm với 豆汁 (nước đậu xanh lên men, chua).</div></li>
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Sữa chua hũ sứ Bắc Kinh</b><span style="text-align:right"><span class="cn" style="font-size:17px;font-weight:800;color:var(--c-eat);user-select:all">老北京酸奶</span><span class="py">lǎo běi jīng suān nǎi</span></span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Bán ở quầy ven đường và trong các hutong. Uống bằng ống hút tại chỗ rồi trả hũ.</div></li>
@@ -861,7 +938,7 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
       </ul>
       </div>
       <div class="sub" data-sub="wechat" hidden>
-        <h2 class="sec-title">Tìm trên WeChat</h2>
+        <h2 class="sec-title"><span class="em">💬</span> Tìm trên WeChat</h2>
         <p style="color:var(--muted);font-size:14px;margin:0 0 10px">Mở WeChat, kéo màn hình chính xuống hoặc vào Khám phá (Discover) → Mini Programs, rồi gõ đúng tên chữ Hán màu xanh. Chạm giữ vào tên để sao chép. Chọn cái có tên khớp và biểu tượng chính thức, tránh các bên bán lại thu phí.</p>
         <ul class="tips" id="wcList">
         <li><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px"><b>Quảng trường Thiên An Môn (hạ cờ 24/11)</b><span style="text-align:right"><span class="cn" style="font-size:18px;font-weight:800;color:var(--accent);user-select:all">天安门广场预约参观</span><span class="py">tiān ān mén guǎng chǎng yù yuē cān guān</span></span></div><div style="color:var(--muted);font-size:14px;margin-top:4px">Chọn ngày 24/11, khung 降旗 (hạ cờ). Giấy tờ chọn 护照 (hộ chiếu). Đặt được 1–7 ngày trước, lịch mở thêm ngày mới lúc 12:00 trưa giờ Bắc Kinh.</div></li>
@@ -875,11 +952,11 @@ main > section:not([hidden]) { animation: fadeIn .4s ease both; }
       </ul>
       </div>
       <div class="sub" data-sub="canh-bao" hidden>
-        <h2 class="sec-title">Cảnh báo quan trọng</h2>
+        <h2 class="sec-title"><span class="em">⚠️</span> Cảnh báo quan trọng</h2>
         <ul class="tips" id="warnList"></ul>
       </div>
       <div class="sub" data-sub="chung" hidden>
-        <h2 class="sec-title">Lưu ý chung</h2>
+        <h2 class="sec-title"><span class="em">📌</span> Lưu ý chung</h2>
         <ul class="tips" id="tipList"></ul>
       </div>
     </section>
@@ -1168,13 +1245,42 @@ async function initLive() {
 function renderAll() { renderTabs(); renderPlan(); renderTodo(); renderCheck(); }
 
 /* ---------- Đầu trang ---------- */
+const PLANE_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21 12c0-.8-.7-1.5-1.5-1.5H15L10 3H8l2.5 7.5h-5L4 8.5H2.5l1 3.5-1 3.5H4l1.5-2h5L8 21h2l5-7.5h4.5c.8 0 1.5-.7 1.5-1.5z"/></svg>';
+function countUp(node, to) {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || to <= 1) { node.textContent = to; return; }
+  const t0 = performance.now(), D = 1000;
+  (function f(t) { const k = Math.min(1, (t - t0) / D); node.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(f); })(t0);
+}
 function renderMeta() {
-  const m = $("#meta");
-  const start = new Date(2026, 10, 23), now = new Date();
-  const days = Math.ceil((start - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 864e5);
-  const items = [["Bay đi", "VJ6042 · 23/11 · 18:00"], ["Bay về", "VJ6043 · 30/11 · 23:15"], ["Khách sạn", "Super 8 Tiền Môn Đại Sách Lan"]];
-  if (days > 0 && days < 400) items.unshift(["Còn", days + " ngày"]);
-  items.forEach(([k, v]) => m.append(el("span", { class: "pill" + (k === "Khách sạn" ? " hotel" : "") }, [k + " ", el("b", { text: v })])));
+  const m = $("#meta"); m.textContent = "";
+  const start = new Date(2026, 10, 23), end = new Date(2026, 11, 1), now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const left = Math.round((start - today) / 864e5);
+  const card = (cls, d, kids) => el("div", { class: "stat " + cls, style: "--d:" + d }, kids);
+  let cnt = null, c;
+  if (left > 0) {
+    cnt = el("b", { class: "cnt", text: "0" });
+    c = card("st-count", 0, [el("span", { class: "st-k", text: "⏳ Khởi hành sau" }), el("span", { class: "st-v" }, [cnt, " ngày"]), el("span", { class: "st-s", text: "Thứ Hai 23/11 · 18:00" })]);
+  } else if (today < end) {
+    const n = Math.min(8, Math.round((today - start) / 864e5) + 1);
+    cnt = el("b", { class: "cnt", text: "0" });
+    const bar = el("span", { class: "st-bar" }, [el("i", { style: "width:" + (n / 8 * 100) + "%" })]);
+    c = card("st-count", 0, [el("span", { class: "st-k", text: "📍 Đang ở Bắc Kinh" }), el("span", { class: "st-v" }, ["Ngày ", cnt, "/8"]), bar]);
+    cnt.dataset.to = n;
+  } else {
+    c = card("st-count", 0, [el("span", { class: "st-k", text: "💜 Chuyến đi" }), el("span", { class: "st-v", text: "Đã về nhà" }), el("span", { class: "st-s", text: "23/11 – 1/12/2026" })]);
+  }
+  const fly = (cls, d, k, a, ta, b, tb, plus, sub) => {
+    const trk = el("span", { class: "trk" }); trk.innerHTML = PLANE_SVG;
+    return card(cls, d, [el("span", { class: "st-k", text: k }),
+      el("div", { class: "route" }, [el("div", { class: "ap" }, [el("b", { text: a }), el("small", { text: ta })]), trk, el("div", { class: "ap r" }, [el("b", { text: b }), el("small", {}, [tb, plus ? el("sup", { text: " +1" }) : ""])])]),
+      el("span", { class: "st-s", text: sub })]);
+  };
+  m.append(c,
+    fly("st-fly", 1, "✈️ Bay đi · 23/11", "HAN", "18:00", "PKX", "22:15", false, "VJ6042 · Vietjet Air"),
+    fly("st-back", 2, "🛬 Bay về · 30/11", "PKX", "23:15", "HAN", "02:05", true, "VJ6043 · về Hà Nội 1/12"),
+    card("st-hotel", 3, [el("span", { class: "st-k", text: "🏨 Khách sạn" }), el("span", { class: "st-v", text: "Super 8 Tiền Môn" }), el("span", { class: "st-s", text: "23–30/11 · 7 đêm" })]));
+  if (cnt) setTimeout(() => countUp(cnt, +(cnt.dataset.to || left)), 350);
 }
 
 /* ---------- Tabs ---------- */
@@ -1198,6 +1304,19 @@ function renderTabs() {
     t.append(b);
   });
   VIEWS.forEach(([id]) => { $("#v-" + id).hidden = state.view !== id; });
+  const openN = TODO.filter(t => statusOf(t) === "todo").length, leftN = CHECK.filter((_, i) => !state.checked[i]).length;
+  const VSUB = {
+    "lich-trinh": "8 ngày · chạm vào ngày để xem",
+    "dat-truoc": openN ? openN + " việc chưa làm, xử lý sớm nhé" : "Đã xử lý hết các việc cần đặt 🎉",
+    "thong-tin": "VJ6042 đi · VJ6043 về · Super 8 Tiền Môn",
+    "chi-phi": "Ghi chi tiêu theo ngày, tự cộng tổng và chia 3",
+    "checklist": leftN ? "Còn " + leftN + "/" + CHECK.length + " mục cần chuẩn bị" : "Đã chuẩn bị xong hết 🎉",
+    "luu-y": "Ảnh đẹp, câu nói, outfit, ăn gì chơi gì"
+  };
+  VIEWS.forEach(([id, label, , icon]) => {
+    const h = document.querySelector("#v-" + id + " .vhead"); if (!h) return;
+    h.querySelector(".vh-ico").textContent = icon; h.querySelector(".vh-t").textContent = label; h.querySelector(".vh-s").textContent = VSUB[id] || "";
+  });
 }
 function go(id) {
   state.view = id; renderTabs();
@@ -1369,6 +1488,7 @@ function setScene(day) {
   const lay = document.createElement("div"); lay.className = "layer"; lay.innerHTML = sceneSVG(day);
   const old = [...box.children]; box.append(lay);
   requestAnimationFrame(() => requestAnimationFrame(() => lay.classList.add("on")));
+  setTimeout(() => lay.classList.add("on"), 80);
   setTimeout(() => old.forEach(o => o.remove()), 1100);
   document.getElementById("hero").dataset.night = sc.night ? "1" : "0";
   document.getElementById("sceneCap").textContent = "📍 " + sc.cap;
@@ -1386,7 +1506,7 @@ function renderPlan() {
   const anim = renderPlan.last !== state.day; renderPlan.last = state.day;
   renderDays(); $("#days").classList.toggle("anim", anim); setScene(state.day);
   const d = DAYS.find(x => x.d === state.day);
-  const head = $("#dayHead"); head.textContent = "";
+  const head = $("#dayHead"); head.textContent = ""; head.classList.toggle("anim", anim);
   head.append(el("h2", { text: d.w + " " + d.d + "/11 · " + d.t }), el("p", { text: d.n }));
 
   // phương án A/B/C cho 27/11
@@ -1726,9 +1846,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261119162928" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261119163755" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261119162928";
+  var BUILD = "20261119163755";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
