@@ -85,6 +85,9 @@ header.top h1 { font-size: clamp(26px, 5vw, 38px); }
 .sync { font-size: 13px; color: var(--muted); margin: 10px 0 0; }
 .sync[data-ok="1"] { color: var(--good); font-weight: 700; }
 .alert[hidden] { display: none; }
+:root { --urg-bg: #ffe3e6; --urg-line: #f3a1ab; --urg-ink: #c2334d; }
+:root[data-theme="dark"] { --urg-bg: #3a1c23; --urg-line: #d9707f; --urg-ink: #ffb0bb; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --urg-bg: #3a1c23; --urg-line: #d9707f; --urg-ink: #ffb0bb; } }
 .alert { display: flex; gap: 12px; align-items: flex-start; background: var(--warn-soft); border: 1px solid var(--warn); border-left-width: 6px; border-radius: 10px; padding: 12px 14px; margin: 6px 0 14px; }
 .alert strong { color: var(--warn); }
 .alert p { margin: 2px 0 0; }
@@ -365,6 +368,10 @@ body { font-size: 15.5px; line-height: 1.6; }
 .upd-card p { color: var(--muted); margin: 0 0 16px; font-size: 14.5px; }
 .upd-card .btn { width: 100%; padding: 13px; font-size: 16px; border-radius: 14px; }
 .upd-card .later { margin-top: 8px; border: 0; background: none; color: var(--muted); font-weight: 700; padding: 8px; }
+
+.alert { background: var(--urg-bg) !important; border-color: var(--urg-line) !important; }
+.alert strong, .alert .hide { color: var(--urg-ink) !important; }
+.ico { margin-right: 4px; }
 </style>
 </head>
 <body>
@@ -374,14 +381,14 @@ body { font-size: 15.5px; line-height: 1.6; }
       <button data-t="auto">Tự động</button><button data-t="light">Sáng</button><button data-t="dark">Tối</button>
     </div>
     <h1>Cẩm nang Bắc Kinh</h1>
-    <p class="sub">23–30/11/2026 · Trần Thu Hà, Phạm Thúy Hiền, Nguyễn Phương Thanh</p>
+    <p class="sub">23–30/11/2026 · Hội 3 chị em 🙋‍♀️🙋‍♀️🙋‍♀️</p>
     <div class="meta" id="meta"></div>
     <p class="sync" id="sync" data-ok="0">Dữ liệu cập nhật ngày 19/11/2026.</p>
   </header>
 
   <div class="alert" role="note" id="alertBox">
     <div>
-      <strong>Đã gửi email cho 2 trường (19/11)</strong>
+      <strong>⏰ Đã gửi email cho 2 trường (19/11)</strong>
       <p>Đang chờ Bắc Đại và Thanh Hoa trả lời qua email hoặc WeChat <b>suhao2410</b>. Khi nhận được xác nhận, nhớ lưu lại để đưa bảo vệ xem ngày 28/11.</p>
     </div>
     <button class="hide" type="button" id="alertHide">Ẩn</button>
@@ -409,7 +416,7 @@ body { font-size: 15.5px; line-height: 1.6; }
 
     <!-- Chuyến bay và khách sạn -->
     <section id="v-thong-tin" hidden>
-      <h2 class="sec-title" style="margin-top:0">Chuyến bay</h2>
+      <h2 class="sec-title" style="margin-top:0">✈️ Chuyến bay</h2>
       <div class="grid2">
         <div class="panel">
           <p class="k">Chuyến đi · 23/11</p>
@@ -425,9 +432,9 @@ body { font-size: 15.5px; line-height: 1.6; }
         </div>
       </div>
 
-      <h2 class="sec-title">Khách sạn</h2>
+      <h2 class="sec-title">🏨 Khách sạn</h2>
       <div class="panel" style="border:2px solid var(--accent);margin-bottom:12px">
-        <p class="k">Đưa tài xế xem khi đặt xe về khách sạn</p>
+        <p class="k">🚕 Đưa tài xế xem khi đặt xe về khách sạn</p>
         <p style="font-size:24px;font-weight:800;line-height:1.4;margin:6px 0">德寿堂药店</p>
         <p class="cn" style="font-size:17px">师傅您好，请送我们到德寿堂药店。我们的酒店是 Super8·悅酒店（北京前门大栅栏店），陕西巷33号，从药店走进胡同大约200多米。</p>
         <p style="margin-top:8px">Khách sạn dặn: khi gọi xe (DiDi hoặc taxi), <b>chọn điểm đến là hiệu thuốc 德寿堂药店</b> (Đức Thọ Đường). Xuống xe ở đó rồi <b>đi bộ hơn 200 m vào ngõ</b> tới số 33 陕西巷, vì xe khó vào tận cửa khách sạn.</p>
@@ -480,7 +487,7 @@ body { font-size: 15.5px; line-height: 1.6; }
     <section id="v-chi-phi" hidden>
       <div class="cost-sum" id="costSum"></div>
       <div class="panel" style="margin-top:12px">
-        <h3 id="formTitle">Thêm khoản chi</h3>
+        <h3 id="formTitle">➕ Thêm khoản chi</h3>
         <form class="form" id="expForm" autocomplete="off">
           <label class="w3">Ngày<select id="fDay"></select></label>
           <label class="w3">Hạng mục<select id="fCat"></select></label>
@@ -493,7 +500,7 @@ body { font-size: 15.5px; line-height: 1.6; }
         </form>
       </div>
       <div class="panel" style="margin-top:12px">
-        <h3>Ghi chuyển tiền giữa các bạn</h3>
+        <h3>🔁 Ghi chuyển tiền giữa các bạn</h3>
         <form class="form" id="trForm" autocomplete="off">
           <label class="w2">Người chuyển<select id="tFrom"><option>Hiền</option><option>Thanh</option><option>Hà</option></select></label>
           <label class="w2">Người nhận<select id="tTo"><option>Hà</option><option>Hiền</option><option>Thanh</option></select></label>
@@ -648,17 +655,17 @@ const OPTIONS = {
 let ACT = [
  [23, "13:30–15:00", "Từ nhà ra sân bay Nội Bài", "Di chuyển", "Chuyến bay 18:00 nên có mặt ở sân bay khoảng 15:00 để làm thủ tục. Đi taxi, Grab hoặc xe đặt trước từ nhà ra Nội Bài. Mang hộ chiếu, thẻ lên máy bay, mã đặt chỗ 57UGQ6.", "Chiều thứ Hai dễ kẹt xe trên đường ra Nội Bài, nên xuất phát sớm. Kiểm tra nhà ga trên thẻ lên máy bay. Tiền taxi nhập ở sheet 11 (ô vàng, tính bằng đồng).", "Chung"],
  [23, "18:00–00:15", "Bay VJ6042, đáp PKX 22:15, về khách sạn", "Di chuyển", "Bay 18:00, hạ cánh 22:15. Nhập cảnh, lấy hành lý, đi DiDi hoặc xe đặt trước (mục 7), tới khách sạn khoảng 00:00. Đưa tài xế địa chỉ tiếng Trung: 珠市口西大街陕西巷33号.", "Tàu Daxing Express chuyến cuối khoảng 23:00, có thể không kịp sau nhập cảnh nên dùng taxi. Khách sạn nằm trong hẻm ở số 33 陕西巷: định vị 德寿堂药店 rồi đi bộ hơn 200 m. Nhắn khách sạn khi gần tới.", "Chung"],
- [24, "09:30–10:30", "Ăn sáng sữa đậu nành và quẩy (豆浆油条)", "Ăn uống", "Hiền muốn thử 豆浆 (sữa đậu nành) và 油条 (quẩy). Quán ăn sáng quanh Tiền Môn hầu như đều bán. Lưu ý: 豆浆 là sữa đậu nành, khác với 豆汁 (nước đậu xanh lên men, vị chua). Cài Alipay hoặc WeChat Pay nếu chưa có.", "Mở 大众点评 gõ 豆浆油条 để tìm quán gần khách sạn, hoặc ghé chuỗi 眉州东坡 có quầy ăn sáng tự chọn với quẩy rán tại chỗ. Cách gọi: 一碗豆浆 (một bát sữa đậu), 一根油条 (một cái quẩy); 甜 là ngọt, 咸 là mặn.", "Chung"],
+ [24, "09:30–10:30", "Ăn sáng: sữa đậu nành và quẩy (豆浆油条)", "Ăn uống", "Quán ăn sáng quanh Tiền Môn. Tìm trên 大众点评: 豆浆油条. Chi tiết xem Lưu ý → Ăn chơi vui.", "Gọi: 一碗豆浆 (một bát sữa đậu), 一根油条 (một cái quẩy). Cài Alipay hoặc WeChat Pay nếu chưa có.", "Chung"],
  [24, "10:45–12:15", "Thiên Đàn (Temple of Heaven)", "Tham quan", "Gần khách sạn. Đại điện Kỳ Niên, Hoàn Khâu Đàn, đi chậm trong công viên. Mang hộ chiếu.", "Vào cổng Đông (gần ga Thiên Đàn Đông Môn, tuyến 5). Đi theo trục từ bắc xuống nam: Đại điện Kỳ Niên → cầu Đan Bệ → Hoàng Khung Vũ → Hoàn Khâu Đàn, rồi ra cổng Nam hoặc Tây. Đi chậm, mùa đông ít khách.", "Chung"],
  [24, "12:15–13:45", "Ăn trưa, đi tới Thiên An Môn", "Ăn uống", "DiDi hoặc metro tuyến 1 tới ga Thiên An Môn Đông, cạnh Bảo tàng Quốc gia.", "Metro tuyến 5 (ga Thiên Đàn Đông Môn) → đổi tuyến 1 ở ga Đông Đan → ga Thiên An Môn Đông. Hoặc DiDi.", "Chung"],
  [24, "14:00–16:00", "Bảo tàng Quốc gia Trung Quốc", "Tham quan", "Miễn phí nhưng phải đặt trước theo tên. Mang hộ chiếu gốc và mã QR, vào bằng cổng Bắc đúng khung giờ. Đóng cửa thứ Hai. Vào cửa cuối khoảng 16:00–16:30. Nên chọn 2–3 gian, đặc biệt gian Trung Quốc cổ đại.", "Ra ga Thiên An Môn Đông (tuyến 1, cửa C hoặc D), đi tới cổng Bắc dành cho khách. Chuẩn bị hộ chiếu và mã QR đã đặt, tới trước giờ. Nên xem gian Trung Quốc cổ đại trước (khoảng 2 giờ), sau đó thêm một gian nếu còn thời gian. Ra khỏi bảo tàng trước 16:30.", "Chung"],
  [24, "16:15–17:15", "Quảng trường Thiên An Môn, lễ hạ cờ", "Tham quan", "Lễ hạ cờ ngày 24/11 vào khoảng 16:53 (giờ thay đổi theo hoàng hôn, hãy kiểm tra lại). Đến chỗ soát an ninh trước 16:30. Cần đặt riêng khung giờ 降旗 (hạ cờ) trên mini program WeChat 天安门广场预约 bằng hộ chiếu. Từ bảo tàng đi bộ sang quảng trường rất gần.", "Từ bảo tàng đi bộ sang quảng trường, qua soát an ninh ở lối vào phía đông hoặc phía nam, đưa hộ chiếu và mã đặt. Đứng gần cột cờ phía bắc quảng trường để xem hạ cờ, sau đó đi về phía nam qua Đài tưởng niệm Anh hùng nhân dân tới cổng Tiền Môn.", "Chung"],
- [24, "17:15–18:30", "Phố Tiền Môn, Đại Sách Lan", "Mua sắm", "Đi bộ xuống phố Tiền Môn và Đại Sách Lan. Mang hộ chiếu vì có thể bị kiểm tra.", "Từ cổng Chính Dương (Tiền Môn) đi bộ xuống phố đi bộ Tiền Môn, rẽ phải vào Đại Sách Lan rồi dạo dần tới quán vịt quay. Ăn vặt: kem trà 吴裕泰, kem que 北冰洋, bánh kem kiểu cũ 前门老奶油蛋糕. Phố 鲜鱼口 bên đông có nhiều tiệm lâu đời (都一处 xíu mại, 天兴居 lòng xào).", "Chung"],
+ [24, "17:15–18:30", "Phố Tiền Môn, Đại Sách Lan", "Mua sắm", "Đi bộ xuống phố Tiền Môn và Đại Sách Lan. Mang hộ chiếu vì có thể bị kiểm tra.", "Từ cổng Chính Dương đi bộ xuống phố Tiền Môn, rẽ vào Đại Sách Lan rồi tới quán vịt quay. Món ăn vặt dọc đường: xem Lưu ý → Ăn chơi vui.", "Chung"],
  [24, "18:30–20:00", "Ăn vịt quay Bắc Kinh", "Ăn uống", "Có nhiều quán vịt quay quanh Tiền Môn. Về khách sạn nghỉ sớm.", "Quanh Tiền Môn có nhiều quán, ví dụ Toàn Tụ Đức (Quanjude) hoặc Tiện Nghi Phường (Bianyifang). Đặt chỗ hoặc đi trước 19:00 để khỏi xếp hàng.", "Chung"],
  [25, "09:00–09:30", "Ăn sáng, đi tới Tử Cấm Thành", "Di chuyển", "Cách khách sạn vài km, đi DiDi hoặc metro. Tử Cấm Thành mở 8:30–16:30 từ tháng 11 đến tháng 3, vào cửa cuối khoảng 1 giờ trước giờ đóng.", "Metro tuyến 1 tới ga Thiên An Môn Đông hoặc Tây, đi bộ qua cổng Thiên An Môn tới Đoan Môn rồi Ngọ Môn. Mang hộ chiếu gốc, xếp hàng soát an ninh.", "Chung"],
  [25, "09:30–12:30", "Tử Cấm Thành (Cố Cung)", "Tham quan", "Từ Ngọ Môn qua ba đại điện, Ngự Hoa Viên, ra cổng Thần Vũ phía bắc. Dành khoảng 3 giờ.", "Vào bằng Ngọ Môn (cổng Nam), đi theo trục giữa: Thái Hòa → Trung Hòa → Bảo Hòa → Càn Thanh → Giao Thái → Khôn Ninh → Ngự Hoa Viên, ra cổng Thần Vũ (cổng Bắc). Chỉ đi một chiều từ nam lên bắc. Nếu còn sức, rẽ sang cánh Đông xem gian Đồng hồ (vé riêng khoảng 10 tệ).", "Chung"],
  [25, "12:30–14:15", "Ăn trưa, nghỉ chân, lên công viên Cảnh Sơn", "Tham quan", "Ngay đối diện cổng Thần Vũ. Leo đình trên đỉnh để nhìn toàn cảnh Tử Cấm Thành. Ăn trưa gần đó.", "Vào cổng Nam, ngay đối diện cổng Thần Vũ. Leo đình Vạn Xuân trên đỉnh (khoảng 15–20 phút) để chụp toàn cảnh Tử Cấm Thành. Xuống rồi ra cổng Bắc để đi tiếp sang Thập Sát Hải.", "Chung"],
- [25, "14:45–17:30", "Hutong Nam La Cổ Hạng và Thập Sát Hải", "Tham quan", "Đi bộ hutong, uống cà phê, ăn vặt, dạo ven hồ. Món nên thử: 文宇奶酪 (số 49 南锣鼓巷), váng sữa kiểu cung đình, gọi vị nguyên bản hoặc hoa quế; sữa chua hũ sứ 老北京酸奶 bán ở nhiều quầy, uống bằng ống hút tại chỗ rồi trả hũ.", "Từ cổng Bắc Cảnh Sơn đi bộ sang Thập Sát Hải, dạo ven hồ rồi theo phố Yên Đại Tà Nhai tới Nam La Cổ Hạng. Phố chính rất đông, hãy rẽ vào các ngõ phụ. Kết thúc tại ga Nam La Cổ Hạng.", "Chung"],
+ [25, "14:45–17:30", "Hutong Nam La Cổ Hạng và Thập Sát Hải", "Tham quan", "Đi bộ hutong, uống cà phê, ăn vặt, dạo ven hồ. Món nên thử (文宇奶酪, sữa chua hũ sứ): xem Lưu ý → Ăn chơi vui.", "Từ cổng Bắc Cảnh Sơn đi bộ sang Thập Sát Hải, dạo ven hồ rồi theo phố Yên Đại Tà Nhai tới Nam La Cổ Hạng. Phố chính rất đông, hãy rẽ vào các ngõ phụ. Kết thúc tại ga Nam La Cổ Hạng.", "Chung"],
  [25, "17:45–18:30", "Vương Phủ Tỉnh (dạo nhẹ, tùy sức)", "Mua sắm", "Oriental Plaza, Beijing APM, phố ẩm thực đêm. Dạo mua sắm một lúc rồi đi bộ sang phố Kim Bảo.", "Từ ga Nam La Cổ Hạng đi tuyến 8 tới ga Vương Phủ Tỉnh. Bắt đầu ở Oriental Plaza, đi bộ dọc phố đi bộ lên phía bắc tới Beijing APM, rồi ăn vặt ở phố ẩm thực.", "Chung"],
  [25, "18:45–20:15", "Lẩu bò Triều Sán Bát Hợp Lý (八合里)", "Ăn uống", "Ăn lẩu bò ở chi nhánh trong trung tâm Jinbao Hui (金宝汇), phố Kim Bảo (Jinbao Street) số 88, đi bộ khoảng 10–15 phút từ Vương Phủ Tỉnh. Gọi 吊龙 (thịt thăn bò), 爽口嫩肉 (thịt bò mềm), viên bò tự làm. Về khách sạn bằng DiDi.", "Từ Vương Phủ Tỉnh đi bộ về phía đông theo phố Kim Bảo tới trung tâm Jinbao Hui, rồi hỏi nhân viên hoặc xem bảng chỉ dẫn để lên tầng nhà hàng. Nên lấy số trên Dianping hoặc app Meituan trước khi tới vì giờ ăn tối thường phải chờ. Nước chấm tự pha, thịt nhúng 5–10 giây là chín.", "Chung"],
  [26, "07:30", "Rời khách sạn ra bến xe", "Di chuyển", "Ra điểm xe buýt Đông Trực Môn hoặc Vọng Kinh Tây bằng metro hoặc DiDi.", "Đi metro tới Đông Trực Môn hoặc Vọng Kinh Tây (tùy chỗ đặt vé xe), tới bến trước giờ xe 30 phút. Mang áo ấm, nước, đồ ăn nhẹ.", "Chung"],
@@ -696,11 +703,11 @@ let ACT = [
  [28, "16:15–17:15", "Viên Minh Viên (tùy sức, có thể bỏ)", "Tham quan", "Tàn tích Tây Dương Lâu, hồ Phúc Hải. Khuôn viên rộng. Mùa đông đóng cửa sớm, kiểm tra giờ ngừng bán vé trước khi đi. Nếu mệt thì bỏ để về nghỉ.", "Từ Bắc Đại đi DiDi khoảng 10 phút tới cổng Nam, chỉ xem khu tàn tích Tây Dương Lâu (西洋楼遗址) rồi về.", "Chung"],
  [28, "17:15–18:15", "Về khu Tiền Môn", "Di chuyển", "DiDi khoảng 17 km, 50–60 phút vì giờ cao điểm.", "Đặt xe từ cổng Đông Bắc Đại về 珠市口西大街. Có thể ghé khách sạn lấy hành lý, nhận phòng đơn 2.", "Chung"],
  [28, "18:30–21:00", "Nhận phòng đơn 2, nghỉ, ăn tối ở Đại Sách Lan", "Ăn uống", "Ăn tối gần khách sạn, đi bộ khoảng 5–10 phút.", "Dạo phố Tiền Môn lên đèn, ăn tối rồi về nghỉ sớm cho hôm sau.", "Chung"],
- [29, "09:30–10:30", "Ngủ dậy, ăn sáng", "Nghỉ", "Ngày nhẹ nhàng, không đặt vé giờ cố định. Nếu thích có thể ăn lại 豆浆油条, hoặc thử 糖油饼 (bánh rán đường) và 豆腐脑 (đậu phụ non nước sốt mặn).", "Ăn sáng gần khách sạn, nghỉ cho đỡ mệt sau ngày dài hôm trước. Tiệm 护国寺小吃 ở số 2 phố Tiền Môn có nhiều món ăn vặt Bắc Kinh.", "Chung"],
+ [29, "09:30–10:30", "Ngủ dậy, ăn sáng", "Nghỉ", "Ngày nhẹ nhàng, không đặt vé giờ cố định. Ăn sáng gần khách sạn (gợi ý món: Lưu ý → Ăn chơi vui).", "Nghỉ cho đỡ mệt sau ngày dài hôm trước.", "Chung"],
  [29, "10:30–11:15", "Đi tới Bảo tàng Thủ Đô", "Di chuyển", "DiDi khoảng 25 phút hoặc metro tuyến 1 tới ga Muxidi.", "Đặt DiDi tới Bảo tàng Thủ Đô (Capital Museum), số 16 Fuxingmenwai Street.", "Chung"],
  [29, "11:15–13:15", "Bảo tàng Thủ Đô (Capital Museum)", "Tham quan", "Miễn phí, mở 9:00–17:00, không nhận khách sau 16:00, đóng cửa thứ Hai. Đặt qua WeChat chính thức, mang hộ chiếu. Dành khoảng 2–3 giờ.", "Xem tầng đồ gốm, đồ đồng và khu lịch sử Bắc Kinh. Nếu không đặt được vé, chuyển sang Ung Hòa Cung.", "Chung"],
  [29, "13:15–15:30", "Ăn trưa, về khách sạn nghỉ trưa", "Ăn uống", "Có thể ăn Đông Lai Thuận (东来顺) số 7 phố Đại Sách Lan nếu chưa ăn lẩu đủ.", "Đi DiDi về khu khách sạn rồi ăn trưa.", "Chung"],
- [29, "16:00–18:00", "Lưu Ly Xưởng và Đại Sách Lan, mua quà", "Mua sắm", "Phố cổ bán sách, tranh và đồ lưu niệm, cách khách sạn đi bộ được.", "Mua quà cho gia đình, ngắm phố Tiền Môn lúc chiều muộn. Đi qua 杨梅竹斜街, hẻm nhỏ yên tĩnh có hiệu sách, cà phê, nối Đại Sách Lan với Lưu Ly Xưởng. Dám thử thì ghé 尹三豆汁 (số 1 phố Đại Sách Lan) uống 豆汁 hoặc ăn kem 豆汁. Ngõ mới sửa 赵锥子胡同 ở Thiên Kiều, sát khách sạn, có quán cà phê đẹp.", "Chung"],
+ [29, "16:00–18:00", "Lưu Ly Xưởng và Đại Sách Lan, mua quà", "Mua sắm", "Phố cổ bán sách, tranh và đồ lưu niệm, cách khách sạn đi bộ được.", "Mua quà, ngắm phố Tiền Môn lúc chiều muộn. Đi qua 杨梅竹斜街 sang Lưu Ly Xưởng. Quán, ngõ nên ghé: xem Lưu ý → Ăn chơi vui.", "Chung"],
  [29, "18:30–20:00", "Ăn tối", "Ăn uống", "Chọn món chưa ăn trong chuyến đi.", "Ăn gần khách sạn hoặc đi Vương Phủ Tỉnh nếu còn sức.", "Chung"],
  [29, "20:00–21:00", "Xếp hành lý, nghỉ sớm", "Nghỉ", "Hành lý ký gửi là 0 kg, chỉ mang theo hành lý xách tay. Nhớ kiểm tra chất lỏng và sạc dự phòng.", "Chuẩn bị đồ trước để sáng mai thong thả.", "Chung"],
  [30, "09:30–11:00", "Ngủ dậy, ăn sáng, trả phòng, gửi hành lý", "Khác", "Trả phòng trước 12:00. Khách sạn cho gửi hành lý trong ngày.", "Gửi hành lý ở lễ tân, chụp ảnh biên nhận. Giữ lại hộ chiếu và thẻ lên máy bay.", "Chung"],
@@ -915,14 +922,14 @@ function renderMeta() {
 
 /* ---------- Tabs ---------- */
 const VIEWS = [
-  ["lich-trinh", "Lịch trình"], ["dat-truoc", "Đặt trước"], ["thong-tin", "Bay và khách sạn", "Bay & KS"], ["chi-phi", "Chi phí"], ["checklist", "Checklist"], ["luu-y", "Lưu ý"]
+  ["lich-trinh", "Lịch trình", "", "🗓️"], ["dat-truoc", "Đặt trước", "", "📝"], ["thong-tin", "Bay và khách sạn", "Bay & KS", "✈️"], ["chi-phi", "Chi phí", "", "💰"], ["checklist", "Checklist", "", "✅"], ["luu-y", "Lưu ý", "", "💡"]
 ];
 try { if (localStorage.getItem("bk26:alertHidden2") === "1") document.getElementById("alertBox").hidden = true; } catch (e) {}
 document.getElementById("alertHide").addEventListener("click", () => { document.getElementById("alertBox").hidden = true; try { localStorage.setItem("bk26:alertHidden2", "1"); } catch (e) {} });
 function renderTabs() {
   const t = $("#tabs"); t.textContent = "";
-  VIEWS.forEach(([id, label, short]) => {
-    const b = el("button", { class: "view-btn", "data-v": id, role: "tab", id: "t-" + id, "aria-selected": String(state.view === id), onclick: () => go(id) }, [el("span", { class: "lf", text: label }), el("span", { class: "ls", text: short || label })]);
+  VIEWS.forEach(([id, label, short, icon]) => {
+    const b = el("button", { class: "view-btn", "data-v": id, role: "tab", id: "t-" + id, "aria-selected": String(state.view === id), onclick: () => go(id) }, [el("span", { class: "ico", text: icon }), el("span", { class: "lf", text: label }), el("span", { class: "ls", text: short || label })]);
     if (id === "dat-truoc") {
       const open = TODO.filter(t => statusOf(t) === "todo").length;
       b.append(el("span", { class: "badge", text: String(open) }));
@@ -942,6 +949,7 @@ function go(id) {
 }
 
 /* ---------- Lịch trình ---------- */
+const CAT_ICO = { "Di chuyển": "🚕", "Tham quan": "🏯", "Ăn uống": "🥢", "Mua sắm": "🛍️", "Nghỉ": "😴", "Khác": "📎" };
 function renderDays() {
   const box = $("#days"); box.textContent = "";
   DAYS.forEach(d => box.append(el("button", { class: "day-btn", "aria-pressed": String(state.day === d.d), onclick: () => { state.day = d.d; store.set("day", d.d); renderPlan(); } },
@@ -967,7 +975,7 @@ function renderPlan() {
   // lọc hạng mục
   const bar = $("#catBar"); bar.textContent = "";
   bar.append(el("button", { class: "chip all", "aria-pressed": String(state.cats.size === 0), onclick: () => { state.cats.clear(); renderPlan(); } }, ["Tất cả"]));
-  Object.entries(CAT).forEach(([name, code]) => bar.append(el("button", { class: "chip c-" + code, "aria-pressed": String(state.cats.has(name)), onclick: () => { state.cats.has(name) ? state.cats.delete(name) : state.cats.add(name); renderPlan(); } }, [name])));
+  Object.entries(CAT).forEach(([name, code]) => bar.append(el("button", { class: "chip c-" + code, "aria-pressed": String(state.cats.has(name)), onclick: () => { state.cats.has(name) ? state.cats.delete(name) : state.cats.add(name); renderPlan(); } }, [(CAT_ICO[name] || "") + " " + name])));
   bar.append(el("span", { class: "spacer" }), el("button", { class: "link-btn", onclick: () => { state.compact = !state.compact; renderPlan(); } }, [state.compact ? "Hiện chi tiết" : "Chỉ xem tiêu đề"]));
 
   // danh sách
@@ -982,7 +990,7 @@ function renderPlan() {
     card.append(
       el("div", { class: "time", text: a[1] }),
       el("div", {}, [
-        el("h3", { text: a[2] }), el("span", { class: "tag", text: a[3] }),
+        el("h3", { text: a[2] }), el("span", { class: "tag", text: (CAT_ICO[a[3]] || "") + " " + a[3] }),
         el("p", { text: a[4] }),
         el("p", { class: "how" }, [el("b", { text: "Nên làm: " }), a[5]]),
         el("label", { class: "tick", for: "act" + i }, [cb, "Đã làm xong"])
@@ -1136,7 +1144,7 @@ function initCostForm() {
 }
 function resetForm() {
   editId = null; $("#expForm").reset(); $("#fDay").value = defaultDay();
-  $("#formTitle").textContent = "Thêm khoản chi"; $("#fSubmit").textContent = "Thêm"; $("#fCancel").hidden = true;
+  $("#formTitle").textContent = "➕ Thêm khoản chi"; $("#fSubmit").textContent = "Thêm"; $("#fCancel").hidden = true;
 }
 function startEdit(e) {
   editId = e.id; $("#fDay").value = e.day; $("#fCat").value = e.cat; $("#fWho").value = e.who; $("#fFor").value = e.for; $("#fDesc").value = e.desc; $("#fAmt").value = e.amt; $("#fCur").value = e.cur;
@@ -1165,12 +1173,12 @@ function renderCost() {
   const { used, net, moves } = ledger();
   const sum = $("#costSum"); sum.textContent = "";
   sum.append(
-    el("div", { class: "panel" }, [el("p", { class: "k", text: "Tổng đã chi" }), el("div", { class: "big", text: vnd(total) }), el("div", { class: "small", text: "≈ " + cny(total / RATE) + " · " + spend.length + " khoản" })]),
-    el("div", { class: "panel" }, [el("p", { class: "k", text: today === "truoc" ? "Chi trước chuyến đi" : "Hôm nay " + today + "/11" }), el("div", { class: "big", text: vnd(todayT) })]),
+    el("div", { class: "panel" }, [el("p", { class: "k", text: "💵 Tổng đã chi" }), el("div", { class: "big", text: vnd(total) }), el("div", { class: "small", text: "≈ " + cny(total / RATE) + " · " + spend.length + " khoản" })]),
+    el("div", { class: "panel" }, [el("p", { class: "k", text: today === "truoc" ? "🧾 Chi trước chuyến đi" : "📅 Hôm nay " + today + "/11" }), el("div", { class: "big", text: vnd(todayT) })]),
     (() => {
       const got = EXP.filter(e => isTr(e) && e.to === "Hà").reduce((s, e) => s + toVnd(e), 0);
       const left = -net["Hà"];
-      return el("div", { class: "panel", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "Quỹ Hà giữ" }),
+      return el("div", { class: "panel", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "👛 Quỹ Hà giữ" }),
         el("div", { class: "big", text: left >= 0 ? vnd(left) : "Âm " + vnd(-left) }),
         el("div", { class: "small", text: "Hiền và Thanh đã góp " + vnd(got) + ". Đây là phần tiền góp còn lại sau khi trừ phần của Hiền và Thanh trong các khoản Hà đã trả." + (left < 0 ? " Quỹ đã âm, tức Hà đang ứng trước." : "") })]);
     })(),
@@ -1186,7 +1194,7 @@ function renderCost() {
         gave(p) ? line("Góp quỹ", vnd(gave(p))) : got(p) ? line("Nhận góp", vnd(got(p))) : line("Góp quỹ", "–"),
         line("Tổng bỏ ra", vnd(out(p) + gave(p)), true),
         line("Phần đã tiêu", vnd(used[p]))]));
-      return el("div", { class: "panel", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "Mỗi người đã chi ra" }),
+      return el("div", { class: "panel", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "👭 Mỗi người đã chi ra" }),
         el("div", { class: "people" }, cards),
         el("div", { class: "small", style: "margin-top:8px", text: "Tự trả: các khoản người đó đứng ra thanh toán. Phần đã tiêu: phần thuộc về người đó (vé riêng cộng 1/3 các khoản chung)." })]);
     })()
@@ -1219,7 +1227,7 @@ function renderCost() {
 }
 
 /* ---------- Lưu ý: chọn phần ---------- */
-const SUBS = [["anh", "Chụp ảnh", "#8a6fdc"], ["diem", "Ăn gì, làm gì", "#d6578f"], ["an", "Ăn chơi vui", "#e07b39"], ["wechat", "WeChat", "#2f9e68"], ["canh-bao", "Cảnh báo", "#c94a4a"], ["chung", "Lưu ý chung", "#c9921a"]];
+const SUBS = [["anh", "📸 Chụp ảnh", "#8a6fdc"], ["diem", "🍜 Ăn gì, làm gì", "#d6578f"], ["an", "🍡 Ăn chơi vui", "#e07b39"], ["wechat", "💬 WeChat", "#2f9e68"], ["canh-bao", "⚠️ Cảnh báo", "#c94a4a"], ["chung", "📌 Lưu ý chung", "#c9921a"]];
 let curSub = store.get("sub", "anh");
 function renderSubs() {
   const bar = $("#subBar"); bar.textContent = "";
@@ -1233,7 +1241,7 @@ function renderSubs() {
 renderSubs();
 
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119154847";
+const BUILD = "20261119155220";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
