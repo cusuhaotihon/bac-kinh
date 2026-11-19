@@ -216,7 +216,7 @@ section[hidden] { display: none; }
 .exp .acts { grid-column: 1 / -1; display: flex; gap: 12px; }
 .exp .acts button { border: 0; background: none; color: var(--accent); font-weight: 700; font-size: 13px; padding: 0; }
 textarea.io { width: 100%; min-height: 90px; font: inherit; font-size: 14px; color: var(--ink); background: var(--bg); border: 1.5px solid var(--line); border-radius: 10px; padding: 8px; }
-@media (max-width: 640px) { .cost-sum { grid-template-columns: 1fr 1fr; } .cost-sum .panel:first-child { grid-column: 1 / -1; } .form .w2, .form .w3 { grid-column: span 3; } }
+@media (max-width: 640px) { .cost-sum { grid-template-columns: 1fr; } .cost-sum .panel:first-child { grid-column: 1 / -1; } .form .w2, .form .w3 { grid-column: span 3; } }
 .tips { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
 .tips li { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
 
@@ -1133,7 +1133,7 @@ function renderCost() {
   });
 }
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119154234";
+const BUILD = "20261119154350";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
