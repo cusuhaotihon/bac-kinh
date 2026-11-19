@@ -311,7 +311,8 @@ main section .panel .k { color: var(--accent); }
 .todo li.st-done .deadline { background: var(--good-soft); color: var(--good); }
 /* Checklist: màu theo nhóm */
 .checks label { border-left: 6px solid var(--cat, var(--accent)); }
-.checks .dl { color: var(--cat, var(--warn)); }
+.checks .dl { color: var(--cat, var(--warn)); display: block; margin-top: 2px; }
+.checks .t { display: block; }
 .checks input { accent-color: var(--cat, var(--accent)); }
 /* Lưu ý: mỗi danh sách một màu */
 #eatList li { border-left: 6px solid var(--c-eat); }
@@ -1133,7 +1134,7 @@ function renderCost() {
   });
 }
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119154350";
+const BUILD = "20261119154510";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
