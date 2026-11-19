@@ -910,6 +910,23 @@ function renderCost() {
 }
 let confirmDel = null;
 
+
+/* ---------- Tự kiểm tra bản mới ---------- */
+const BUILD = "20261119090857";
+async function checkUpdate() {
+  try {
+    const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
+    const m = /const BUILD = "(\d+)"/.exec(await r.text());
+    if (m && m[1] !== BUILD) {
+      const bar = el("button", { class: "btn", style: "position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:20;box-shadow:0 4px 16px rgba(0,0,0,.25)",
+        onclick: () => { location.replace(location.pathname + "?v=" + m[1] + location.hash); } }, ["Có bản mới, bấm để cập nhật"]);
+      document.body.append(bar);
+    }
+  } catch (e) {}
+}
+checkUpdate();
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") checkUpdate(); });
+
 /* ---------- Nền sáng / tối ---------- */
 function applyTheme(t) {
   const root = document.documentElement;
