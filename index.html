@@ -180,7 +180,7 @@ section[hidden] { display: none; }
 /* chi phí */
 .cost-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .cost-sum .panel { padding: 12px 14px; }
-.cost-sum .big { font-family: var(--display); font-size: 24px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.cost-sum .big { white-space: nowrap; font-family: var(--display); font-size: clamp(18px, 5vw, 24px); font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
 .cost-sum .small { color: var(--muted); font-size: 13px; }
 .form { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 12px; }
 .form label { display: grid; gap: 4px; font-size: 13px; font-weight: 800; color: var(--muted); }
