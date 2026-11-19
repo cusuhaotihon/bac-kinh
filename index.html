@@ -589,6 +589,62 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
 .toast.on { opacity: 1; transform: translate(-50%, 0); }
 @media (max-width: 640px) { .toast { bottom: calc(env(safe-area-inset-bottom) + 130px); } }
 
+/* ---------- Nhắc việc tự động ---------- */
+.remind { margin: 6px 0 14px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); overflow: hidden; box-shadow: 0 8px 22px -18px rgba(70, 45, 140, .5); }
+.remind[data-urgent="1"] { border-color: var(--urg-line); }
+.rm-head { display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: color-mix(in srgb, var(--accent) 8%, var(--surface)); }
+.remind[data-urgent="1"] .rm-head { background: var(--urg-bg); }
+.rm-head .bell { font-size: 18px; display: inline-block; }
+.remind[data-urgent="1"] .rm-head .bell { animation: ring 2.6s ease-in-out infinite; transform-origin: 50% 10%; }
+@keyframes ring { 0%, 60%, 100% { transform: none; } 65% { transform: rotate(16deg); } 72% { transform: rotate(-14deg); } 79% { transform: rotate(10deg); } 86% { transform: rotate(-6deg); } }
+.rm-head b { font-size: 15.5px; }
+.remind[data-urgent="1"] .rm-head b { color: var(--urg-ink); }
+.rm-sum { font-size: 13px; color: var(--muted); font-weight: 600; }
+.rm-tog { margin-left: auto; border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 800; color: var(--accent); flex: none; }
+.remind[data-urgent="1"] .rm-tog { color: var(--urg-ink); border-color: var(--urg-line); }
+.rm-body[hidden] { display: none; }
+.rm-list { list-style: none; margin: 0; padding: 4px 0; }
+.rm-item { display: grid; grid-template-columns: 4px 1fr auto; gap: 0 12px; padding: 10px 14px; border-top: 1px solid var(--line); animation: fadeIn .35s ease both; animation-delay: calc(var(--i, 0) * 50ms); }
+.rm-item:first-child { border-top: 0; }
+.rm-item .bar { border-radius: 4px; background: var(--lv); }
+.rm-item .tt { font-weight: 700; font-size: 15px; line-height: 1.35; }
+.rm-item .dd { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+.rm-item .side { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.rm-item .when { font-size: 12px; font-weight: 800; white-space: nowrap; color: var(--lv); background: color-mix(in srgb, var(--lv) 13%, var(--surface)); border-radius: 999px; padding: 2px 9px; }
+.rm-item .acts { display: flex; gap: 6px; }
+.rm-item .acts button { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 3px 10px; font-size: 12.5px; font-weight: 800; color: var(--muted); }
+.rm-item .acts .ok { color: var(--good); border-color: color-mix(in srgb, var(--good) 40%, var(--line)); }
+.lv-red { --lv: #d23f4f; } .lv-orange { --lv: #d9731a; } .lv-violet { --lv: #8a6fdc; } .lv-blue { --lv: #2f7fd1; }
+.rm-more { display: block; width: 100%; border: 0; border-top: 1px solid var(--line); background: none; padding: 9px; font-size: 13.5px; font-weight: 800; color: var(--accent); }
+.rm-empty { padding: 12px 14px; color: var(--muted); font-size: 14px; }
+@media (max-width: 640px) {
+  .rm-item { grid-template-columns: 4px 1fr; }
+  .rm-item .side { grid-column: 2; flex-direction: row; align-items: center; justify-content: space-between; margin-top: 6px; }
+  .rm-sum { display: none; }
+}
+
+/* thẻ thông tin nhỏ gọn hơn */
+.stats { gap: 8px; margin-top: 10px; }
+.stat { padding: 9px 12px; border-radius: 14px; gap: 2px; }
+.st-k { font-size: 10.5px; }
+.st-v { font-size: 16px; }
+.st-v .cnt { font-size: 24px; }
+.st-s { font-size: 11.5px; }
+.ap b { font-size: 16.5px; }
+.ap small { font-size: 11.5px; }
+.st-hotel .st-v { font-size: 15px; }
+.trk { height: 16px; } .trk svg { width: 16px; height: 16px; margin-top: -8px; }
+@media (max-width: 640px) {
+  .stats { gap: 7px; }
+  .stat { padding: 8px 10px; border-radius: 12px; }
+  .st-k { font-size: 9.5px; letter-spacing: .04em; }
+  .st-v { font-size: 14.5px; } .st-v .cnt { font-size: 21px; }
+  .ap b { font-size: 14.5px; } .ap small { font-size: 11px; }
+  .st-s { font-size: 11px; }
+  .st-hotel .st-v { font-size: 13.5px; }
+  .st-count::after { width: 64px; height: 64px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .scene .plane, .scene .leaf, .scene .smoke, .scene .cl, .scene .birds { display: none; }
@@ -604,7 +660,7 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
         <span class="kicker"><i></i>Cẩm nang du lịch</span>
         <h1 class="ttl" aria-label="Cẩm nang Bắc Kinh"><span class="t-word" id="tWord">Bắc Kinh</span><span class="seal" aria-hidden="true">北京</span></h1>
         <svg class="brush" viewBox="0 0 240 14" aria-hidden="true"><path d="M4 9 C 60 3, 140 2, 236 7"/></svg>
-        <p class="sub">23 – 30.11.2026 · Hội 3 chị em 🙋‍♀️🙋‍♀️🙋‍♀️</p>
+        <p class="sub">23 – 30.11.2026 · 8 ngày 7 đêm</p>
       </div>
       <span class="scene-cap" id="sceneCap"></span>
       <div class="theme" role="group" aria-label="Chế độ nền">
@@ -615,13 +671,7 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
     <p class="sync" id="sync" data-ok="0">Dữ liệu cập nhật ngày 19/11/2026.</p>
   </header>
 
-  <div class="alert" role="note" id="alertBox">
-    <div>
-      <strong>⏰ Đã gửi email cho 2 trường (19/11)</strong>
-      <p>Đang chờ Bắc Đại và Thanh Hoa trả lời qua email hoặc WeChat <b>suhao2410</b>. Khi nhận được xác nhận, nhớ lưu lại để đưa bảo vệ xem ngày 28/11.</p>
-    </div>
-    <button class="hide" type="button" id="alertHide">Ẩn</button>
-  </div>
+  <section class="remind" id="remind" aria-label="Nhắc việc"></section>
 
   <nav class="views" aria-label="Chọn mục xem">
     <div class="row" role="tablist" id="tabs"></div>
@@ -1349,8 +1399,6 @@ function renderMeta() {
 const VIEWS = [
   ["lich-trinh", "Lịch trình", "", "🗓️"], ["dat-truoc", "Đặt trước", "", "📝"], ["thong-tin", "Bay và khách sạn", "Bay & KS", "✈️"], ["chi-phi", "Chi phí", "", "💰"], ["checklist", "Checklist", "", "✅"], ["luu-y", "Lưu ý", "", "💡"]
 ];
-try { if (localStorage.getItem("bk26:alertHidden2") === "1") document.getElementById("alertBox").hidden = true; } catch (e) {}
-document.getElementById("alertHide").addEventListener("click", () => { document.getElementById("alertBox").hidden = true; try { localStorage.setItem("bk26:alertHidden2", "1"); } catch (e) {} });
 function renderTabs() {
   const t = $("#tabs"); t.textContent = "";
   VIEWS.forEach(([id, label, short, icon]) => {
@@ -1366,6 +1414,7 @@ function renderTabs() {
     t.append(b);
   });
   VIEWS.forEach(([id]) => { $("#v-" + id).hidden = state.view !== id; });
+  if (window.__rmReady) renderRemind();
   const openN = TODO.filter(t => statusOf(t) === "todo").length, leftN = CHECK.filter((_, i) => !state.checked[i]).length;
   const VSUB = {
     "lich-trinh": "8 ngày · chạm vào ngày để xem",
@@ -1954,6 +2003,108 @@ applyTheme(themePref);
 
 /* ---------- Khởi động ---------- */
 renderMeta(); renderTips(); renderPlan(); renderTodo(); renderCheck(); initCostForm(); renderCost();
+
+/* ---------- Nhắc việc tự động theo thời gian ---------- */
+/* Giờ ghi kèm múi giờ: +07:00 là giờ Hà Nội, +08:00 là giờ Bắc Kinh */
+const REMIND = [
+  { id: "ccc", end: "2026-11-25T12:00+08:00", hot: true, ck: 6, from: "2026-11-18T19:00+07:00", due: "2026-11-24T20:00+08:00", t: "Vé Tử Cấm Thành ngày 25/11", d: "Đã mở bán. Nếu chưa có vé, xem vé trả lại trên mini program 故宫博物院 hoặc intl.dpm.org.cn.", go: "checklist" },
+  { id: "hacp", end: "2026-11-24T18:00+08:00", hot: true, ck: 7, from: "2026-11-17T00:00+08:00", due: "2026-11-23T20:00+08:00", t: "Đặt khung giờ hạ cờ Thiên An Môn 24/11", d: "Mini program 天安门广场预约参观, đặt bằng hộ chiếu.", go: "checklist" },
+  { id: "btqg", end: "2026-11-24T17:00+08:00", hot: true, ck: 8, from: "2026-11-17T00:00+08:00", due: "2026-11-23T17:00+08:00", t: "Vé Bảo tàng Quốc gia 24/11", d: "Mini program 国家博物馆, chọn Passport. Hết thì đổi sang Bảo tàng Thủ Đô.", go: "checklist" },
+  { id: "ks", end: "2026-11-23T22:00+08:00", ck: 3, from: "2026-11-19T00:00+07:00", due: "2026-11-22T21:00+07:00", t: "Nhắn khách sạn", d: "Tới muộn đêm 23/11, ở nguyên phòng ngày 28/11, phòng đủ 3 người, gửi hành lý đến 18:30 ngày 30/11.", go: "checklist" },
+  { id: "xe", end: "2026-11-23T18:00+07:00", ck: 11, from: "2026-11-19T00:00+07:00", due: "2026-11-22T21:00+07:00", t: "Đặt xe sân bay PKX", d: "Xe đón đêm 23/11 (đáp 22:15) và xe 18:45 ngày 30/11. Trip.com → Airport Transfer.", go: "checklist" },
+  { id: "hl", end: "2026-11-23T15:00+07:00", ck: 12, from: "2026-11-19T00:00+07:00", due: "2026-11-22T12:00+07:00", t: "Mua thêm hành lý ký gửi", d: "Vé đang 0 kg ký gửi. Mua trên web Vietjet rẻ hơn tại quầy.", go: "checklist" },
+  { id: "app", end: "2026-11-23T18:00+07:00", ck: 15, from: "2026-11-19T00:00+07:00", due: "2026-11-23T12:00+07:00", t: "Cài DiDi và Amap", d: "Lưu địa chỉ khách sạn tiếng Trung, tải bản đồ ngoại tuyến.", go: "checklist" },
+  { id: "sim", end: "2026-11-23T18:00+07:00", ck: 16, from: "2026-11-19T00:00+07:00", due: "2026-11-22T21:00+07:00", t: "eSIM và VPN", d: "Mua eSIM, cài và thử VPN cho MacBook, iPad khi còn ở Việt Nam.", go: "checklist" },
+  { id: "ao", end: "2026-11-23T13:30+07:00", ck: 17, from: "2026-11-20T00:00+07:00", due: "2026-11-23T10:00+07:00", t: "Soạn đồ ấm", d: "Áo phao, giữ nhiệt, găng, mũ len, khăn, giày đế bám, miếng dán giữ nhiệt.", go: "checklist" },
+  { id: "sac", end: "2026-11-23T13:30+07:00", ck: 18, from: "2026-11-20T00:00+07:00", due: "2026-11-23T10:00+07:00", t: "Sạc dự phòng, dây sạc, ổ cắm", d: "Sạc dự phòng để trong hành lý xách tay.", go: "checklist" },
+  { id: "bh", end: "2026-11-23T18:00+07:00", ck: 19, from: "2026-11-19T00:00+07:00", due: "2026-11-22T21:00+07:00", t: "Bảo hiểm du lịch, ít tiền mặt CNY", d: "Mua bảo hiểm trước ngày bay.", go: "checklist" },
+  { id: "cb", end: "2026-11-26T08:00+08:00", ck: 9, from: "2026-11-19T00:00+07:00", due: "2026-11-25T20:00+08:00", t: "Xe buýt Cổ Bắc và vé Tư Mã Đài ngày 26/11", d: "Xe: mini program 北京定制公交. Vé combo khoảng 220–280 tệ.", go: "checklist" },
+  { id: "btd", end: "2026-11-29T17:00+08:00", ck: 10, from: "2026-11-21T00:00+08:00", due: "2026-11-28T17:00+08:00", t: "Vé Bảo tàng Thủ Đô ngày 29/11", d: "Mở đặt khoảng 22/11. Tìm 首都博物馆 trên WeChat, đặt bằng hộ chiếu.", go: "checklist" },
+  { id: "pku", todo: "Email xin vào Đại học Bắc Kinh", from: "2026-11-19T00:00+07:00", due: "2026-11-28T14:00+08:00", soft: true, t: "Chờ Bắc Đại trả lời", d: "Xem email và WeChat suhao2410. Có xác nhận thì lưu lại để đưa bảo vệ xem.", go: "dat-truoc" },
+  { id: "thu", todo: "Email xin vào Đại học Thanh Hoa", from: "2026-11-19T00:00+07:00", due: "2026-11-28T10:00+08:00", soft: true, t: "Chờ Thanh Hoa trả lời", d: "Xem email và WeChat suhao2410. Có xác nhận thì lưu lại.", go: "dat-truoc" },
+  { id: "ci", from: "2026-11-22T18:00+07:00", due: "2026-11-23T13:30+07:00", t: "Check-in online chuyến VJ6042", d: "Thử check-in trên web hoặc app Vietjet nếu đã mở, lưu thẻ lên máy bay.", go: "thong-tin" },
+  { id: "d23", from: "2026-11-23T00:00+07:00", due: "2026-11-23T13:30+07:00", t: "Hôm nay bay: rời nhà lúc 13:30", d: "VJ6042 cất cánh 18:00. Mang hộ chiếu có visa, sạc dự phòng để xách tay.", go: "lich-trinh" },
+  { id: "d24", from: "2026-11-23T20:00+08:00", due: "2026-11-24T17:00+08:00", t: "Mang hộ chiếu gốc đi Bảo tàng và Thiên An Môn", d: "Vé đặt theo tên, cổng nào cũng kiểm tra hộ chiếu.", go: "lich-trinh" },
+  { id: "d25a", from: "2026-11-24T20:00+08:00", due: "2026-11-25T12:00+08:00", t: "Vào Tử Cấm Thành trước 12:00", d: "Nếu vé suất sáng. Mang đúng hộ chiếu dùng để đặt vé.", go: "lich-trinh" },
+  { id: "d25b", from: "2026-11-25T12:00+08:00", due: "2026-11-25T16:15+08:00", t: "Lên Cảnh Sơn khoảng 16:15 ngắm hoàng hôn", d: "Đứng ở đình Vạn Xuân nhìn xuống Tử Cấm Thành.", go: "lich-trinh" },
+  { id: "d26", from: "2026-11-25T18:00+08:00", due: "2026-11-26T07:30+08:00", t: "Mai dậy sớm: rời khách sạn 7:30", d: "Kịp xe buýt đi Cổ Bắc. Mặc đồ chống gió.", go: "lich-trinh" },
+  { id: "d27", from: "2026-11-26T18:00+08:00", due: "2026-11-27T12:00+08:00", t: "Chọn phương án buổi chiều 27/11", d: "A, B hoặc C trong Lịch trình ngày 27.", go: "lich-trinh" },
+  { id: "d28a", from: "2026-11-27T18:00+08:00", due: "2026-11-28T12:00+08:00", t: "Trả phòng đơn 1 trước 12:00, chuyển sang đơn 2", d: "Mã đơn 2: 50512095. Xin ở nguyên phòng.", go: "thong-tin" },
+  { id: "d28b", from: "2026-11-28T06:00+08:00", due: "2026-11-28T14:00+08:00", t: "Tham quan trường: mang hộ chiếu và email xác nhận", d: "Thanh Hoa buổi sáng, Bắc Đại khung 14:00.", go: "lich-trinh" },
+  { id: "d30a", from: "2026-11-29T18:00+08:00", due: "2026-11-30T12:00+08:00", t: "Trả phòng trước 12:00, gửi hành lý", d: "Gửi được đến 18:30. Kiểm tra lại đồ trong phòng.", go: "lich-trinh" },
+  { id: "d30b", from: "2026-11-30T12:00+08:00", due: "2026-11-30T18:45+08:00", t: "Rời khách sạn 18:45 ra sân bay Đại Hưng", d: "VJ6043 cất cánh 23:15. Hành lý ký gửi, sạc dự phòng xách tay.", go: "lich-trinh" }
+];
+let rmOpen = false;
+const rmShort = t => t.length <= 90 ? t : t.slice(0, t.lastIndexOf(" ", 88)) + "…";
+const rmDismissed = new Set(store.get("rmDismissed", []));
+function rmWhen(due, now) {
+  const ms = due - now, h = ms / 36e5;
+  const hm = due.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+  if (ms < 0) return ["Quá hạn", "lv-red"];
+  if (h < 1) return ["Còn " + Math.max(1, Math.round(ms / 6e4)) + " phút", "lv-red"];
+  if (due.toDateString() === now.toDateString()) return ["Hôm nay " + hm, "lv-red"];
+  if (h < 24) return ["Mai " + hm, "lv-red"];
+  const d = Math.ceil(h / 24);
+  return ["Còn " + d + " ngày", d <= 3 ? "lv-orange" : "lv-violet"];
+}
+function rmItems(now) {
+  const out = [];
+  REMIND.forEach(r => {
+    const from = new Date(r.from), due = new Date(r.due);
+    if (now < from || rmDismissed.has(r.id)) return;
+    if (r.end && now > new Date(r.end)) return;
+    if (r.ck != null && state.checked[r.ck]) return;
+    if (r.todo) { const t = TODO.find(x => x[0] === r.todo); if (t && statusOf(t) === "done") return; }
+    const late = now > due;
+    if (late && r.ck == null && !r.todo) return;
+    if (late && r.soft) return;
+    let [when, lv] = rmWhen(due, now);
+    if (r.soft && lv !== "lv-red") lv = "lv-blue";
+    if (r.hot && !late && lv !== "lv-red") { lv = "lv-red"; when = "Làm ngay · " + when.toLowerCase(); }
+    out.push({ r, due, when, lv, can: r.ck != null || (!r.todo) });
+  });
+  // trong chuyến đi: hoạt động tiếp theo hôm nay, nhắc ghi chi tiêu buổi tối
+  if (now.getFullYear() === 2026 && now.getMonth() === 10 && now.getDate() >= 23 && now.getDate() <= 30) {
+    const d = now.getDate(), mins = now.getHours() * 60 + now.getMinutes();
+    const next = ACT.filter(a => a[0] === d && (a[6] === "Chung" || a[6] === state.opt)).map(a => { const m = /^(\d{1,2}):(\d{2})/.exec(a[1]); return m ? { a, t: +m[1] * 60 + +m[2] } : null; }).filter(x => x && x.t >= mins).sort((x, y) => x.t - y.t)[0];
+    if (next) { const due = new Date(now); due.setHours(Math.floor(next.t / 60), next.t % 60, 0, 0); out.push({ r: { id: "next", t: "Tiếp theo: " + next.a[2], d: next.a[1] + " · " + rmShort(next.a[4] || ""), go: "lich-trinh" }, due, when: "Lúc " + next.a[1].slice(0, 5), lv: "lv-blue", can: false }); }
+    if (now.getHours() >= 20 && typeof EXP !== "undefined" && !EXP.some(e => e.day === String(d) && e.type !== "transfer")) out.push({ r: { id: "exp" + d, t: "Ghi chi tiêu hôm nay", d: "Chưa có khoản chi nào cho ngày " + d + "/11.", go: "chi-phi" }, due: new Date(now.getTime() + 36e5 * (24 - now.getHours())), when: "Tối nay", lv: "lv-orange", can: false });
+  }
+  const rank = { "lv-red": 0, "lv-orange": 1, "lv-blue": 2, "lv-violet": 3 };
+  return out.sort((a, b) => (b.r.id === "next") - (a.r.id === "next") || rank[a.lv] - rank[b.lv] || a.due - b.due);
+}
+function rmDone(x) {
+  if (x.r.ck != null) { state.checked[x.r.ck] = true; persist(); renderCheck(); renderTabs(); }
+  else { rmDismissed.add(x.r.id); store.set("rmDismissed", [...rmDismissed]); }
+  toast("Đã đánh dấu xong ✓"); renderRemind();
+}
+function renderRemind() {
+  const box = document.getElementById("remind"); if (!box) return;
+  const now = new Date(), items = rmItems(now);
+  const urgent = items.filter(x => x.lv === "lv-red");
+  const sig = urgent.map(x => x.r.id).sort().join(",");
+  let hid = store.get("rmHidden", null);
+  if (hid && urgent.some(x => !hid.split(",").includes(x.r.id))) { hid = null; store.set("rmHidden", null); }
+  const collapsed = hid !== null;
+  box.dataset.urgent = urgent.length ? "1" : "0";
+  box.textContent = "";
+  const sum = items.length ? items.length + " việc" + (urgent.length ? ", " + urgent.length + " gấp" : "") : "Không có việc nào cần nhắc";
+  box.append(el("div", { class: "rm-head" }, [el("span", { class: "bell", text: "🔔" }), el("b", { text: "Nhắc việc" }), el("span", { class: "rm-sum", text: "· " + sum }),
+    el("button", { class: "rm-tog", type: "button", "aria-expanded": String(!collapsed), onclick: () => { store.set("rmHidden", collapsed ? null : (sig || "-")); renderRemind(); } }, [collapsed ? "Xem lại (" + items.length + ")" : "Ẩn"])]));
+  const body = el("div", { class: "rm-body" }); body.hidden = collapsed; box.append(body);
+  if (!items.length) { body.append(el("div", { class: "rm-empty", text: "Mọi việc đã xong, chỉ việc đi chơi thôi 💜" })); return; }
+  const list = el("ul", { class: "rm-list" });
+  const show = rmOpen ? items : items.slice(0, 4);
+  show.forEach((x, i) => {
+    const acts = el("div", { class: "acts" }, [x.r.go ? el("button", { type: "button", onclick: () => go(x.r.go) }, ["Mở"]) : "", x.can ? el("button", { class: "ok", type: "button", onclick: () => rmDone(x) }, ["Xong ✓"]) : ""]);
+    list.append(el("li", { class: "rm-item " + x.lv, style: "--i:" + i }, [el("span", { class: "bar" }), el("div", {}, [el("div", { class: "tt", text: x.r.t }), el("div", { class: "dd", text: x.r.d })]), el("div", { class: "side" }, [el("span", { class: "when", text: x.when }), acts])]));
+  });
+  body.append(list);
+  if (items.length > 4) body.append(el("button", { class: "rm-more", type: "button", onclick: () => { rmOpen = !rmOpen; renderRemind(); } }, [rmOpen ? "Thu gọn" : "Xem tất cả " + items.length + " việc"]));
+}
+renderRemind(); window.__rmReady = true;
+setInterval(renderRemind, 60000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) { renderRemind(); renderMeta(); } });
 const h = location.hash.slice(1);
 if (VIEWS.some(v => v[0] === h)) state.view = h;
 renderTabs();
@@ -1962,9 +2113,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261119165226" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261119165820" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261119165226";
+  var BUILD = "20261119165820";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
