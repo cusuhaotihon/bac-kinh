@@ -228,7 +228,7 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
       <button data-t="auto">Tự động</button><button data-t="light">Sáng</button><button data-t="dark">Tối</button>
     </div>
     <h1>Cẩm nang Bắc Kinh</h1>
-    <p class="sub">23–30/11/2026 · Trần Thu Hà và Phạm Thúy Hiền</p>
+    <p class="sub">23–30/11/2026 · Trần Thu Hà, Phạm Thúy Hiền, Nguyễn Phương Thanh</p>
     <div class="meta" id="meta"></div>
     <p class="sync" id="sync" data-ok="0">Dữ liệu cập nhật ngày 19/11/2026.</p>
   </header>
@@ -331,7 +331,7 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
         <form class="form" id="expForm" autocomplete="off">
           <label class="w2">Ngày<select id="fDay"></select></label>
           <label class="w2">Hạng mục<select id="fCat"></select></label>
-          <label class="w2">Ai trả<select id="fWho"><option>Hà</option><option>Hiền</option><option>Chung</option></select></label>
+          <label class="w2">Ai trả<select id="fWho"><option>Hà</option><option>Hiền</option><option>Thanh</option><option value="Chung">Chung (quỹ chung)</option></select></label>
           <label class="w6">Chi cho gì, ở đâu<input id="fDesc" placeholder="Ví dụ: Vé Tử Cấm Thành, 2 người" required></label>
           <label class="w3">Số tiền<input id="fAmt" type="number" inputmode="decimal" min="0" step="any" placeholder="0" required></label>
           <label class="w3">Đơn vị<select id="fCur"><option value="CNY">¥ (tệ)</option><option value="VND">VNĐ</option></select></label>
@@ -348,7 +348,7 @@ footer { color: var(--muted); font-size: 13px; padding: 16px 0 40px; }
         <div class="form">
           <label class="w3">Tỉ giá (VNĐ cho 1 ¥)<input id="fRate" type="number" inputmode="decimal" min="0" step="any"></label>
         </div>
-        <p class="small" style="color:var(--muted);font-size:14px">Các khoản chi lưu trên máy này. Muốn chuyển sang máy khác hoặc gửi cho Hiền, bấm "Sao chép dữ liệu", dán vào tin nhắn, rồi ở máy kia dán vào ô bên dưới và bấm "Nhập".</p>
+        <p class="small" style="color:var(--muted);font-size:14px">Các khoản chi lưu trên máy này. Muốn chuyển sang máy khác hoặc gửi cho Hiền và Thanh, bấm "Sao chép dữ liệu", dán vào tin nhắn, rồi ở máy kia dán vào ô bên dưới và bấm "Nhập".</p>
         <div class="row-btns">
           <button class="btn ghost" type="button" id="bCopy">Sao chép dữ liệu</button>
           <button class="btn ghost" type="button" id="bCsv">Tải file Excel (CSV)</button>
@@ -860,13 +860,19 @@ function renderCost() {
   const today = defaultDay();
   const todayT = EXP.filter(e => e.day === today).reduce((s, e) => s + toVnd(e), 0);
   const by = w => EXP.filter(e => e.who === w).reduce((s, e) => s + toVnd(e), 0);
-  const ha = by("Hà"), hien = by("Hiền"), diff = (ha - hien) / 2;
+  const PEOPLE = ["Hà", "Hiền", "Thanh"];
+  const paid = PEOPLE.map(by), share = paid.reduce((a, b) => a + b, 0) / PEOPLE.length;
+  const bal = PEOPLE.map((p, i) => ({ p, v: paid[i] - share }));
+  const debt = bal.filter(x => x.v < -1).map(x => ({ ...x, v: -x.v })), cred = bal.filter(x => x.v > 1);
+  const moves = [];
+  for (const d of debt) for (const c of cred) { const m = Math.min(d.v, c.v); if (m > 1) { moves.push(d.p + " gửi " + c.p + " " + vnd(m)); d.v -= m; c.v -= m; } }
   const sum = $("#costSum"); sum.textContent = "";
   sum.append(
     el("div", { class: "panel" }, [el("p", { class: "k", text: "Tổng đã chi" }), el("div", { class: "big", text: vnd(total) }), el("div", { class: "small", text: "≈ " + cny(total / RATE) + " · " + EXP.length + " khoản" })]),
     el("div", { class: "panel" }, [el("p", { class: "k", text: today === "truoc" ? "Chi trước chuyến đi" : "Hôm nay " + today + "/11" }), el("div", { class: "big", text: vnd(todayT) })]),
-    el("div", { class: "panel" }, [el("p", { class: "k", text: "Hà / Hiền tự trả" }), el("div", { class: "small", text: "Hà " + vnd(ha) }), el("div", { class: "small", text: "Hiền " + vnd(hien) }),
-      el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: Math.abs(diff) < 1 ? "Hai bạn đang bằng nhau" : (diff > 0 ? "Hiền gửi Hà " : "Hà gửi Hiền ") + vnd(Math.abs(diff)) })])
+    el("div", { class: "panel" }, [el("p", { class: "k", text: "Ai trả bao nhiêu" }), ...PEOPLE.map((p, i) => el("div", { class: "small", text: p + " " + vnd(paid[i]) })),
+      el("div", { class: "small", text: "Mỗi người nên chịu " + vnd(share) }),
+      ...(moves.length ? moves.map(t => el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: t })) : [el("div", { class: "small", style: "font-weight:800;color:var(--ink)", text: "Ba bạn đang bằng nhau" })])])
   );
   const bars = $("#catBars"); bars.textContent = "";
   const cats = COST_CATS.map(c => [c, EXP.filter(e => e.cat === c).reduce((s, e) => s + toVnd(e), 0)]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
