@@ -672,6 +672,26 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
   .vh-s { font-size: 13.5px; }
 }
 
+/* ---------- Vé và giấy tờ ---------- */
+.docs-wrap { margin: 0 0 18px; }
+.docs-wrap h3 { font-size: 17px; margin: 0 0 10px; color: var(--accent); }
+.docs { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.doc { display: flex; gap: 12px; align-items: center; text-align: left; width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px; box-shadow: 0 8px 20px -16px rgba(70, 45, 140, .5); transition: transform .15s ease, box-shadow .25s ease; }
+.doc:active { transform: scale(.97); }
+.doc img { width: 64px; height: 64px; object-fit: cover; object-position: top; border-radius: 10px; border: 1px solid var(--line); flex: none; background: #fff; }
+.doc b { display: block; font-size: 14.5px; line-height: 1.3; }
+.doc small { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+.doc .tag-d { display: inline-block; margin-top: 4px; font-size: 11.5px; font-weight: 800; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 1px 8px; }
+.docs-note { color: var(--muted); font-size: 12.5px; margin: 8px 0 0; }
+.day-docs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.day-docs button { border: 1.5px solid var(--accent); background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 5px 12px; font-size: 13.5px; font-weight: 800; }
+.lightbox { position: fixed; inset: 0; z-index: 60; background: rgba(15, 10, 30, .88); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; animation: fadeIn .2s ease both; }
+.lightbox[hidden] { display: none; }
+.lightbox img { max-width: 100%; max-height: calc(100vh - 140px); border-radius: 12px; background: #fff; box-shadow: 0 20px 60px rgba(0, 0, 0, .5); }
+.lightbox .lb-cap { color: #fff; font-weight: 700; margin: 12px 0 8px; text-align: center; font-size: 14.5px; }
+.lightbox .lb-acts { display: flex; gap: 10px; }
+.lightbox .lb-acts a, .lightbox .lb-acts button { border: 0; background: #fff; color: #2b2540; border-radius: 999px; padding: 8px 16px; font-weight: 800; font-size: 14px; text-decoration: none; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .scene .plane, .scene .leaf, .scene .smoke, .scene .cl, .scene .birds { display: none; }
@@ -679,6 +699,7 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
 </style>
 </head>
 <body>
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true"><img id="lbImg" alt=""><div class="lb-cap" id="lbCap"></div><div class="lb-acts"><a id="lbOpen" href="#" target="_blank" rel="noopener">Mở ảnh gốc</a><button type="button" id="lbClose">Đóng</button></div></div>
 <div class="wrap">
   <header class="top">
     <div class="hero" id="hero" data-night="0">
@@ -718,6 +739,7 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
     <!-- Đặt trước -->
     <section id="v-dat-truoc" hidden>
       <div class="vhead"><span class="vh-ico" aria-hidden="true"></span><div><h2 class="vh-t"></h2><p class="vh-s"></p></div></div>
+      <div class="docs-wrap"><h3>🎫 Vé và giấy tờ đã có</h3><div class="docs" id="docs"></div><p class="docs-note">Bấm vào để mở ảnh to. Ảnh cũng nên lưu sẵn trong máy phòng khi mất mạng.</p></div>
       <div class="controls" id="todoFilter" role="group" aria-label="Lọc theo trạng thái"></div>
       <ul class="todo" id="todoList"></ul>
     </section>
@@ -1634,6 +1656,27 @@ function setScene(day) {
   const r = document.documentElement.style; r.setProperty("--sky1", sc.sky[0]); r.setProperty("--sky2", sc.sky[1]);
 }
 
+
+/* ---------- Vé và giấy tờ ---------- */
+const DOCS = [
+  { img: "img/ve-tu-cam-thanh-25-11.jpg", t: "Vé Tử Cấm Thành", sub: "25/11 buổi sáng · 3 vé · mã đơn 20261120910091118973", day: 25, note: "Vào cổng trước 12:00, quẹt đúng hộ chiếu đã đặt" }
+];
+function openDoc(d) {
+  const lb = document.getElementById("lightbox");
+  document.getElementById("lbImg").src = d.img; document.getElementById("lbImg").alt = d.t;
+  document.getElementById("lbCap").textContent = d.t + " · " + d.sub + (d.note ? " · " + d.note : "");
+  document.getElementById("lbOpen").href = d.img;
+  lb.hidden = false;
+}
+function closeDoc() { document.getElementById("lightbox").hidden = true; }
+document.getElementById("lbClose").addEventListener("click", closeDoc);
+document.getElementById("lightbox").addEventListener("click", e => { if (e.target.id === "lightbox") closeDoc(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeDoc(); });
+function renderDocs() {
+  const box = document.getElementById("docs"); if (!box) return; box.textContent = "";
+  DOCS.forEach(d => box.append(el("button", { class: "doc", type: "button", onclick: () => openDoc(d) }, [el("img", { src: d.img, alt: "", loading: "lazy" }), el("div", {}, [el("b", { text: d.t }), el("small", { text: d.sub }), d.day ? el("span", { class: "tag-d", text: "Ngày " + d.day + "/11" }) : ""])])));
+}
+renderDocs();
 /* ---------- Lịch trình ---------- */
 const CAT_ICO = { "Di chuyển": "🚕", "Tham quan": "🏯", "Ăn uống": "🥢", "Mua sắm": "🛍️", "Nghỉ": "😴", "Khác": "📎" };
 function renderDays() {
@@ -1647,6 +1690,8 @@ function renderPlan() {
   const d = DAYS.find(x => x.d === state.day);
   const head = $("#dayHead"); head.textContent = ""; head.classList.toggle("anim", anim);
   head.append(el("h2", { text: d.w + " " + d.d + "/11 · " + d.t }), el("p", { text: d.n }));
+  const dd = DOCS.filter(x => x.day === d.d);
+  if (dd.length) head.append(el("div", { class: "day-docs" }, dd.map(x => el("button", { type: "button", onclick: () => openDoc(x) }, ["🎫 Xem " + x.t.toLowerCase()]))));
 
   // phương án A/B/C cho 27/11
   const ob = $("#optBox"); ob.textContent = "";
@@ -2141,9 +2186,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261119180429" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261119180523" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261119180429";
+  var BUILD = "20261119180523";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
