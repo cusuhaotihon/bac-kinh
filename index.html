@@ -178,6 +178,8 @@ section[hidden] { display: none; }
 .checks li.is-done .t { text-decoration: line-through; }
 
 /* chi phí */
+.people { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 640px) { .people { grid-template-columns: 1fr; } }
 .cost-sum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .cost-sum .panel { padding: 12px 14px; }
 .cost-sum .big { white-space: nowrap; font-family: var(--display); font-size: clamp(18px, 5vw, 24px); font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
@@ -929,14 +931,16 @@ function renderCost() {
       const out = p => EXP.filter(e => !isTr(e) && e.who === p).reduce((s, e) => s + toVnd(e), 0);
       const gave = p => EXP.filter(e => isTr(e) && e.from === p).reduce((s, e) => s + toVnd(e), 0);
       const got = p => EXP.filter(e => isTr(e) && e.to === p).reduce((s, e) => s + toVnd(e), 0);
-      const th = t => el("th", { text: t, style: "text-align:right;padding:6px 8px;font-size:13px;color:var(--muted)" });
-      const td = (t, b) => el("td", { text: t, style: "text-align:right;padding:6px 8px;font-variant-numeric:tabular-nums" + (b ? ";font-weight:800" : "") });
-      const rows = PEOPLE.map(p => el("tr", { style: "border-top:1px solid var(--line)" }, [el("td", { text: p, style: "padding:6px 8px;font-weight:800" }), td(vnd(out(p))), td(gave(p) ? vnd(gave(p)) : got(p) ? "nhận " + vnd(got(p)) : "–"), td(vnd(out(p) + gave(p)), true), td(vnd(used[p]))]));
-      return el("div", { class: "panel", style: "grid-column:1 / -1;overflow-x:auto" }, [el("p", { class: "k", text: "Mỗi người đã chi ra" }),
-        el("table", { style: "width:100%;border-collapse:collapse;font-size:14px;min-width:420px" }, [
-          el("thead", {}, [el("tr", {}, [el("th", { text: "", style: "padding:6px 8px" }), th("Tự trả"), th("Góp quỹ"), th("Tổng bỏ ra"), th("Phần đã tiêu")])]),
-          el("tbody", {}, rows)]),
-        el("div", { class: "small", style: "margin-top:6px", text: "Tự trả: các khoản người đó đứng ra thanh toán. Phần đã tiêu: phần thuộc về người đó (vé riêng cộng 1/3 các khoản chung)." })]);
+      const line = (k, v, strong) => el("div", { style: "display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:3px 0" + (strong ? ";font-weight:800" : "") }, [el("span", { text: k, style: strong ? "" : "color:var(--muted)" }), el("span", { text: v, style: "font-variant-numeric:tabular-nums;white-space:nowrap" })]);
+      const cards = PEOPLE.map(p => el("div", { style: "border:1px solid var(--line);border-radius:12px;padding:10px 12px" }, [
+        el("div", { text: p, style: "font-family:var(--display);font-weight:700;font-size:17px;margin-bottom:4px" }),
+        line("Tự trả", vnd(out(p))),
+        gave(p) ? line("Góp quỹ", vnd(gave(p))) : got(p) ? line("Nhận góp", vnd(got(p))) : line("Góp quỹ", "–"),
+        line("Tổng bỏ ra", vnd(out(p) + gave(p)), true),
+        line("Phần đã tiêu", vnd(used[p]))]));
+      return el("div", { class: "panel", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "Mỗi người đã chi ra" }),
+        el("div", { class: "people" }, cards),
+        el("div", { class: "small", style: "margin-top:8px", text: "Tự trả: các khoản người đó đứng ra thanh toán. Phần đã tiêu: phần thuộc về người đó (vé riêng cộng 1/3 các khoản chung)." })]);
     })()
   );
   const bars = $("#catBars"); bars.textContent = "";
@@ -966,7 +970,7 @@ function renderCost() {
   });
 }
 /* ---------- Tự kiểm tra bản mới ---------- */
-const BUILD = "20261119092611";
+const BUILD = "20261119092733";
 async function checkUpdate() {
   try {
     const r = await fetch(location.pathname + "?nocache=" + Date.now(), { cache: "no-store" });
