@@ -1224,7 +1224,7 @@ let ACT = [
 ];
 /* [hạng mục, hạn chót, cách làm] */
 let TODO = [
- ["Email xin vào Đại học Bắc Kinh","Đã gửi 19/11, chờ trường trả lời","Gửi tới campus.visit@pku.edu.cn (địa chỉ từ một nguồn bên ngoài, hãy xác nhận trên trang pku.edu.cn). Người nước ngoài không đặt được qua mini program WeChat thường. Mẫu email nằm ở sheet 8."],
+ ["Email xin vào Đại học Bắc Kinh","Đã gửi 19/11; trường tự động trả lời: nếu được duyệt sẽ báo trong 2 ngày làm việc, tới 26/11 chưa có thư là không được","Gửi tới campus.visit@pku.edu.cn (địa chỉ từ một nguồn bên ngoài, hãy xác nhận trên trang pku.edu.cn). Người nước ngoài không đặt được qua mini program WeChat thường. Mẫu email nằm ở sheet 8."],
  ["Email xin vào Đại học Thanh Hoa","Đã gửi 19/11, chờ trường trả lời","Gửi tới bwb@mail.tsinghua.edu.cn (theo trang chính thức của trường). Mini program “Visit Tsinghua” chỉ nhận CMND Trung Quốc đại lục. Mẫu email nằm ở sheet 8."],
  ["Vé Bảo tàng Quốc gia","Khoảng 17/11 cho ngày 24/11","Miễn phí, đặt theo tên bằng hộ chiếu, mở đặt tối đa 7 ngày trước. Vé rất nhanh hết. Nếu không đặt được, đổi sang Bảo tàng Thủ Đô (đặt qua WeChat chính thức, mở khoảng 7 ngày trước, mang hộ chiếu)."],
  ["Đặt khung giờ Quảng trường Thiên An Môn","Từ 17/11 (đặt được 1–7 ngày trước), cho ngày 24/11","Miễn phí, đặt theo tên bằng hộ chiếu trên WeChat mini program 天安门广场预约. Chọn khung giờ 降旗 (hạ cờ) cho chiều 24/11. Vé Bảo tàng Quốc gia hoặc Tử Cấm Thành có nguồn ghi cũng cho vào quảng trường, nhưng không dùng được cho lễ hạ cờ, nên đặt riêng để chắc chắn."],
@@ -2110,7 +2110,7 @@ const REMIND = [
   { id: "bh", end: "2026-11-23T18:00+07:00", ck: 19, from: "2026-11-19T00:00+07:00", due: "2026-11-22T21:00+07:00", t: "Bảo hiểm du lịch, ít tiền mặt CNY", d: "Mua bảo hiểm trước ngày bay.", go: "checklist" },
   { id: "cb", opt26: "CB", end: "2026-11-26T08:00+08:00", ck: 9, from: "2026-11-19T00:00+07:00", due: "2026-11-25T20:00+08:00", t: "Xe buýt Cổ Bắc và vé Tư Mã Đài ngày 26/11", d: "Xe: mini program 北京定制公交. Vé combo khoảng 220–280 tệ.", go: "checklist" },
   { id: "btd", end: "2026-11-29T17:00+08:00", ck: 10, from: "2026-11-21T00:00+08:00", due: "2026-11-28T17:00+08:00", t: "Vé Bảo tàng Thủ Đô ngày 29/11", d: "Mở đặt khoảng 22/11. Tìm 首都博物馆 trên WeChat, đặt bằng hộ chiếu.", go: "checklist" },
-  { id: "pku", todo: "Email xin vào Đại học Bắc Kinh", from: "2026-11-19T00:00+07:00", due: "2026-11-28T14:00+08:00", soft: true, t: "Chờ Bắc Đại trả lời", d: "Xem email và WeChat suhao2410. Có xác nhận thì lưu lại để đưa bảo vệ xem.", go: "dat-truoc" },
+  { id: "pku", todo: "Email xin vào Đại học Bắc Kinh", from: "2026-11-19T00:00+07:00", due: "2026-11-26T23:59+08:00", soft: true, t: "Chờ Bắc Đại duyệt (mốc cuối 26/11)", d: "Trường đã nhận email. Nếu được duyệt sẽ trả lời qua email trong 2 ngày làm việc; tới 26/11 chưa có thư thì coi như không được vào, đừng gửi lại.", go: "dat-truoc" },
   { id: "thu", todo: "Email xin vào Đại học Thanh Hoa", from: "2026-11-19T00:00+07:00", due: "2026-11-28T10:00+08:00", soft: true, t: "Chờ Thanh Hoa trả lời", d: "Xem email và WeChat suhao2410. Có xác nhận thì lưu lại.", go: "dat-truoc" },
   { id: "ci", from: "2026-11-22T18:00+07:00", due: "2026-11-23T13:30+07:00", t: "Check-in online chuyến VJ6042", d: "Thử check-in trên web hoặc app Vietjet nếu đã mở, lưu thẻ lên máy bay.", go: "thong-tin" },
   { id: "d23", from: "2026-11-23T00:00+07:00", due: "2026-11-23T13:30+07:00", t: "Hôm nay bay: rời nhà lúc 13:30", d: "VJ6042 cất cánh 18:00. Mang hộ chiếu có visa, sạc dự phòng để xách tay.", go: "lich-trinh" },
@@ -2206,9 +2206,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261119182947" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261119183456" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261119182947";
+  var BUILD = "20261119183456";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
