@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120112742"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120114227"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1129,6 +1129,26 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
   .urg-ov.calm .urg-later { background: color-mix(in srgb, #8a6fdc 8%, var(--surface)); }
 }
 @keyframes sheetUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ---------- Điện thoại: ngăn chọn mục bên phải ---------- */
+.nav-handle, .nav-scrim { display: none; }
+@media (max-width: 640px) {
+  nav.views { top: 50%; bottom: auto; left: auto; right: 0; width: min(250px, 74vw); transform: translate(105%, -50%); transition: transform .32s cubic-bezier(.2, .8, .2, 1); border: 1px solid var(--line); border-right: 0; border-radius: 22px 0 0 22px; padding: 12px; box-shadow: -14px 0 34px -14px rgba(40, 20, 90, .45); z-index: 45; }
+  body.nav-open nav.views { transform: translate(0, -50%); }
+  nav.views .row { grid-template-columns: 1fr; gap: 8px; }
+  nav.views .view-btn { display: flex; align-items: center; gap: 10px; text-align: left; padding: 11px 14px; border-radius: 14px; font-size: 15px; }
+  nav.views .view-btn .lf { display: inline; } nav.views .view-btn .ls { display: none; }
+  nav.views .view-btn .badge { position: static; margin-left: auto; }
+  main { padding-bottom: calc(env(safe-area-inset-bottom) + 40px); }
+  footer { padding-bottom: calc(env(safe-area-inset-bottom) + 24px); }
+  .toast { bottom: calc(env(safe-area-inset-bottom) + 28px) !important; }
+  .nav-handle { display: flex; position: fixed; right: 0; top: 58%; z-index: 44; flex-direction: column; align-items: center; gap: 1px; padding: 9px 5px 7px 8px; border: 1px solid var(--line); border-right: 0; border-radius: 16px 0 0 16px; background: color-mix(in srgb, var(--surface) 90%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: -6px 8px 22px -12px rgba(40, 20, 90, .55); transition: opacity .2s ease, transform .2s ease; }
+  .nav-handle .nh-ico { font-size: 20px; line-height: 1; }
+  .nav-handle .nh-chev { font-size: 15px; font-weight: 800; color: var(--muted); line-height: 1; }
+  body.nav-open .nav-handle { opacity: 0; transform: translateX(100%); pointer-events: none; }
+  .nav-scrim { display: block; position: fixed; inset: 0; z-index: 43; background: rgba(20, 10, 40, .3); opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+  body.nav-open .nav-scrim { opacity: 1; pointer-events: auto; }
+}
 </style>
 </head>
 <body>
@@ -1933,7 +1953,7 @@ function renderTabs() {
   });
 }
 function go(id) {
-  state.view = id; renderTabs();
+  state.view = id; renderTabs(); navOpen(false);
   try { history.replaceState(null, "", "#" + id); } catch (e) { location.hash = id; }
   window.scrollTo({ top: 0 });
 }
@@ -2739,6 +2759,27 @@ function renderRemind() {
   body.append(list);
   if (items.length > 3) body.append(el("button", { class: "rm-more", type: "button", onclick: () => { rmOpen = !rmOpen; renderRemind(); } }, [rmOpen ? "Thu gọn" : "Xem tất cả " + items.length + " việc"]));
 }
+
+/* ---------- Điện thoại: ngăn chọn mục bên phải, mở/đóng linh hoạt ---------- */
+const navScrim = el("div", { class: "nav-scrim", onclick: () => navOpen(false) });
+const navHandle = el("button", { type: "button", class: "nav-handle", id: "navHandle", "aria-label": "Mở danh sách mục", "aria-expanded": "false", onclick: () => navOpen(!document.body.classList.contains("nav-open")) }, [el("span", { class: "nh-ico" }), el("span", { class: "nh-chev", text: "‹", "aria-hidden": "true" })]);
+document.body.append(navScrim, navHandle);
+function navOpen(on) { document.body.classList.toggle("nav-open", !!on); navHandle.setAttribute("aria-expanded", String(!!on)); }
+function syncHandle() { const v = VIEWS.find(x => x[0] === state.view) || VIEWS[0]; navHandle.querySelector(".nh-ico").textContent = v[3]; }
+syncHandle();
+const _rt = renderTabs; renderTabs = function () { _rt.apply(this, arguments); syncHandle(); };
+document.addEventListener("keydown", e => { if (e.key === "Escape") navOpen(false); });
+(function swipe() {
+  let x0 = null, y0 = 0, fromEdge = false;
+  addEventListener("touchstart", e => { const t = e.touches[0]; x0 = t.clientX; y0 = t.clientY; fromEdge = x0 > innerWidth - 24; }, { passive: true });
+  addEventListener("touchend", e => {
+    if (x0 == null || innerWidth > 640) return; const t = e.changedTouches[0], dx = t.clientX - x0, dy = Math.abs(t.clientY - y0);
+    if (dy < 50 && fromEdge && dx < -40) navOpen(true);
+    else if (dy < 50 && document.body.classList.contains("nav-open") && dx > 50) navOpen(false);
+    x0 = null;
+  }, { passive: true });
+})();
+
 renderRemind(); window.__rmReady = true;
 /* ---------- Cửa sổ báo đỏ khi mở trang nếu có việc gấp ---------- */
 let urgShownAt = 0;
@@ -2790,9 +2831,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120112742" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120114227" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120112742";
+  var BUILD = "20261120114227";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
