@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120110018"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120111038"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1034,6 +1034,17 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
   .dh-card .dh-scene { bottom: auto; height: 118px; }
   .dh-card::after { background: linear-gradient(180deg, transparent 0, transparent 96px, var(--surface) 118px); }
 }
+
+/* ---------- Thẻ hoạt động phủ màu trời của ngày (mờ, không hình) ---------- */
+@property --t1 { syntax: "<color>"; inherits: true; initial-value: #c9dcff; }
+@property --t2 { syntax: "<color>"; inherits: true; initial-value: #fde8f1; }
+#v-lich-trinh { transition: --t1 .9s ease, --t2 .9s ease; }
+#v-lich-trinh .timeline .card { background: linear-gradient(120deg, color-mix(in srgb, var(--t1) 9%, var(--surface)) 0%, var(--surface) 45%, color-mix(in srgb, var(--t2) 14%, var(--surface)) 100%); border-top-color: color-mix(in srgb, var(--t1) 18%, var(--line)); border-right-color: color-mix(in srgb, var(--t1) 18%, var(--line)); border-bottom-color: color-mix(in srgb, var(--t1) 18%, var(--line)); }
+#v-lich-trinh .timeline .card .how { border-top-color: color-mix(in srgb, var(--t1) 25%, var(--line)); }
+#v-lich-trinh .timeline .say { background: color-mix(in srgb, var(--t2) 12%, color-mix(in srgb, var(--surface) 85%, transparent)); border-color: color-mix(in srgb, var(--t1) 35%, var(--line)); }
+#v-lich-trinh .timeline .say > b, #v-lich-trinh .timeline .say .pyx { color: color-mix(in srgb, var(--t1) 55%, var(--accent)); }
+#v-lich-trinh .timeline .say-row { border-top-color: color-mix(in srgb, var(--t1) 20%, var(--line)); }
+#v-lich-trinh #catBar .chip.all[aria-pressed="true"] { background: linear-gradient(135deg, color-mix(in srgb, var(--t1) 22%, var(--surface)), color-mix(in srgb, var(--t2) 28%, var(--surface))); }
 </style>
 </head>
 <body>
@@ -2111,6 +2122,7 @@ function renderDays() {
 function renderPlan() {
   const anim = renderPlan.last !== state.day; renderPlan.last = state.day;
   renderDays(); $("#days").classList.toggle("anim", anim); setScene(state.day);
+  { const k = skyOf(state.day), sec = document.getElementById("v-lich-trinh"); sec.style.setProperty("--t1", k.d1); sec.style.setProperty("--t2", k.d2); }
   const d = DAYS.find(x => x.d === state.day);
   const head = $("#dayHead"); head.textContent = ""; head.classList.toggle("anim", anim);
   const dRows = ACT.filter(a => a[0] === d.d && partOK(a));
@@ -2651,9 +2663,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120110018" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120111038" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120110018";
+  var BUILD = "20261120111038";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
