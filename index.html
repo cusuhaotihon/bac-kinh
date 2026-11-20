@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120111926"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120112223"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1054,26 +1054,43 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
 .timeline .day-note .day-docs { margin-top: 8px; }
 .card.compact .day-docs { display: none; }
 
-/* ---------- Gọn hàng thông tin: đếm ngày và khách sạn lên ảnh đầu trang ---------- */
-.stats { grid-template-columns: 1fr 1fr !important; }
-.hero-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; animation: heroIn .8s .35s both; }
-.hp { display: inline-flex; align-items: baseline; gap: 6px; padding: 5px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; color: var(--ink); background: color-mix(in srgb, var(--surface) 78%, transparent); border: 1px solid color-mix(in srgb, var(--surface) 60%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 6px 16px -10px rgba(40, 20, 90, .5); text-shadow: none; white-space: nowrap; }
-.hp .st-v, .hp .cnt { font-weight: 800; }
-.hp-count { background: linear-gradient(135deg, #8a6ee0, #c98ade); color: #fff; border-color: transparent; }
-.hp-count .cnt { font-size: 15px; }
-.hp-dim { color: var(--muted); font-weight: 600; }
-.hp-count .st-v, .hp-count .cnt { color: #fff; }
+/* Cửa sổ báo đỏ */
+.urg-ov { position: fixed; inset: 0; z-index: 70; background: rgba(40, 8, 16, .55); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 16px; animation: fadeIn .2s ease both; }
+.urg-box { width: min(520px, 100%); max-height: calc(100vh - 32px); overflow: auto; background: var(--surface); border-radius: 20px; border: 2px solid #e5484d; box-shadow: 0 24px 60px -20px rgba(120, 10, 30, .6); animation: pop .35s ease both; }
+.urg-head { display: flex; gap: 12px; align-items: center; padding: 16px 18px; background: linear-gradient(135deg, #e5484d, #f2777b); color: #fff; }
+.urg-bell { font-size: 30px; display: inline-block; animation: ring 2.4s ease-in-out infinite; transform-origin: 50% 10%; }
+.urg-head h2 { font-size: 19px; color: #fff; margin: 0; }
+.urg-head p { margin: 2px 0 0; font-size: 13px; opacity: .92; }
+.urg-list { list-style: none; margin: 0; padding: 6px 0; }
+.urg-list li { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 12px 18px; border-top: 1px solid var(--line); border-left: 4px solid #e5484d; }
+.urg-list li:first-child { border-top: 0; }
+.urg-txt b { display: block; font-size: 15.5px; line-height: 1.35; }
+.urg-txt span { display: block; color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+.urg-side { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.urg-when { font-size: 12px; font-weight: 800; color: #c8102e; background: color-mix(in srgb, #e5484d 12%, var(--surface)); border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+.urg-acts { display: flex; gap: 6px; }
+.urg-acts button { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 11px; font-size: 13px; font-weight: 800; color: var(--muted); }
+.urg-acts .ok { color: var(--good); border-color: color-mix(in srgb, var(--good) 40%, var(--line)); }
+.urg-later { display: block; width: 100%; border: 0; border-top: 1px solid var(--line); background: none; padding: 12px; font-weight: 800; color: #c8102e; font-size: 14.5px; }
+@media (max-width: 640px) { .urg-list li { grid-template-columns: 1fr; } .urg-side { flex-direction: row; justify-content: space-between; align-items: center; } }
+
+/* ---------- Hàng thông tin gọn trên điện thoại ---------- */
 @media (max-width: 640px) {
-  .hero { height: 240px !important; }
-  .hero-pills { margin-top: 7px; gap: 5px; flex-wrap: nowrap; }
-  .hp { font-size: 11.5px; padding: 4px 9px; gap: 4px; }
-  .hp-count .cnt { font-size: 13px; }
-  .hp-dim { display: none; }
-  .hp-count { flex: none; }
-  .hp-hotel { min-width: 0; overflow: hidden; }
-  .hp-hotel b { overflow: hidden; text-overflow: ellipsis; }
+  #meta.stats { grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+  #meta .st-count { order: 0; } #meta .st-hotel { order: 1; } #meta .st-fly { order: 2; } #meta .st-back { order: 3; }
+  #meta .st-count, #meta .st-hotel { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 0 6px; padding: 7px 10px; min-height: 0; }
+  #meta .st-count .st-s, #meta .st-hotel .st-s { display: none; }
+  #meta .st-count .st-k, #meta .st-hotel .st-k { font-size: 10px; letter-spacing: .03em; width: 100%; }
+  #meta .st-count .st-v { font-size: 15px; line-height: 1.2; }
+  #meta .st-count .cnt { font-size: 17px; }
+  #meta .st-hotel .st-v { font-size: 13px; line-height: 1.25; }
+  #meta .st-count::after { width: 44px; height: 44px; right: -12px; bottom: -16px; }
+  #meta .st-fly, #meta .st-back { padding: 7px 10px; gap: 1px; }
+  #meta .st-fly .st-k, #meta .st-back .st-k { font-size: 10px; }
+  #meta .st-fly .st-s, #meta .st-back .st-s { font-size: 10px; }
+  #meta .ap b { font-size: 14px; }
+  #meta .ap small { font-size: 10.5px; }
 }
-@media (max-width: 380px) { .hp-lbl { display: none; } }
 </style>
 </head>
 <body>
@@ -1087,7 +1104,6 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
         <h1 class="ttl" aria-label="Cẩm nang Bắc Kinh"><span class="t-word" id="tWord">Bắc Kinh</span><span class="seal" aria-hidden="true">北京</span></h1>
         <svg class="brush" viewBox="0 0 240 14" aria-hidden="true"><path d="M4 9 C 60 3, 140 2, 236 7"/></svg>
         <p class="sub">23 – 30.11.2026 · 8 ngày 7 đêm</p>
-        <div class="hero-pills" id="heroPills"></div>
       </div>
       <span class="scene-cap" id="sceneCap"></span>
       <div class="lang" role="group" aria-label="Ngôn ngữ"><button type="button" data-l="vi" lang="vi" aria-label="Tiếng Việt">VI</button><button type="button" data-l="en" lang="en" aria-label="English">EN</button><button type="button" data-l="zh" lang="zh" aria-label="中文">中文</button></div>
@@ -1817,28 +1833,29 @@ function renderMeta() {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const left = Math.round((start - today) / 864e5);
   const card = (cls, d, kids) => el("div", { class: "stat " + cls, style: "--d:" + d }, kids);
-  let cnt = null; const hp = $("#heroPills"); hp.textContent = "";
-  const pill = (cls, kids) => el("span", { class: "hp " + cls }, kids);
+  let cnt = null, c;
   if (left > 0) {
     cnt = el("b", { class: "cnt", text: "0" });
-    hp.append(pill("hp-count", [el("span", { text: "⏳" }), el("span", { class: "hp-lbl", text: "Khởi hành sau" }), el("span", { class: "st-v" }, [cnt, " ngày"])]));
+    c = card("st-count", 0, [el("span", { class: "st-k", text: "⏳ Khởi hành sau" }), el("span", { class: "st-v" }, [cnt, " ngày"]), el("span", { class: "st-s", text: "Thứ Hai 23/11 · 18:00" })]);
   } else if (today < end) {
     const n = Math.min(8, Math.round((today - start) / 864e5) + 1);
-    cnt = el("b", { class: "cnt", text: "0" }); cnt.dataset.to = n;
-    hp.append(pill("hp-count", [el("span", { text: "📍" }), el("span", { class: "st-v" }, ["Ngày ", cnt, "/8"])]));
+    cnt = el("b", { class: "cnt", text: "0" });
+    const bar = el("span", { class: "st-bar" }, [el("i", { style: "width:" + (n / 8 * 100) + "%" })]);
+    c = card("st-count", 0, [el("span", { class: "st-k", text: "📍 Đang ở Bắc Kinh" }), el("span", { class: "st-v" }, ["Ngày ", cnt, "/8"]), bar]);
+    cnt.dataset.to = n;
   } else {
-    hp.append(pill("hp-count", [el("span", { text: "💜" }), el("span", { text: "Đã về nhà" })]));
+    c = card("st-count", 0, [el("span", { class: "st-k", text: "💜 Chuyến đi" }), el("span", { class: "st-v", text: "Đã về nhà" }), el("span", { class: "st-s", text: "23/11 – 1/12/2026" })]);
   }
-  hp.append(pill("hp-hotel", [el("span", { text: "🏨" }), el("b", { text: "Super 8 Tiền Môn" }), el("span", { class: "hp-dim", text: "7 đêm" })]));
   const fly = (cls, d, k, a, ta, b, tb, plus, sub) => {
     const trk = el("span", { class: "trk" }); trk.innerHTML = PLANE_SVG;
     return card(cls, d, [el("span", { class: "st-k", text: k }),
       el("div", { class: "route" }, [el("div", { class: "ap" }, [el("b", { text: a }), el("small", { text: ta })]), trk, el("div", { class: "ap r" }, [el("b", { text: b }), el("small", {}, [tb, plus ? el("sup", { text: " +1" }) : ""])])]),
       el("span", { class: "st-s", text: sub })]);
   };
-  m.append(
+  m.append(c,
     fly("st-fly", 1, "✈️ Bay đi · 23/11", "HAN", "18:00", "PKX", "22:15", false, "VJ6042 · Vietjet Air"),
-    fly("st-back", 2, "🛬 Bay về · 30/11", "PKX", "23:15", "HAN", "02:05", true, "VJ6043 · về Hà Nội 1/12"));
+    fly("st-back", 2, "🛬 Bay về · 30/11", "PKX", "23:15", "HAN", "02:05", true, "VJ6043 · về Hà Nội 1/12"),
+    card("st-hotel", 3, [el("span", { class: "st-k", text: "🏨 Khách sạn" }), el("span", { class: "st-v", text: "Super 8 Tiền Môn" }), el("span", { class: "st-s", text: "23–30/11 · 7 đêm" })]));
   if (cnt) setTimeout(() => countUp(cnt, +(cnt.dataset.to || left)), 350);
 }
 
@@ -2674,6 +2691,31 @@ function renderRemind() {
   if (items.length > 3) body.append(el("button", { class: "rm-more", type: "button", onclick: () => { rmOpen = !rmOpen; renderRemind(); } }, [rmOpen ? "Thu gọn" : "Xem tất cả " + items.length + " việc"]));
 }
 renderRemind(); window.__rmReady = true;
+/* ---------- Cửa sổ báo đỏ khi mở trang nếu có việc gấp ---------- */
+let urgShownAt = 0;
+function showUrgent(force) {
+  const items = rmItems(new Date()).filter(x => x.lv === "lv-red");
+  let ov = document.getElementById("urgPop");
+  if (!items.length) { if (ov) ov.remove(); return; }
+  if (!force && ov) return;
+  if (!ov) { ov = el("div", { id: "urgPop", class: "urg-ov", role: "dialog", "aria-modal": "true", "aria-labelledby": "urgT", onclick: e => { if (e.target === ov) closeUrgent(); } }); document.body.append(ov); }
+  ov.textContent = "";
+  const list = el("ul", { class: "urg-list" });
+  items.forEach(x => list.append(el("li", {}, [
+    el("div", { class: "urg-txt" }, [el("b", { text: x.r.t }), el("span", { text: x.r.d })]),
+    el("div", { class: "urg-side" }, [el("span", { class: "urg-when", text: x.when }),
+      el("div", { class: "urg-acts" }, [x.r.go ? el("button", { type: "button", onclick: () => { closeUrgent(); go(x.r.go); } }, ["Mở"]) : "", x.can ? el("button", { type: "button", class: "ok", onclick: () => { rmDone(x); showUrgent(true); } }, ["Xong ✓"]) : ""])])])));
+  ov.append(el("div", { class: "urg-box" }, [
+    el("div", { class: "urg-head" }, [el("span", { class: "urg-bell", text: "🚨", "aria-hidden": "true" }), el("div", {}, [el("h2", { id: "urgT" }, [el("b", { text: String(items.length) }), " ", el("span", { text: "việc gấp cần xử lý" })]), el("p", { text: "Bấm Xong khi đã làm, hoặc Mở để xem chi tiết." })])]),
+    list,
+    el("button", { type: "button", class: "urg-later", onclick: closeUrgent }, ["Để sau"])]));
+  urgShownAt = Date.now();
+}
+function closeUrgent() { const ov = document.getElementById("urgPop"); if (ov) ov.remove(); }
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeUrgent(); });
+addEventListener("load", () => setTimeout(() => showUrgent(), 700));
+document.addEventListener("visibilitychange", () => { if (!document.hidden && Date.now() - urgShownAt > 30 * 60e3) showUrgent(); });
+
 setInterval(renderRemind, 60000);
 loadWx();
 /* ---------- Dùng được khi mất mạng ---------- */
@@ -2696,9 +2738,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120111926" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120112223" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120111926";
+  var BUILD = "20261120112223";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
