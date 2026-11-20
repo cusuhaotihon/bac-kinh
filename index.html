@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120174814"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120175020"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -238,6 +238,10 @@
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
+/* Không phóng to khi chạm đúp (vẫn giữ được thao tác 2 ngón để phóng to) */
+html, body, * { touch-action: manipulation; }
+/* iPhone tự phóng to khi bấm vào ô nhập có chữ nhỏ hơn 16px */
+@media (max-width: 640px) { input, select, textarea { font-size: max(16px, 1em) !important; } }
 body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
 h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.012em; text-wrap: balance; margin: 0; line-height: 1.25; }
 body { font-feature-settings: "tnum" 0; -webkit-font-smoothing: antialiased; }
@@ -2876,9 +2880,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120174814" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120175020" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120174814";
+  var BUILD = "20261120175020";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
