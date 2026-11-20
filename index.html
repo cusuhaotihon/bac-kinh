@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120120532"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120120850"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1142,7 +1142,10 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
   main { padding-bottom: calc(env(safe-area-inset-bottom) + 40px); }
   footer { padding-bottom: calc(env(safe-area-inset-bottom) + 24px); }
   .toast { bottom: calc(env(safe-area-inset-bottom) + 28px) !important; }
-  .nav-handle { display: grid; place-items: center; position: fixed; right: 6px; top: 58%; z-index: 44; width: 74px; height: 68px; padding: 0; border: 0; background: none; filter: drop-shadow(0 8px 12px rgba(150, 10, 40, .35)); transition: opacity .2s ease, transform .2s ease; animation: hbeat 4.5s ease-in-out infinite; }
+  .vhead { min-height: 68px; }
+  .vhead .nav-handle { margin-left: auto; flex: none; }
+  .nav-handle.floating { position: fixed; top: calc(env(safe-area-inset-top) + 10px); right: 8px; }
+  .nav-handle { display: grid; place-items: center; position: relative; z-index: 44; width: 74px; height: 68px; padding: 0; border: 0; background: none; filter: drop-shadow(0 8px 12px rgba(150, 10, 40, .35)); transition: opacity .2s ease, transform .2s ease; animation: hbeat 1s ease-in-out infinite; }
   .nav-handle > * { grid-area: 1 / 1; }
   .nav-handle .nh-heart { width: 74px; height: 68px; overflow: visible; }
   .nav-handle .nh-ico { font-size: 25px; line-height: 1; margin-top: -9px; }
@@ -1151,7 +1154,7 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
   body.nav-open .nav-scrim { opacity: 1; pointer-events: auto; }
 }
 
-@keyframes hbeat { 0%, 70%, 100% { transform: none; } 76% { transform: scale(1.12); } 82% { transform: scale(.97); } 88% { transform: scale(1.08); } }
+@keyframes hbeat { 0% { transform: scale(1); } 12% { transform: scale(1.13); } 24% { transform: scale(.98); } 36% { transform: scale(1.08); } 52%, 100% { transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) { .nav-handle { animation: none !important; } }
 </style>
 </head>
@@ -2767,10 +2770,24 @@ function renderRemind() {
 /* ---------- Điện thoại: ngăn chọn mục bên phải, mở/đóng linh hoạt ---------- */
 const navScrim = el("div", { class: "nav-scrim", onclick: () => navOpen(false) });
 const navHandle = el("button", { type: "button", class: "nav-handle", id: "navHandle", "aria-label": "Mở danh sách mục", "aria-expanded": "false", onclick: () => navOpen(!document.body.classList.contains("nav-open")) }, []); navHandle.innerHTML = '<svg class="nh-heart" viewBox="0 0 100 92" aria-hidden="true"><defs><linearGradient id="nhG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff6b7d"/><stop offset="1" stop-color="#e02443"/></linearGradient></defs><path d="M50 88C24 72 3 55 3 31 3 14 15 3 31 3c9 0 15 4 19 11 4-7 10-11 19-11 16 0 28 11 28 28 0 24-21 41-47 57z" fill="url(#nhG)" stroke="#b5112c" stroke-width="3" stroke-linejoin="round"/><ellipse cx="34" cy="22" rx="10" ry="6" fill="#fff" opacity=".35" transform="rotate(-25 34 22)"/><circle cx="50" cy="42" r="23" fill="#fff" opacity=".95"/></svg><span class="nh-ico"></span>';
-document.body.append(navScrim, navHandle);
+document.body.append(navScrim);
 function navOpen(on) { document.body.classList.toggle("nav-open", !!on); navHandle.setAttribute("aria-expanded", String(!!on)); }
+let nhHead = null, nhTick = false;
+function nhCheck() {
+  nhTick = false; if (!nhHead) return;
+  const fl = nhHead.getBoundingClientRect().bottom < 0;
+  navHandle.classList.toggle("floating", fl);
+  const want = fl ? document.body : nhHead;
+  if (navHandle.parentElement !== want) want.append(navHandle);
+}
+function placeHandle() {
+  nhHead = document.querySelector("#v-" + state.view + " .vhead"); if (!nhHead) return;
+  navHandle.classList.remove("floating"); nhHead.append(navHandle); nhCheck();
+}
+addEventListener("scroll", () => { if (!nhTick) { nhTick = true; requestAnimationFrame(nhCheck); setTimeout(() => nhTick && nhCheck(), 120); } }, { passive: true });
+addEventListener("resize", () => nhCheck());
 function syncHandle() {
-  const v = VIEWS.find(x => x[0] === state.view) || VIEWS[0]; navHandle.querySelector(".nh-ico").textContent = v[3];
+  const v = VIEWS.find(x => x[0] === state.view) || VIEWS[0]; navHandle.querySelector(".nh-ico").textContent = v[3]; placeHandle();
   const b = document.querySelector('.view-btn[data-v="' + v[0] + '"]'); const c = b ? getComputedStyle(b).getPropertyValue("--accent").trim() : ""; if (c) navHandle.style.setProperty("--hc", c);
 }
 syncHandle();
@@ -2838,9 +2855,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120120532" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120120850" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120120532";
+  var BUILD = "20261120120850";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
