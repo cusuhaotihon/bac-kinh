@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120092953"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120101851"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -2325,14 +2325,14 @@ function renderCost() {
     el("div", { class: "panel" }, [el("p", { class: "k", text: today === "truoc" ? "🧾 Chi trước chuyến đi" : "📅 Hôm nay " + today + "/11" }), el("div", { class: "big", text: vnd(todayT) })]),
     (() => {
       const bud = CASH.reduce((s, c) => s + c.cny, 0);
-      const usedT = spend.filter(e => e.day !== "truoc").reduce((s, e) => s + toVnd(e), 0) / RATE;
+      const usedT = spend.filter(e => e.cat !== "Máy bay").reduce((s, e) => s + toVnd(e), 0) / RATE;
       const left = bud - usedT, pct = Math.min(100, Math.max(0, usedT / bud * 100));
       return el("div", { class: "panel cash", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "💴 Tiền tiêu cả chuyến" }),
         el("div", { class: "cash-row" }, [el("div", { class: "big", text: cny(Math.max(0, left)) }), el("span", { class: "small", text: "/ " + cny(bud) })]),
         el("div", { class: "progress cash-bar", "aria-hidden": "true" }, [el("span", { style: "width:" + pct + "%" })]),
-        el("div", { class: "cash-meta" }, [el("span", { text: "Đã tiêu trong chuyến" }), el("b", { text: cny(Math.round(usedT)) })]),
+        el("div", { class: "cash-meta" }, [el("span", { text: "Đã dùng" }), el("b", { text: cny(Math.round(usedT)) })]),
         ...(left < 0 ? [el("div", { class: "small", style: "color:var(--warn);font-weight:700", text: "Đã tiêu quá số tiền đổi." })] : []),
-        el("div", { class: "small", text: "Hà bỏ 40 triệu tiền riêng ra đổi. Các khoản ghi từ ngày 23/11 sẽ tự trừ vào đây." })]);
+        el("div", { class: "small", text: "Hà bỏ 40 triệu tiền riêng ra đổi. Đã trừ khách sạn và vé tham quan đặt trước; các khoản ghi trong chuyến sẽ tự trừ tiếp. Vé máy bay mỗi người tự trả bằng tiền Việt nên không trừ." })]);
     })(),
     (() => {
       const got = EXP.filter(e => isTr(e) && e.to === "Hà").reduce((s, e) => s + toVnd(e), 0);
@@ -2628,9 +2628,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120092953" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120101851" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120092953";
+  var BUILD = "20261120101851";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
