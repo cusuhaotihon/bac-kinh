@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120112223"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120112517"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1091,6 +1091,29 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
   #meta .ap b { font-size: 14px; }
   #meta .ap small { font-size: 10.5px; }
 }
+
+/* Ô nhắc việc nhỏ thay cho thẻ khách sạn */
+#remind { display: none !important; }
+.st-rem { cursor: pointer; border-color: color-mix(in srgb, #e5484d 0%, var(--line)); transition: transform .15s ease, box-shadow .2s ease; }
+.st-rem:hover { transform: translateY(-1px); box-shadow: 0 12px 24px -16px rgba(120, 30, 60, .5); }
+.st-rem .st-k { color: #c8102e; }
+.st-rem .st-v { font-size: 17px; display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; }
+.st-rem .rem-urg { color: #fff; background: #e5484d; border-radius: 999px; padding: 0 9px; font-size: 13px; animation: ring 2.6s ease-in-out infinite; }
+.st-rem .rem-n { font-weight: 800; }
+.st-rem .st-s { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.st-rem.has-urg { border-color: color-mix(in srgb, #e5484d 55%, var(--line)); background: color-mix(in srgb, #e5484d 6%, var(--surface)); }
+.urg-list li.lv-orange { border-left-color: #f08c2e; } .urg-list li.lv-violet { border-left-color: #8a6fdc; } .urg-list li.lv-blue { border-left-color: #3b8fd6; }
+.urg-list li:not(.lv-red) .urg-when { color: var(--muted); background: color-mix(in srgb, var(--line) 60%, var(--surface)); }
+.urg-ov.calm .urg-box { border-color: #8a6fdc; }
+.urg-ov.calm .urg-head { background: linear-gradient(135deg, #8a6fdc, #c98ade); }
+.urg-ov.calm .urg-later { color: #8a6fdc; }
+@media (max-width: 640px) {
+  #meta .st-rem { order: 1; flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 0 6px; padding: 7px 10px; }
+  #meta .st-rem .st-k { font-size: 10px; letter-spacing: .03em; width: 100%; }
+  #meta .st-rem .st-v { font-size: 13px; }
+  #meta .st-rem .rem-urg { font-size: 11.5px; padding: 0 7px; }
+  #meta .st-rem .st-s { display: none; }
+}
 </style>
 </head>
 <body>
@@ -1855,7 +1878,8 @@ function renderMeta() {
   m.append(c,
     fly("st-fly", 1, "✈️ Bay đi · 23/11", "HAN", "18:00", "PKX", "22:15", false, "VJ6042 · Vietjet Air"),
     fly("st-back", 2, "🛬 Bay về · 30/11", "PKX", "23:15", "HAN", "02:05", true, "VJ6043 · về Hà Nội 1/12"),
-    card("st-hotel", 3, [el("span", { class: "st-k", text: "🏨 Khách sạn" }), el("span", { class: "st-v", text: "Super 8 Tiền Môn" }), el("span", { class: "st-s", text: "23–30/11 · 7 đêm" })]));
+    (() => { const r = card("st-rem", 3, [el("span", { class: "st-k", text: "🔔 Nhắc việc" }), el("span", { class: "st-v", id: "remV" }), el("span", { class: "st-s", id: "remS" })]); r.id = "remCard"; r.setAttribute("role", "button"); r.tabIndex = 0; r.addEventListener("click", () => showUrgent(true, true)); r.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); showUrgent(true, true); } }); return r; })());
+  if (window.__rmReady) fillRemCard();
   if (cnt) setTimeout(() => countUp(cnt, +(cnt.dataset.to || left)), 350);
 }
 
@@ -2666,6 +2690,16 @@ function rmDone(x) {
   else { rmDismissed.add(x.r.id); store.set("rmDismissed", [...rmDismissed]); }
   toast("Đã đánh dấu xong ✓"); renderRemind();
 }
+function fillRemCard() {
+  const v = document.getElementById("remV"), sub = document.getElementById("remS"), c = document.getElementById("remCard"); if (!v) return;
+  const items = rmItems(new Date()), urg = items.filter(x => x.lv === "lv-red");
+  v.textContent = ""; sub.textContent = "";
+  c.classList.toggle("has-urg", urg.length > 0);
+  if (!items.length) { v.append(el("span", { text: "Xong hết 🎉" })); return; }
+  if (urg.length) v.append(el("b", { class: "rem-urg", text: urg.length + " gấp" }), " ");
+  v.append(el("span", { class: "rem-n", text: items.length + " việc" }));
+  sub.textContent = (urg[0] || items[0]).r.t;
+}
 function renderRemind() {
   const box = document.getElementById("remind"); if (!box) return;
   const now = new Date(), items = rmItems(now);
@@ -2674,7 +2708,7 @@ function renderRemind() {
   let hid = store.get("rmHidden", null);
   if (hid && urgent.some(x => !hid.split(",").includes(x.r.id))) { hid = null; store.set("rmHidden", null); }
   const collapsed = hid !== null;
-  box.dataset.urgent = urgent.length ? "1" : "0";
+  box.dataset.urgent = urgent.length ? "1" : "0"; fillRemCard();
   box.textContent = "";
   const sum = items.length ? items.length + " việc" + (urgent.length ? ", " + urgent.length + " gấp" : "") : "Không có việc nào cần nhắc";
   box.append(el("div", { class: "rm-head" }, [el("span", { class: "bell", text: "🔔" }), el("b", { text: "Nhắc việc" }), el("span", { class: "rm-sum", text: "· " + sum }),
@@ -2693,22 +2727,25 @@ function renderRemind() {
 renderRemind(); window.__rmReady = true;
 /* ---------- Cửa sổ báo đỏ khi mở trang nếu có việc gấp ---------- */
 let urgShownAt = 0;
-function showUrgent(force) {
-  const items = rmItems(new Date()).filter(x => x.lv === "lv-red");
+function showUrgent(force, all) {
+  const allItems = rmItems(new Date()), urgN = allItems.filter(x => x.lv === "lv-red").length;
+  if (all === undefined) all = !!(document.getElementById("urgPop") || {}).dataset?.all;
+  const items = all ? allItems : allItems.filter(x => x.lv === "lv-red");
   let ov = document.getElementById("urgPop");
   if (!items.length) { if (ov) ov.remove(); return; }
   if (!force && ov) return;
   if (!ov) { ov = el("div", { id: "urgPop", class: "urg-ov", role: "dialog", "aria-modal": "true", "aria-labelledby": "urgT", onclick: e => { if (e.target === ov) closeUrgent(); } }); document.body.append(ov); }
-  ov.textContent = "";
+  ov.textContent = ""; if (all) ov.dataset.all = "1"; else delete ov.dataset.all;
+  ov.classList.toggle("calm", all && !urgN);
   const list = el("ul", { class: "urg-list" });
-  items.forEach(x => list.append(el("li", {}, [
+  items.forEach(x => list.append(el("li", { class: x.lv }, [
     el("div", { class: "urg-txt" }, [el("b", { text: x.r.t }), el("span", { text: x.r.d })]),
     el("div", { class: "urg-side" }, [el("span", { class: "urg-when", text: x.when }),
       el("div", { class: "urg-acts" }, [x.r.go ? el("button", { type: "button", onclick: () => { closeUrgent(); go(x.r.go); } }, ["Mở"]) : "", x.can ? el("button", { type: "button", class: "ok", onclick: () => { rmDone(x); showUrgent(true); } }, ["Xong ✓"]) : ""])])])));
   ov.append(el("div", { class: "urg-box" }, [
-    el("div", { class: "urg-head" }, [el("span", { class: "urg-bell", text: "🚨", "aria-hidden": "true" }), el("div", {}, [el("h2", { id: "urgT" }, [el("b", { text: String(items.length) }), " ", el("span", { text: "việc gấp cần xử lý" })]), el("p", { text: "Bấm Xong khi đã làm, hoặc Mở để xem chi tiết." })])]),
+    el("div", { class: "urg-head" }, [el("span", { class: "urg-bell", text: all && !urgN ? "🔔" : "🚨", "aria-hidden": "true" }), el("div", {}, [el("h2", { id: "urgT" }, all ? [el("span", { text: "Nhắc việc" }), " · ", el("span", { text: items.length + " việc" })] : [el("b", { text: String(items.length) }), " ", el("span", { text: "việc gấp cần xử lý" })]), el("p", { text: "Bấm Xong khi đã làm, hoặc Mở để xem chi tiết." })])]),
     list,
-    el("button", { type: "button", class: "urg-later", onclick: closeUrgent }, ["Để sau"])]));
+    el("button", { type: "button", class: "urg-later", onclick: closeUrgent }, [all ? "Đóng" : "Để sau"])]));
   urgShownAt = Date.now();
 }
 function closeUrgent() { const ov = document.getElementById("urgPop"); if (ov) ov.remove(); }
@@ -2738,9 +2775,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120112223" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120112517" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120112223";
+  var BUILD = "20261120112517";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
@@ -2803,6 +2840,7 @@ document.querySelectorAll(".lang button").forEach(b => {
   const t = s => { const r = tr(s); return r == null ? s : r; };
   const PAT = [
     [/^· (\d+) việc(?:, (\d+) gấp)?$/, m => EN ? "· " + m[1] + " tasks" + (m[2] ? ", " + m[2] + " urgent" : "") : "· " + m[1] + " 项" + (m[2] ? "，" + m[2] + " 项紧急" : "")],
+    [/^(\d+) gấp$/, m => EN ? m[1] + " urgent" : m[1] + " 项紧急"],
     [/^(\d+) việc(?:, (\d+) gấp)?$/, m => EN ? m[1] + " tasks" + (m[2] ? ", " + m[2] + " urgent" : "") : m[1] + " 项" + (m[2] ? "，" + m[2] + " 项紧急" : "")],
     [/^Làm ngay · còn (\d+) ngày$/, m => EN ? "Do now · " + m[1] + " days left" : "立即办理 · 还剩 " + m[1] + " 天"],
     [/^Còn (\d+) ngày$/, m => EN ? m[1] + (m[1] === "1" ? " day left" : " days left") : "还剩 " + m[1] + " 天"],
