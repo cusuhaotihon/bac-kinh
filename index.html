@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120112517"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120112742"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1114,6 +1114,21 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
   #meta .st-rem .rem-urg { font-size: 11.5px; padding: 0 7px; }
   #meta .st-rem .st-s { display: none; }
 }
+
+/* Cửa sổ nhắc việc: đầu và nút Đóng đứng yên, danh sách cuộn */
+.urg-box { display: flex; flex-direction: column; overflow: hidden; }
+.urg-head { flex: none; position: relative; padding-right: 56px; }
+.urg-list { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.urg-later { flex: none; }
+.urg-x { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, .25); color: #fff; font-size: 18px; font-weight: 800; line-height: 1; }
+.urg-x:active { background: rgba(255, 255, 255, .4); }
+@media (max-width: 640px) {
+  .urg-ov { align-items: flex-end; padding: 0; }
+  .urg-box { width: 100%; max-height: 88vh; border-radius: 20px 20px 0 0; border-width: 2px 0 0; animation: sheetUp .3s cubic-bezier(.2, .8, .2, 1) both; }
+  .urg-later { padding: 14px 12px calc(env(safe-area-inset-bottom) + 16px); font-size: 16px; background: color-mix(in srgb, #e5484d 8%, var(--surface)); }
+  .urg-ov.calm .urg-later { background: color-mix(in srgb, #8a6fdc 8%, var(--surface)); }
+}
+@keyframes sheetUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
 </style>
 </head>
 <body>
@@ -2743,7 +2758,7 @@ function showUrgent(force, all) {
     el("div", { class: "urg-side" }, [el("span", { class: "urg-when", text: x.when }),
       el("div", { class: "urg-acts" }, [x.r.go ? el("button", { type: "button", onclick: () => { closeUrgent(); go(x.r.go); } }, ["Mở"]) : "", x.can ? el("button", { type: "button", class: "ok", onclick: () => { rmDone(x); showUrgent(true); } }, ["Xong ✓"]) : ""])])])));
   ov.append(el("div", { class: "urg-box" }, [
-    el("div", { class: "urg-head" }, [el("span", { class: "urg-bell", text: all && !urgN ? "🔔" : "🚨", "aria-hidden": "true" }), el("div", {}, [el("h2", { id: "urgT" }, all ? [el("span", { text: "Nhắc việc" }), " · ", el("span", { text: items.length + " việc" })] : [el("b", { text: String(items.length) }), " ", el("span", { text: "việc gấp cần xử lý" })]), el("p", { text: "Bấm Xong khi đã làm, hoặc Mở để xem chi tiết." })])]),
+    el("div", { class: "urg-head" }, [el("span", { class: "urg-bell", text: all && !urgN ? "🔔" : "🚨", "aria-hidden": "true" }), el("div", {}, [el("h2", { id: "urgT" }, all ? [el("span", { text: "Nhắc việc" }), " · ", el("span", { text: items.length + " việc" })] : [el("b", { text: String(items.length) }), " ", el("span", { text: "việc gấp cần xử lý" })]), el("p", { text: "Bấm Xong khi đã làm, hoặc Mở để xem chi tiết." })]), el("button", { type: "button", class: "urg-x", "aria-label": "Đóng", onclick: closeUrgent }, ["✕"])]),
     list,
     el("button", { type: "button", class: "urg-later", onclick: closeUrgent }, [all ? "Đóng" : "Để sau"])]));
   urgShownAt = Date.now();
@@ -2775,9 +2790,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120112517" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120112742" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120112517";
+  var BUILD = "20261120112742";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
