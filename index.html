@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120212937"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120235833"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1140,6 +1140,30 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
 .todo-tag.off { background: color-mix(in srgb, var(--muted) 16%, transparent); color: var(--muted); }
 li.plan-off { opacity: .62; }
 
+
+/* ---------- Gọn hơn: thẻ thu gọn, chạm để mở ---------- */
+.fold-head { all: unset; box-sizing: border-box; display: flex; align-items: flex-start; gap: 10px; width: 100%; cursor: pointer; }
+.fold-head:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.fh-t { flex: 1; min-width: 0; }
+.fh-ico { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--cat-bg, var(--accent-soft)); color: var(--cat, var(--accent)); font-size: 18px; line-height: 1; padding-bottom: 4px; box-sizing: border-box; transition: transform .2s ease; }
+.card.open .fh-ico { transform: rotate(180deg); padding: 4px 0 0; }
+.card.folded .full, .card.folded .how, .card.folded .say, .card.folded .day-docs, .card.folded .tick { display: none; }
+.card.open .sum { display: none; }
+.tag.doc-tag { margin-left: 6px; color: #8a5a00; background: #fff1c9; }
+.card .sum { color: var(--muted); font-size: 14.5px; margin-top: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.card.folded { padding-top: 12px; padding-bottom: 12px; }
+.day-note.clamp p { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.day-note { cursor: pointer; }
+#todoList p.clamp { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; cursor: pointer; }
+#todoList p { cursor: pointer; }
+#todoList li.st-done > p, #todoList li.st-done > .deadline { display: none; }
+#todoList li.st-done { padding-top: 10px; padding-bottom: 10px; }
+.off-toggle { list-style: none; text-align: center; padding: 4px 0 8px; background: none !important; border: 0 !important; box-shadow: none !important; }
+@media (max-width: 640px) {
+  .vh-s { display: none; }
+  #catBar .chip { display: none; }
+  #catBar { margin: 0 0 8px; }
+}
 /* ---------- Hiệu ứng nền: sao lấp lánh (tối), lá vàng / tuyết rơi (sáng) ---------- */
 #fx { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 :root[data-theme="dark"] .card, :root[data-theme="dark"] .tips > li, :root[data-theme="dark"] #todoList > li { box-shadow: 0 0 0 1px rgba(201, 167, 255, .06), 0 12px 30px -16px rgba(140, 80, 255, .45); }
@@ -1795,6 +1819,7 @@ const state = {
   opt26: store.get("opt26", "MTY"),
   cats: new Set(),               // rỗng = tất cả
   compact: false,
+  openAct: new Set(),
   todoFilter: "all",
   checkFilter: "all",
   doneAct: new Set(store.get("doneAct2", [])),
@@ -2274,10 +2299,10 @@ function renderPlan() {
   const dRows = ACT.filter(a => a[0] === d.d && partOK(a));
   const tStart = (dRows[0] && /^\d{1,2}:\d{2}/.exec(dRows[0][1]) || [""])[0];
   const lastT = dRows.length ? dRows[dRows.length - 1][1] : "", tEnd = (lastT.match(/(\d{1,2}:\d{2})(?!.*\d{1,2}:\d{2})/) || [""])[0];
-  const kick = [el("span", { text: "Ngày " + (d.d - 22) + "/8" }), el("span", { text: dRows.length + " hoạt động" })];
+  const kick = [el("span", { text: "Ngày " + (d.d - 22) + "/8" })];
   if (tStart && tEnd && tStart !== tEnd) kick.push(el("span", { text: tStart + "–" + tEnd }));
   const dd = DOCS.filter(x => x.day === d.d);
-  if (dd.length) kick.push(el("span", { text: "🎫 " + dd.length + " giấy tờ" }));
+  
   const wx = wxDay(d.d);
   if (wx) { const ic = wxIcon(wx.c); kick.push(el("span", { class: "wx-chip", title: "Dự báo Open-Meteo, cập nhật mỗi 3 giờ", text: ic[1] + " " + ic[2] + " · " + wx.lo + "° đến " + wx.hi + "°C" + (wx.p >= 30 ? " · mưa " + wx.p + "%" : "") + (wx.w >= 25 ? " · gió " + wx.w + " km/h" : "") })); }
   const main = el("div", { class: "dh-main" }, [el("div", { class: "dh-kick" }, kick), el("h2", { text: d.t })]);
@@ -2300,36 +2325,49 @@ function renderPlan() {
   const bar = $("#catBar"); bar.textContent = "";
   bar.append(el("button", { class: "chip all", "aria-pressed": String(state.cats.size === 0), onclick: () => { state.cats.clear(); renderPlan(); } }, ["Tất cả"]));
   Object.entries(CAT).forEach(([name, code]) => bar.append(el("button", { class: "chip c-" + code, "aria-pressed": String(state.cats.has(name)), onclick: () => { state.cats.has(name) ? state.cats.delete(name) : state.cats.add(name); renderPlan(); } }, [(CAT_ICO[name] || "") + " " + name])));
-  bar.append(el("span", { class: "spacer" }), el("button", { class: "link-btn", onclick: () => { state.compact = !state.compact; renderPlan(); } }, [state.compact ? "Hiện chi tiết" : "Chỉ xem tiêu đề"]));
+  const allOpen = dayActs0().length && dayActs0().every(a => state.openAct.has(akey(a)));
+  bar.append(el("span", { class: "spacer" }), el("button", { class: "link-btn", onclick: () => { dayActs0().forEach(a => allOpen ? state.openAct.delete(akey(a)) : state.openAct.add(akey(a))); renderPlan(); } }, [allOpen ? "Thu gọn hết" : "Mở hết chi tiết"]));
 
   // danh sách
   computeNow();
   const list = $("#timeline"); list.textContent = "";
   const dayActs = ACT.filter(a => a[0] === d.d && partOK(a));
   const looseDocs = dd.filter(x => !x.act || !dayActs.some(a => x.act.test(a[2])));
-  if (d.n || looseDocs.length) list.append(el("li", { class: "day-note" }, [el("span", { class: "dn-ico", text: "💡", "aria-hidden": "true" }), el("div", {}, [el("b", { text: "Lưu ý trong ngày" }), ...(d.n ? [el("p", { text: d.n })] : []), ...(looseDocs.length ? [docBtns(looseDocs)] : [])])])); list.classList.toggle("anim", anim);
+  if (d.n || looseDocs.length) list.append(el("li", { class: "day-note clamp", onclick: e => { if (!e.target.closest("a,button")) e.currentTarget.classList.toggle("clamp"); } }, [el("span", { class: "dn-ico", text: "💡", "aria-hidden": "true" }), el("div", {}, [el("b", { text: "Lưu ý trong ngày" }), ...(d.n ? [el("p", { text: d.n })] : []), ...(looseDocs.length ? [docBtns(looseDocs)] : [])])])); list.classList.toggle("anim", anim);
   const rows = ACT.map((a, i) => ({ a, i })).filter(({ a }) => a[0] === state.day && partOK(a) && (state.cats.size === 0 || state.cats.has(a[3])));
   if (!rows.length) list.append(el("li", { class: "empty", text: "Không có hoạt động nào thuộc hạng mục đã chọn trong ngày này." }));
   rows.forEach(({ a, i }, k) => {
     const key = akey(a), done = state.doneAct.has(key);
-    const card = el("li", { class: "card cat-" + CAT[a[3]] + (done ? " done" : "") + (state.compact ? " compact" : "") + (NOWMARK && NOWMARK.a === a ? " is-now" : "") });
+    const open = state.openAct.has(key);
+    const card = el("li", { class: "card cat-" + CAT[a[3]] + (done ? " done" : "") + (open ? " open" : " folded") + (NOWMARK && NOWMARK.a === a ? " is-now" : "") });
+    const toggle = () => { open ? state.openAct.delete(key) : state.openAct.add(key); renderPlan(); };
+    const myDocs = DOCS.filter(x => x.day === a[0] && x.act && x.act.test(a[2]));
     card.style.setProperty("--i", Math.min(k, 10));
     const cb = el("input", { type: "checkbox", id: "act" + i, onchange: e => { e.target.checked ? state.doneAct.add(key) : state.doneAct.delete(key); persist(); renderPlan(); } });
     cb.checked = done;
     card.append(
       el("div", { class: "time", text: a[1] }),
       el("div", { class: "body" }, [
-        nowTag(a), el("h3", { text: a[2] }), el("span", { class: "tag", text: (CAT_ICO[a[3]] || "") + " " + a[3] }),
-        el("p", { text: a[4] }),
+        nowTag(a),
+        el("button", { class: "fold-head", "aria-expanded": String(open), onclick: toggle }, [
+          el("span", { class: "fh-t" }, [el("h3", { text: a[2] }), el("span", { class: "tag", text: (CAT_ICO[a[3]] || "") + " " + a[3] }), myDocs.length ? el("span", { class: "tag doc-tag", text: "🎫 Có vé" }) : ""]),
+          el("span", { class: "fh-ico", "aria-hidden": "true", text: "⌄" })
+        ]),
+        el("p", { class: "sum", text: firstSentence(a[4]) }),
+        el("p", { class: "full", text: a[4] }),
         el("p", { class: "how" }, [el("b", { text: "Nên làm: " }), a[5]]),
         a[7] ? el("div", { class: "say" }, [el("b", { text: "🗣️ Nói thế nào" }), ...a[7].map(x => el("div", { class: "say-row" }, [el("span", { class: "zh", text: x[0] }), el("span", { class: "pyx", text: x[1] }), el("span", { class: "vi", text: x[2] })]))]) : "",
-        ...(() => { const ds = DOCS.filter(x => x.day === a[0] && x.act && x.act.test(a[2])); return ds.length ? [docBtns(ds)] : []; })(),
+        ...(myDocs.length ? [docBtns(myDocs)] : []),
         el("label", { class: "tick", for: "act" + i }, [cb, "Đã làm xong"])
       ])
     );
     list.append(card);
   });
 }
+
+function dayActs0() { return ACT.filter(a => a[0] === state.day && partOK(a)); }
+/* Câu đầu của phần mô tả, dùng làm dòng tóm tắt khi thẻ đang thu gọn */
+function firstSentence(t) { const m = /^(.+?[.!?])(\s|$)/.exec(t || ""); return m ? m[1] : (t || ""); }
 
 /* ---------- Đặt trước ---------- */
 const ST = [["todo", "Chưa làm"], ["book", "Đã đặt"], ["done", "Xong"]];
@@ -2345,20 +2383,22 @@ function renderTodo() {
     const n = k === "all" ? TODO.length : TODO.filter(t => statusOf(t) === k).length;
     f.append(el("button", { class: "chip all", "aria-pressed": String(state.todoFilter === k), onclick: () => { state.todoFilter = k; renderTodo(); } }, [l + " (" + n + ")"]));
   });
-  const ul = $("#todoList"); ul.textContent = "";
+  const ul = $("#todoList"); ul.textContent = ""; let hiddenOff = 0;
   TODO.forEach((t, i) => {
     const s = statusOf(t);
     if (state.todoFilter !== "all" && s !== state.todoFilter) return;
     const grp = el("div", { class: "status", role: "group", "aria-label": "Trạng thái: " + t[0] });
     ST.forEach(([k, l]) => grp.append(el("button", { class: "s-" + k, "aria-pressed": String(s === k), onclick: () => { state.todoStatus[t[0]] = k; persist(); renderTodo(); renderTabs(); } }, [l])));
     const pl = todoPlan(t[3]);
+    if (pl && !pl.on && !state.showOff) { hiddenOff++; return; }
     ul.append(el("li", { class: "st-" + s + (pl && !pl.on ? " plan-off" : "") }, [
       t[3] ? el("div", { class: "todo-tags" }, [el("span", { class: "todo-tag", text: "📅 " + t[3] }), pl ? el("span", { class: "todo-tag " + (pl.on ? "on" : "off"), text: pl.on ? "Đang chọn" : "Phương án khác" }) : ""]) : "",
       el("div", { class: "head" }, [el("h3", { text: t[0] }), grp]),
       el("span", { class: "deadline", text: "Hạn: " + t[1] }),
-      el("p", { text: t[2] })
+      el("p", { class: "clamp", text: t[2], onclick: e => e.currentTarget.classList.toggle("clamp") })
     ]));
   });
+  if (hiddenOff || state.showOff) ul.append(el("li", { class: "off-toggle" }, [el("button", { class: "link-btn", onclick: () => { state.showOff = !state.showOff; renderTodo(); } }, [state.showOff ? "Ẩn việc của phương án không chọn" : "Hiện việc của phương án không chọn (" + hiddenOff + ")"])]));
 }
 
 /* ---------- Checklist ---------- */
@@ -3001,9 +3041,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120212937" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120235833" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120212937";
+  var BUILD = "20261120235833";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
@@ -3065,6 +3105,7 @@ document.querySelectorAll(".lang button").forEach(b => {
   const LBL = { "Tất cả": EN ? "All" : "全部", "Chưa làm": EN ? "To do" : "未办", "Đã đặt": EN ? "Booked" : "已订", "Xong": EN ? "Done" : "完成" };
   const t = s => { const r = tr(s); return r == null ? s : r; };
   const PAT = [
+    [/^Hiện việc của phương án không chọn \((\d+)\)$/, m => EN ? "Show tasks for unselected options (" + m[1] + ")" : "显示未选方案的事项（" + m[1] + "）"],
     [/^· (\d+) việc(?:, (\d+) gấp)?$/, m => EN ? "· " + m[1] + " tasks" + (m[2] ? ", " + m[2] + " urgent" : "") : "· " + m[1] + " 项" + (m[2] ? "，" + m[2] + " 项紧急" : "")],
     [/^(\d+) gấp$/, m => EN ? m[1] + " urgent" : m[1] + " 项紧急"],
     [/^(\d+) việc(?:, (\d+) gấp)?$/, m => EN ? m[1] + " tasks" + (m[2] ? ", " + m[2] + " urgent" : "") : m[1] + " 项" + (m[2] ? "，" + m[2] + " 项紧急" : "")],
