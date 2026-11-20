@@ -136,54 +136,6 @@
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 @font-face {
-  font-family: 'Quicksand';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 600;
-  src: url(fonts/quicksand-vietnamese-600-normal.woff2) format('woff2');
-  unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;
-}
-@font-face {
-  font-family: 'Quicksand';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 600;
-  src: url(fonts/quicksand-latin-ext-600-normal.woff2) format('woff2');
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Quicksand';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 600;
-  src: url(fonts/quicksand-latin-600-normal.woff2) format('woff2');
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
-  font-family: 'Quicksand';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 700;
-  src: url(fonts/quicksand-vietnamese-700-normal.woff2) format('woff2');
-  unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;
-}
-@font-face {
-  font-family: 'Quicksand';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 700;
-  src: url(fonts/quicksand-latin-ext-700-normal.woff2) format('woff2');
-  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Quicksand';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 700;
-  src: url(fonts/quicksand-latin-700-normal.woff2) format('woff2');
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-@font-face {
   font-family: 'Playfair Display';
   font-style: normal;
   font-display: swap;
@@ -253,7 +205,8 @@
   --c-shop: #7b3fc4;  --c-shop-bg: #ecdffa;
   --c-rest: #1f8a52;  --c-rest-bg: #dcf3e5;
   --c-other: #8a6d00; --c-other-bg: #fff3bf;
-  --display: "Quicksand", "Be Vietnam Pro", system-ui, sans-serif;
+  --display: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --serif: "Playfair Display", Georgia, "Times New Roman", serif;
   --body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) {
@@ -285,7 +238,8 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
-h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.25; }
+h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -.012em; text-wrap: balance; margin: 0; line-height: 1.25; }
+body { font-feature-settings: "tnum" 0; -webkit-font-smoothing: antialiased; }
 button { font: inherit; color: inherit; cursor: pointer; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .wrap { max-width: 920px; margin: 0 auto; padding: 0 16px; }
@@ -983,6 +937,60 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
   .wrap { grid-template-columns: 340px minmax(0, 1fr); }
   .hero { height: 360px; }
 }
+
+/* ---------- Phông chữ và dải chọn ngày (bản chỉn chu) ---------- */
+.vh-t { font-family: var(--serif); font-weight: 800; letter-spacing: -.01em; }
+.dh-card h2 { font-weight: 700; letter-spacing: -.02em; }
+.card h3 { font-weight: 700; letter-spacing: -.01em; }
+.time, .price, .cost-sum .big, .st-v, .ap b { font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.tag, .dh-kick span, .chip { letter-spacing: .01em; }
+#days { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; padding: 6px; overflow: visible; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 10px 26px -22px rgba(70, 45, 140, .6); }
+#days .day-btn { position: relative; border: 0; background: transparent; border-radius: 15px; padding: 9px 2px 10px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+#days .day-btn:hover { background: var(--accent-soft); }
+#days .day-btn .w { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+#days .day-btn .ws { display: none; }
+#days .day-btn .n { font-family: var(--display); font-size: 24px; font-weight: 700; line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; color: var(--ink); }
+#days .day-btn .wx { display: inline-flex; align-items: center; gap: 4px; margin: 0; font-size: 11.5px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+#days .day-btn .wx i { font-style: normal; font-size: 13px; }
+#days .day-btn .wh { display: none; }
+#days .day-btn[aria-pressed="true"] { background: var(--accent); box-shadow: 0 10px 20px -12px var(--accent); }
+#days .day-btn[aria-pressed="true"] :is(.w, .n, .wx) { color: var(--on-accent); }
+#days .day-btn.today::after { content: ""; position: absolute; top: 7px; right: 9px; width: 7px; height: 7px; border-radius: 50%; background: #e5484d; box-shadow: 0 0 0 2px var(--surface); }
+#days .day-btn.past:not([aria-pressed="true"]) { opacity: .5; }
+#days .day-btn + .day-btn::before { content: ""; position: absolute; left: -3px; top: 22%; bottom: 22%; width: 1px; background: var(--line); }
+#days .day-btn[aria-pressed="true"]::before, #days .day-btn[aria-pressed="true"] + .day-btn::before { display: none; }
+@media (max-width: 640px) {
+  #days { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 2px; padding: 4px; border-radius: 16px; }
+  #days .day-btn { padding: 7px 0 8px; border-radius: 12px; gap: 2px; }
+  #days .day-btn .wl { display: none; }
+  #days .day-btn .ws { display: inline; }
+  #days .day-btn .w { font-size: 10px; letter-spacing: .04em; }
+  #days .day-btn .n { font-size: 18px; }
+  #days .day-btn .wx { flex-direction: column; gap: 0; font-size: 10px; line-height: 1.15; }
+  #days .day-btn .wx i { font-size: 12px; }
+  #days .day-btn .wt { display: none; }
+  #days .day-btn .wh { display: inline; }
+  #days .day-btn.today::after { top: 5px; right: 5px; width: 6px; height: 6px; }
+}
+@media (min-width: 641px) and (max-width: 1179px) {
+  #days .day-btn .wl { display: none; }
+  #days .day-btn .ws { display: inline; }
+}
+/* Vé đã có: thu gọn được */
+details.docs-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 0; overflow: hidden; }
+details.docs-wrap > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 12px 14px; font-weight: 800; color: var(--accent); }
+details.docs-wrap > summary::-webkit-details-marker { display: none; }
+details.docs-wrap .ds-t { font-size: 16px; }
+details.docs-wrap .ds-n { font-size: 12px; font-weight: 800; background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 1px 9px; }
+details.docs-wrap .ds-thumbs { display: flex; margin-left: auto; }
+details.docs-wrap .ds-thumbs img { width: 28px; height: 28px; object-fit: cover; object-position: top; border-radius: 8px; border: 2px solid var(--surface); background: #fff; margin-left: -8px; box-shadow: 0 2px 6px rgba(0,0,0,.12); }
+details.docs-wrap[open] .ds-thumbs { display: none; }
+details.docs-wrap .ds-chev { width: 26px; height: 26px; border-radius: 50%; background: var(--accent-soft); flex: none; position: relative; transition: transform .25s ease; }
+details.docs-wrap[open] .ds-chev { margin-left: auto; transform: rotate(180deg); }
+details.docs-wrap .ds-chev::before { content: ""; position: absolute; left: 50%; top: 45%; width: 7px; height: 7px; border: solid var(--accent); border-width: 0 2px 2px 0; transform: translate(-50%, -50%) rotate(45deg); }
+details.docs-wrap > .docs { padding: 0 12px; }
+details.docs-wrap > .docs-note { padding: 0 14px 12px; }
+details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
 </style>
 </head>
 <body>
@@ -1029,7 +1037,7 @@ section:not([hidden]) .sec-title .em { animation: wiggle .9s .3s ease both; }
     <!-- Đặt trước -->
     <section id="v-dat-truoc" hidden>
       <div class="vhead"><span class="vh-ico" aria-hidden="true"></span><div><h2 class="vh-t"></h2><p class="vh-s"></p></div></div>
-      <div class="docs-wrap"><h3>🎫 Vé và giấy tờ đã có</h3><div class="docs" id="docs"></div><p class="docs-note">Bấm vào để mở ảnh to. Ảnh cũng nên lưu sẵn trong máy phòng khi mất mạng.</p></div>
+      <details class="docs-wrap" id="docsBox"><summary><span class="ds-t">🎫 Vé và giấy tờ đã có</span><span class="ds-n" id="docsN"></span><span class="ds-thumbs" id="docsThumbs" aria-hidden="true"></span><span class="ds-chev" aria-hidden="true"></span></summary><div class="docs" id="docs"></div><p class="docs-note">Bấm vào để mở ảnh to. Ảnh cũng được lưu sẵn để xem khi mất mạng.</p></details>
       <div class="controls" id="todoFilter" role="group" aria-label="Lọc theo trạng thái"></div>
       <ul class="todo" id="todoList"></ul>
     </section>
@@ -1980,6 +1988,16 @@ document.getElementById("lightbox").addEventListener("click", e => { if (e.targe
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeDoc(); });
 function renderDocs() {
   const box = document.getElementById("docs"); if (!box) return; box.textContent = "";
+  const db = document.getElementById("docsBox");
+  if (db && !db.dataset.init) {
+    db.dataset.init = "1";
+    const saved = store.get("docsOpen", null);
+    db.open = saved === null ? matchMedia("(min-width: 641px)").matches : saved;
+    db.addEventListener("toggle", () => store.set("docsOpen", db.open));
+  }
+  document.getElementById("docsN").textContent = DOCS.length;
+  const th = document.getElementById("docsThumbs"); th.textContent = "";
+  DOCS.slice(0, 4).forEach(d => th.append(el("img", { src: d.img, alt: "", loading: "lazy" })));
   DOCS.forEach(d => box.append(el("button", { class: "doc", type: "button", onclick: () => openDoc(d) }, [el("img", { src: d.img, alt: "", loading: "lazy" }), el("div", {}, [el("b", { text: d.t }), el("small", { text: d.sub }), d.day ? el("span", { class: "tag-d", text: "Ngày " + d.day + "/11" }) : ""])])));
 }
 renderDocs();
@@ -2034,10 +2052,14 @@ document.addEventListener("keydown", e => {
   if (j < 0 || j >= DAYS.length) return;
   e.preventDefault(); state.day = DAYS[j].d; store.set("day", state.day); renderPlan();
 });
+const WD_SHORT = { "Thứ Hai": "T2", "Thứ Ba": "T3", "Thứ Tư": "T4", "Thứ Năm": "T5", "Thứ Sáu": "T6", "Thứ Bảy": "T7", "Chủ Nhật": "CN" };
 function renderDays() {
   const box = $("#days"); box.textContent = "";
   DAYS.forEach(d => box.append(el("button", { class: "day-btn", "aria-pressed": String(state.day === d.d), onclick: () => { state.day = d.d; store.set("day", d.d); renderPlan(); } },
-    [el("span", { class: "n", text: String(d.d) }), el("span", { class: "w", text: d.w }), ...(wxDay(d.d) ? [el("span", { class: "wx", text: wxIcon(wxDay(d.d).c)[1] + " " + wxDay(d.d).lo + "°/" + wxDay(d.d).hi + "°" })] : [])])));
+    [el("span", { class: "w" }, [el("span", { class: "wl", text: d.w }), el("span", { class: "ws", text: WD_SHORT[d.w] || d.w })]), el("span", { class: "n", text: String(d.d) }),
+     ...(wxDay(d.d) ? [el("span", { class: "wx" }, [el("i", { text: wxIcon(wxDay(d.d).c)[1] }), el("span", { class: "wt", text: wxDay(d.d).lo + "°/" + wxDay(d.d).hi + "°" }), el("span", { class: "wh", text: wxDay(d.d).hi + "°" })])] : [])])));
+  const bt = bjNow();
+  if (bt.y === 2026 && bt.m === 10) [...box.children].forEach((b, i) => { const dn = DAYS[i].d; if (dn === bt.d) b.classList.add("today"); else if (dn < bt.d) b.classList.add("past"); });
 }
 function renderPlan() {
   const anim = renderPlan.last !== state.day; renderPlan.last = state.day;
@@ -2570,9 +2592,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120084751" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120085833" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120084751";
+  var BUILD = "20261120085833";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
