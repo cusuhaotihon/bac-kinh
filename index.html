@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120092731"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120092953"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1006,6 +1006,10 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
 
 .cost-sum .panel.cash .cash-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .cost-sum .panel.cash .small { color: var(--muted); }
+
+.cost-sum .panel.cash .cash-bar { margin: 8px 0 6px; height: 10px; }
+.cost-sum .panel.cash .cash-meta { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); }
+.cost-sum .panel.cash .cash-meta b { color: var(--ink); font-variant-numeric: tabular-nums; }
 </style>
 </head>
 <body>
@@ -2308,7 +2312,7 @@ function ledger() {
   return { used, net, moves };
 }
 /* Tiền mặt đã đổi: chỉ để theo dõi, không tính là chi tiêu */
-const CASH = [{ cny: 10000, note: "Hà đổi 1 vạn tệ." }];
+const CASH = [{ who: "Hà", cny: 10000, vnd: 40000000 }];
 function renderCost() {
   const spend = EXP.filter(e => !isTr(e));
   const total = spend.reduce((s, e) => s + toVnd(e), 0);
@@ -2319,10 +2323,17 @@ function renderCost() {
   sum.append(
     el("div", { class: "panel" }, [el("p", { class: "k", text: "💵 Tổng đã chi" }), el("div", { class: "big", text: vnd(total) }), el("div", { class: "small", text: "≈ " + cny(total / RATE) + " · " + spend.length + " khoản" })]),
     el("div", { class: "panel" }, [el("p", { class: "k", text: today === "truoc" ? "🧾 Chi trước chuyến đi" : "📅 Hôm nay " + today + "/11" }), el("div", { class: "big", text: vnd(todayT) })]),
-    el("div", { class: "panel cash", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "💴 Tiền mặt đã đổi" }),
-      el("div", { class: "cash-row" }, [el("div", { class: "big", text: cny(CASH.reduce((s, c) => s + c.cny, 0)) }), el("span", { class: "small", text: "≈ " + vnd(CASH.reduce((s, c) => s + c.cny, 0) * RATE) })]),
-      ...CASH.map(c => el("div", { class: "small", text: c.note })),
-      el("div", { class: "small", text: "Không cộng vào tổng chi. Tiêu bằng tiền mặt khoản nào thì ghi khoản đó." })]),
+    (() => {
+      const bud = CASH.reduce((s, c) => s + c.cny, 0);
+      const usedT = spend.filter(e => e.day !== "truoc").reduce((s, e) => s + toVnd(e), 0) / RATE;
+      const left = bud - usedT, pct = Math.min(100, Math.max(0, usedT / bud * 100));
+      return el("div", { class: "panel cash", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "💴 Tiền tiêu cả chuyến" }),
+        el("div", { class: "cash-row" }, [el("div", { class: "big", text: cny(Math.max(0, left)) }), el("span", { class: "small", text: "/ " + cny(bud) })]),
+        el("div", { class: "progress cash-bar", "aria-hidden": "true" }, [el("span", { style: "width:" + pct + "%" })]),
+        el("div", { class: "cash-meta" }, [el("span", { text: "Đã tiêu trong chuyến" }), el("b", { text: cny(Math.round(usedT)) })]),
+        ...(left < 0 ? [el("div", { class: "small", style: "color:var(--warn);font-weight:700", text: "Đã tiêu quá số tiền đổi." })] : []),
+        el("div", { class: "small", text: "Hà bỏ 40 triệu tiền riêng ra đổi. Các khoản ghi từ ngày 23/11 sẽ tự trừ vào đây." })]);
+    })(),
     (() => {
       const got = EXP.filter(e => isTr(e) && e.to === "Hà").reduce((s, e) => s + toVnd(e), 0);
       const left = -net["Hà"];
@@ -2334,17 +2345,19 @@ function renderCost() {
       const out = p => EXP.filter(e => !isTr(e) && e.who === p).reduce((s, e) => s + toVnd(e), 0);
       const gave = p => EXP.filter(e => isTr(e) && e.from === p).reduce((s, e) => s + toVnd(e), 0);
       const got = p => EXP.filter(e => isTr(e) && e.to === p).reduce((s, e) => s + toVnd(e), 0);
+      const cashOf = p => CASH.filter(c => c.who === p).reduce((s, c) => s + c.vnd, 0);
       const line = (k, v, strong) => el("div", { style: "display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:3px 0" + (strong ? ";font-weight:800" : "") }, [el("span", { text: k, style: strong ? "" : "color:var(--muted)" }), el("span", { text: v, style: "font-variant-numeric:tabular-nums;white-space:nowrap" })]);
       const PCOL = { "Hà": "#d6578f", "Hiền": "#3b8fd6", "Thanh": "#2f9e68" };
       const cards = PEOPLE.map(p => el("div", { style: "border:1px solid var(--line);border-top:5px solid " + PCOL[p] + ";border-radius:12px;padding:10px 12px;background:color-mix(in srgb, " + PCOL[p] + " 7%, var(--surface))" }, [
         el("div", { text: p, style: "font-family:var(--display);font-weight:700;font-size:17px;margin-bottom:4px;color:" + PCOL[p] }),
         line("Tự trả", vnd(out(p))),
         gave(p) ? line("Góp quỹ", vnd(gave(p))) : got(p) ? line("Nhận góp", vnd(got(p))) : line("Góp quỹ", "–"),
-        line("Tổng bỏ ra", vnd(out(p) + gave(p)), true),
+        ...(cashOf(p) ? [line("Đổi tiền mặt", vnd(cashOf(p)))] : []),
+        line("Tổng bỏ ra", vnd(out(p) + gave(p) + cashOf(p)), true),
         line("Phần đã tiêu", vnd(used[p]))]));
       return el("div", { class: "panel", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "👭 Mỗi người đã chi ra" }),
         el("div", { class: "people" }, cards),
-        el("div", { class: "small", style: "margin-top:8px", text: "Tự trả: các khoản người đó đứng ra thanh toán. Phần đã tiêu: phần thuộc về người đó (vé riêng cộng 1/3 các khoản chung)." })]);
+        el("div", { class: "small", style: "margin-top:8px", text: "Tự trả: các khoản người đó đứng ra thanh toán. Đổi tiền mặt: tiền Việt bỏ ra để đổi tệ, tiền mặt chưa tiêu vẫn là của người đổi. Phần đã tiêu: phần thuộc về người đó (vé riêng cộng 1/3 các khoản chung)." })]);
     })()
   );
   const bars = $("#catBars"); bars.textContent = "";
@@ -2615,9 +2628,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120092731" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120092953" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120092731";
+  var BUILD = "20261120092953";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
