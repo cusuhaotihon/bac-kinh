@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120175020"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120175545"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1134,6 +1134,11 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
 }
 @keyframes sheetUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
 
+.todo-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+.todo-tag { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: color-mix(in srgb, var(--accent, #7b5cd6) 12%, transparent); color: var(--accent, #7b5cd6); }
+.todo-tag.on { background: #dff3e6; color: #1f7a45; }
+.todo-tag.off { background: color-mix(in srgb, var(--muted) 16%, transparent); color: var(--muted); }
+li.plan-off { opacity: .62; }
 /* ---------- Điện thoại: ngăn chọn mục bên phải ---------- */
 .nav-handle, .nav-scrim { display: none; }
 @media (max-width: 640px) {
@@ -1702,17 +1707,23 @@ let ACT = [
 ];
 /* [hạng mục, hạn chót, cách làm] */
 let TODO = [
- ["Email xin vào Đại học Bắc Kinh","Đã gửi 19/11; trường tự động trả lời: nếu được duyệt sẽ báo trong 2 ngày làm việc, tới 26/11 chưa có thư là không được","Gửi tới campus.visit@pku.edu.cn (địa chỉ từ một nguồn bên ngoài, hãy xác nhận trên trang pku.edu.cn). Người nước ngoài không đặt được qua mini program WeChat thường. Mẫu email nằm ở sheet 8."],
- ["Email xin vào Đại học Thanh Hoa","Đã gửi 19/11, chờ trường trả lời","Gửi tới bwb@mail.tsinghua.edu.cn (theo trang chính thức của trường). Mini program “Visit Tsinghua” chỉ nhận CMND Trung Quốc đại lục. Mẫu email nằm ở sheet 8."],
-  ["Đặt khung giờ Quảng trường Thiên An Môn","Từ 17/11 (đặt được 1–7 ngày trước), cho ngày 24/11","Miễn phí, đặt theo tên bằng hộ chiếu trên WeChat mini program 天安门广场预约. Chọn khung giờ 降旗 (hạ cờ) cho chiều 24/11. Vé Bảo tàng Quốc gia hoặc Tử Cấm Thành có nguồn ghi cũng cho vào quảng trường, nhưng không dùng được cho lễ hạ cờ, nên đặt riêng để chắc chắn."],
- ["Vé Tử Cấm Thành","Đã đặt 20/11 cho ngày 25/11 buổi sáng","Đặt trên trang chính thức của Cố Cung bằng hộ chiếu. Vé 40 tệ vào mùa đông, đóng cửa thứ Hai. Hết trong 1–5 phút. Dự phòng: ngày 24/11 (mở bán 17/11) hoặc 26/11 (mở bán 19/11), cùng giờ 19:00 Hà Nội."],
- ["Xe buýt Cổ Bắc Thủy Trấn","Trước 26/11","Đặt vé xe buýt từ Đông Trực Môn qua WeChat Mini Program. Một nguồn ghi có xe từ Vọng Kinh Tây lúc 09:00."],
- ["Vé Tư Mã Đài, cáp treo","Trước 26/11","Vé Trường Thành kèm cáp treo khoảng 220 tệ. Gói trấn, đêm Trường Thành và cáp treo khoảng 280 tệ."],
- ["Vé Di Hòa Viên","Trước 27/11, không gấp","Mua tại cổng hoặc đặt trước bằng hộ chiếu. Vé liên hợp mùa đông khoảng 30–40 tệ."],
- ["Nhà sách Zhongshuge (钟书阁)","Không cần đặt trước","Kiểm tra giờ mở cửa trên Dianping hoặc Amap trước khi đi. Tây Đan mở 10:00–22:00 theo nguồn của chính quyền Bắc Kinh."],
- ["Lẩu bò Bát Hợp Lý (Jinbao Hui)","Chiều 25/11","Không bắt buộc đặt. Lấy số hoặc đặt bàn trên Dianping hoặc Meituan, hoặc nhờ khách sạn gọi giúp. Kiểm tra giờ mở cửa và tầng của chi nhánh trước khi đi."],
- ["Thuê đồ cách cách sáng 25/11","Trước 24/11","3 người, gói thuê cả ngày kèm trang điểm, làm tóc, có áo choàng. Tiệm ở tầng hầm tòa Vương Phủ Thế Kỷ (王府世纪大厦), gần cổng Đông Hoa Môn. Đặt trên Dianping hoặc Meituan (tìm 王府世纪 格格妆造) hoặc Klook. Giá khoảng 180–580 tệ mỗi người."],
- ["Xe đón sân bay","Trước 23/11","Đặt xe đón chuyến VJ6042 trên Trip.com (sheet 7)."]
+ ["Xe đón sân bay", "Trước 23/11", "Đặt xe đón chuyến VJ6042 trên Trip.com (mục 7), và xe 18:45 ngày 30/11 ra PKX.", "23/11 và 30/11"],
+ ["Đặt khung giờ Quảng trường Thiên An Môn", "Đã đặt 20/11 cho ngày 24/11, khung hạ cờ", "Đã đặt trên mini program 天安门广场预约参观 bằng hộ chiếu: khung 降旗及夜间 14:53–20:30, 3 người, cửa an ninh 03 (广场东侧路北安检03). Mang đúng hộ chiếu đã đặt.", "24/11"],
+ ["Vé Tử Cấm Thành", "Đã đặt 20/11 cho ngày 25/11 buổi sáng", "Đặt trên bookingticket.dpm.org.cn bằng hộ chiếu, mã đơn 20261120910091118973, 3 vé thường. Vào cổng trước 12:00, mang đúng hộ chiếu đã đặt. Hoàn vé miễn phí trước 24:00 ngày 24/11.", "25/11"],
+ ["Thuê đồ cách cách sáng 25/11", "Trước 24/11", "3 người, gói thuê cả ngày kèm trang điểm, làm tóc, có áo choàng. Tiệm ở tầng hầm tòa Vương Phủ Thế Kỷ (王府世纪大厦), gần cổng Đông Hoa Môn. Đặt trên Dianping hoặc Meituan (tìm 王府世纪 格格妆造) hoặc Klook. Giá khoảng 180–580 tệ mỗi người.", "25/11"],
+ ["Lẩu bò Bát Hợp Lý (Jinbao Hui)", "Chiều 25/11", "Không bắt buộc đặt. Lấy số hoặc đặt bàn trên Dianping hoặc Meituan, hoặc nhờ khách sạn gọi giúp. Kiểm tra giờ mở cửa và tầng của chi nhánh trước khi đi.", "25/11"],
+ ["Xe buýt Cổ Bắc Thủy Trấn", "Trước 26/11", "Đặt vé xe buýt từ Đông Trực Môn qua WeChat Mini Program 北京定制公交. Một nguồn ghi có xe từ Vọng Kinh Tây lúc 09:00.", "26/11 · PA A Cổ Bắc"],
+ ["Vé Tư Mã Đài, cáp treo", "Trước 26/11", "Vé Trường Thành kèm cáp treo khoảng 220 tệ. Gói trấn, đêm Trường Thành và cáp treo khoảng 280 tệ.", "26/11 · PA A Cổ Bắc"],
+ ["Vé Trường Thành Mutianyu, cáp ghế và ống trượt", "Mở bán 7 ngày trước, đặt trước 25/11", "Mua online trên trang chính thức 慕田峪长城 (có trang tiếng Anh, trả được bằng thẻ quốc tế) hoặc Trip.com, Meituan, mua được trong vòng 7 ngày trước. Mua vé cổng kèm xe trung chuyển trong khu, và vé cáp ghế lên tháp 6 + ống trượt xuống (khoảng 140 tệ). Tại cổng cũng quét mã mua vé trong ngày được.", "26/11 · PA B Mutianyu"],
+ ["Xe riêng đi Mutianyu", "Trước 25/11", "Thuê xe có tài xế nguyên ngày cho 3 người trên Trip.com (Car rental with driver) hoặc nhờ lễ tân khách sạn đặt giúp. Hẹn đón 7:45–8:15 ở 德寿堂药店. Nếu đi DiDi thì khoảng 200–250 tệ mỗi chiều, chiều về khó gọi xe nên hẹn trước.", "26/11 · PA B Mutianyu"],
+ ["Vé Di Hòa Viên", "Trước 27/11, không gấp", "Mua tại cổng hoặc đặt trước bằng hộ chiếu. Vé liên hợp mùa đông khoảng 30–40 tệ.", "27/11 · cả 3 PA"],
+ ["Nhà sách Zhongshuge (钟书阁)", "Không cần đặt trước", "Kiểm tra giờ mở cửa trên Dianping hoặc Amap trước khi đi. Tây Đan mở 10:00–22:00 theo nguồn của chính quyền Bắc Kinh.", "27/11 · PA A Tây Đan"],
+ ["Vé Ung Hòa Cung 27/11", "Mở đặt 7 ngày trước, tức từ 20/11", "Năm 2026 phải đặt khung giờ vào cửa trên mini program chính thức 雍和宫 bằng hộ chiếu, không bán vé vãng lai. Vé 25 tệ, vào cửa cuối 16:00. Khung buổi sáng hay hết sớm. Nếu chọn phương án này thì ngày 30/11 nên đổi Ung Hòa Cung sang điểm khác.", "27/11 · PA B chùa, hutong"],
+ ["Thư viện Quốc gia", "Trước 27/11", "Miễn phí, mang hộ chiếu gốc. Thư viện có thời điểm yêu cầu đặt chỗ vào cửa trước 1–3 ngày; mở mini program 国家图书馆 trên WeChat kiểm tra trước, cần thì đặt bằng hộ chiếu.", "27/11 · PA C Thư viện"],
+ ["Email xin vào Đại học Thanh Hoa", "Đã gửi 19/11, chờ trường trả lời", "Gửi tới bwb@mail.tsinghua.edu.cn (theo trang chính thức của trường). Mini program 'Visit Tsinghua' chỉ nhận CMND Trung Quốc đại lục. Mẫu email ở mục 8.", "28/11"],
+ ["Email xin vào Đại học Bắc Kinh", "Đã gửi 19/11. Trường tự động trả lời: nếu được duyệt sẽ báo qua email trong 2 ngày làm việc; tới 26/11 chưa có thư thì coi như không được, đừng gửi lại.", "Gửi tới campus.visit@pku.edu.cn (địa chỉ từ một nguồn bên ngoài, hãy xác nhận trên trang pku.edu.cn). Người nước ngoài không đặt được qua mini program WeChat thường. Mẫu email ở mục 8.", "28/11"],
+ ["Vé Bảo tàng Thủ Đô 29/11", "Mở đặt khoảng 22/11", "Miễn phí. Tìm 首都博物馆 trên WeChat, chọn tài khoản hoặc mini program chính thức, vào mục 预约 và đặt bằng hộ chiếu. Đóng cửa thứ Hai.", "29/11"],
+ ["Vé Ung Hòa Cung 30/11", "Mở đặt 7 ngày trước, tức từ 23/11", "Đặt khung giờ trên mini program chính thức 雍和宫 bằng hộ chiếu, chọn khung 11:30. Vé 25 tệ, vào cửa cuối 16:00.", "30/11"]
 ];
 /* [hạng mục, việc cần làm, hạn chót, ghi chú, xong sẵn] */
 const CHECK = [
@@ -1867,7 +1878,7 @@ function parseTodo(v) {
   v.forEach(r => {
     const name = String(r[0] || "").trim();
     if (!name || name === "Hạng mục" || !r[2]) return;
-    out.push([name, String(r[1] || ""), String(r[2])]);
+    out.push([name, String(r[1] || ""), String(r[2]), String(r[5] || "")]);
     if (ST_MAP[r[3]]) st[name] = ST_MAP[r[3]];
   });
   return { rows: out, st };
@@ -1886,7 +1897,7 @@ async function initLive() {
     const onAct = ev => { const v = findValues(ev), rows = v && parseActs(v); if (rows && rows.length >= 10) { ACT = rows; liveOk(ev); renderPlan(); } };
     const onTodo = ev => { const v = findValues(ev), p = v && parseTodo(v); if (p && p.rows.length) { TODO = p.rows; Object.keys(SHEET_ST).forEach(k => delete SHEET_ST[k]); Object.assign(SHEET_ST, p.st); liveOk(ev); renderTodo(); renderTabs(); } };
     const inA = { spreadsheetId: SHEET_ID, range: "'5. Lịch trình'!A5:K90" };
-    const inT = { spreadsheetId: SHEET_ID, range: "'3. Việc phải đặt trước'!A4:D40" };
+    const inT = { spreadsheetId: SHEET_ID, range: "'3. Việc phải đặt trước'!A4:F40" };
     if (typeof mcp.watchTool === "function") {
       mcp.watchTool(SRV, "get_values", inA, onAct, { refetchInterval: 300000 });
       mcp.watchTool(SRV, "get_values", inT, onTodo, { refetchInterval: 300000 });
@@ -2272,7 +2283,7 @@ function renderPlan() {
   if (state.day === 27 || state.day === 26) {
     const d26 = state.day === 26, OPT = d26 ? OPTIONS26 : OPTIONS, cur = d26 ? state.opt26 : state.opt;
     const row = el("div", { class: "options", role: "group", "aria-label": d26 ? "Chọn phương án Trường Thành 26/11" : "Chọn phương án buổi chiều 27/11" });
-    Object.entries(OPT).forEach(([k, o]) => row.append(el("button", { class: "opt", "aria-pressed": String(cur === k), onclick: () => { if (d26) { state.opt26 = k; store.set("opt26", k); } else { state.opt = k; store.set("opt", k); } renderPlan(); if (window.__rmReady) renderRemind(); } }, [
+    Object.entries(OPT).forEach(([k, o]) => row.append(el("button", { class: "opt", "aria-pressed": String(cur === k), onclick: () => { if (d26) { state.opt26 = k; store.set("opt26", k); } else { state.opt = k; store.set("opt", k); } renderPlan(); if (window.__rmReady) renderRemind(); if (typeof renderTodo === "function") renderTodo(); } }, [
       el("h3", { text: o.name }), el("p", { text: o.plan }),
       el("p", { class: "plus", text: "+ " + o.plus }), el("p", { class: "minus", text: "− " + o.minus })
     ])));
@@ -2316,6 +2327,12 @@ function renderPlan() {
 
 /* ---------- Đặt trước ---------- */
 const ST = [["todo", "Chưa làm"], ["book", "Đã đặt"], ["done", "Xong"]];
+/* Nhãn "26/11 · PA B ..." → việc thuộc phương án nào, có đang được chọn không */
+function todoPlan(tag) {
+  const m = /^(2[67])\/11 · PA ([ABC])/.exec(tag || ""); if (!m) return null;
+  if (m[1] === "26") return { on: state.opt26 === (m[2] === "A" ? "CB" : "MTY") };
+  return { on: state.opt === m[2] };
+}
 function renderTodo() {
   const f = $("#todoFilter"); f.textContent = "";
   [["all", "Tất cả"], ...ST].forEach(([k, l]) => {
@@ -2328,7 +2345,9 @@ function renderTodo() {
     if (state.todoFilter !== "all" && s !== state.todoFilter) return;
     const grp = el("div", { class: "status", role: "group", "aria-label": "Trạng thái: " + t[0] });
     ST.forEach(([k, l]) => grp.append(el("button", { class: "s-" + k, "aria-pressed": String(s === k), onclick: () => { state.todoStatus[t[0]] = k; persist(); renderTodo(); renderTabs(); } }, [l])));
-    ul.append(el("li", { class: "st-" + s }, [
+    const pl = todoPlan(t[3]);
+    ul.append(el("li", { class: "st-" + s + (pl && !pl.on ? " plan-off" : "") }, [
+      t[3] ? el("div", { class: "todo-tags" }, [el("span", { class: "todo-tag", text: "📅 " + t[3] }), pl ? el("span", { class: "todo-tag " + (pl.on ? "on" : "off"), text: pl.on ? "Đang chọn" : "Phương án khác" }) : ""]) : "",
       el("div", { class: "head" }, [el("h3", { text: t[0] }), grp]),
       el("span", { class: "deadline", text: "Hạn: " + t[1] }),
       el("p", { text: t[2] })
@@ -2675,6 +2694,9 @@ renderMeta(); renderTips(); renderPlan(); renderTodo(); renderCheck(); initCostF
 const REMIND = [
   { id: "ccc", end: "2026-11-25T12:00+08:00", hot: true, ck: 6, from: "2026-11-18T19:00+07:00", due: "2026-11-24T20:00+08:00", t: "Vé Tử Cấm Thành ngày 25/11", d: "Đã mở bán. Nếu chưa có vé, xem vé trả lại trên mini program 故宫博物院 hoặc intl.dpm.org.cn.", go: "checklist" },
   { id: "hacp", end: "2026-11-24T18:00+08:00", hot: true, ck: 7, from: "2026-11-17T00:00+08:00", due: "2026-11-23T20:00+08:00", t: "Đặt khung giờ hạ cờ Thiên An Môn 24/11", d: "Mini program 天安门广场预约参观, đặt bằng hộ chiếu.", go: "checklist" },
+  { id: "uhc27", opt: "B", todo: "Vé Ung Hòa Cung 27/11", from: "2026-11-20T00:00+08:00", due: "2026-11-24T20:00+08:00", end: "2026-11-27T12:00+08:00", t: "Đặt vé Ung Hòa Cung 27/11", d: "Mini program 雍和宫, đặt khung giờ bằng hộ chiếu. Khung sáng hay hết sớm.", go: "dat-truoc" },
+  { id: "uhc30", todo: "Vé Ung Hòa Cung 30/11", from: "2026-11-23T00:00+08:00", due: "2026-11-26T20:00+08:00", end: "2026-11-30T11:00+08:00", t: "Đặt vé Ung Hòa Cung 30/11", d: "Mini program 雍和宫, chọn khung 11:30, đặt bằng hộ chiếu.", go: "dat-truoc" },
+  { id: "mtyv", opt26: "MTY", todo: "Vé Trường Thành Mutianyu, cáp ghế và ống trượt", from: "2026-11-20T00:00+08:00", due: "2026-11-25T20:00+08:00", end: "2026-11-26T10:00+08:00", t: "Mua vé Mutianyu 26/11", d: "Vé cổng, xe trung chuyển, cáp ghế lên + ống trượt xuống. Mua online, trả bằng thẻ quốc tế được.", go: "dat-truoc" },
   { id: "gege", from: "2026-11-20T00:00+08:00", due: "2026-11-24T20:00+08:00", end: "2026-11-25T08:00+08:00", t: "Đặt thuê đồ cách cách 25/11", d: "Tiệm ở tòa Vương Phủ Thế Kỷ (王府世纪大厦). Gói cả ngày, có trang điểm và áo choàng.", go: "dat-truoc" },
   { id: "ks", end: "2026-11-23T22:00+08:00", ck: 3, from: "2026-11-19T00:00+07:00", due: "2026-11-22T21:00+07:00", t: "Nhắn khách sạn", d: "Tới muộn đêm 23/11, ở nguyên phòng ngày 28/11, phòng đủ 3 người, gửi hành lý đến 18:30 ngày 30/11.", go: "checklist" },
   { id: "xe", end: "2026-11-23T18:00+07:00", ck: 11, from: "2026-11-19T00:00+07:00", due: "2026-11-22T21:00+07:00", t: "Đặt xe sân bay PKX", d: "Xe đón đêm 23/11 (đáp 22:15) và xe 18:45 ngày 30/11. Trip.com → Airport Transfer.", go: "checklist" },
@@ -2694,7 +2716,7 @@ const REMIND = [
   { id: "d25a", from: "2026-11-24T20:00+08:00", due: "2026-11-25T12:00+08:00", t: "Vào Tử Cấm Thành trước 12:00", d: "Vé suất sáng, mã đơn 20261120910091118973. Mang đúng hộ chiếu đã dùng để đặt vé.", go: "lich-trinh" },
   { id: "d25b", from: "2026-11-25T12:00+08:00", due: "2026-11-25T16:15+08:00", t: "Lên Cảnh Sơn khoảng 16:15 ngắm hoàng hôn", d: "Đứng ở đình Vạn Xuân nhìn xuống Tử Cấm Thành.", go: "lich-trinh" },
   { id: "d26", opt26: "CB", from: "2026-11-25T18:00+08:00", due: "2026-11-26T07:30+08:00", t: "Mai dậy sớm: rời khách sạn 7:30", d: "Kịp xe buýt đi Cổ Bắc. Mặc đồ chống gió.", go: "lich-trinh" },
-  { id: "mty", opt26: "MTY", from: "2026-11-20T00:00+07:00", due: "2026-11-25T21:00+08:00", t: "Đặt xe đi Mutianyu ngày 26/11", d: "DiDi hẹn giờ hoặc thuê xe nguyên ngày cho 3 người, đón 8:15 ở khách sạn.", go: "lich-trinh" },
+  { id: "mty", opt26: "MTY", todo: "Xe riêng đi Mutianyu", from: "2026-11-20T00:00+07:00", due: "2026-11-25T21:00+08:00", t: "Đặt xe đi Mutianyu ngày 26/11", d: "DiDi hẹn giờ hoặc thuê xe nguyên ngày cho 3 người, đón 8:15 ở khách sạn.", go: "dat-truoc" },
   { id: "d26b", opt26: "MTY", from: "2026-11-25T18:00+08:00", due: "2026-11-26T08:15+08:00", t: "Mai đi Mutianyu: rời khách sạn 8:15", d: "Mặc thật ấm vì cáp ghế hở. Mang hộ chiếu gốc. Ống trượt chạy 08:30–16:30.", go: "lich-trinh" },
   { id: "d27", from: "2026-11-26T18:00+08:00", due: "2026-11-27T12:00+08:00", t: "Chọn phương án buổi chiều 27/11", d: "A, B hoặc C trong Lịch trình ngày 27.", go: "lich-trinh" },
   { id: "d28a", from: "2026-11-27T18:00+08:00", due: "2026-11-28T12:00+08:00", t: "Báo lễ tân chuyển sang đơn 2", d: "Không cần đổi phòng (khách sạn đã xác nhận). Đưa mã đơn 2: 50512095.", go: "thong-tin" },
@@ -2722,6 +2744,7 @@ function rmItems(now) {
     if (now < from || rmDismissed.has(r.id)) return;
     if (r.end && now > new Date(r.end)) return;
     if (r.opt26 && state.opt26 !== r.opt26) return;
+    if (r.opt && state.opt !== r.opt) return;
     if (r.ck != null && state.checked[r.ck]) return;
     if (r.todo) { const t = TODO.find(x => x[0] === r.todo); if (t && statusOf(t) === "done") return; }
     const late = now > due;
@@ -2880,9 +2903,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120175020" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120175545" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120175020";
+  var BUILD = "20261120175545";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
