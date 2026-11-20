@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120092043"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120092505"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1003,6 +1003,9 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
 :root[data-lang="zh"] .say .pyx, :root[data-lang="zh"] .say .vi, :root[data-lang="zh"] .tips li .zh ~ span { display: none; }
 :root[data-lang="zh"] body, :root[data-lang="zh"] { font-family: var(--body), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif; }
 :root[data-lang="en"] #days .day-btn .w, :root[data-lang="zh"] #days .day-btn .w { letter-spacing: .04em; }
+
+.cost-sum .panel.cash .cash-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.cost-sum .panel.cash .small { color: var(--muted); }
 </style>
 </head>
 <body>
@@ -2304,6 +2307,8 @@ function ledger() {
   for (const d of debt) for (const c of cred) { const m = Math.min(d.v, c.v); if (m > 1) { moves.push(d.p + " cần gửi " + c.p + " " + vnd(m)); d.v -= m; c.v -= m; } }
   return { used, net, moves };
 }
+/* Tiền mặt đã đổi: chỉ để theo dõi, không tính là chi tiêu */
+const CASH = [{ cny: 10000, note: "Hà đổi 1 vạn tệ (20/11)." }];
 function renderCost() {
   const spend = EXP.filter(e => !isTr(e));
   const total = spend.reduce((s, e) => s + toVnd(e), 0);
@@ -2314,6 +2319,10 @@ function renderCost() {
   sum.append(
     el("div", { class: "panel" }, [el("p", { class: "k", text: "💵 Tổng đã chi" }), el("div", { class: "big", text: vnd(total) }), el("div", { class: "small", text: "≈ " + cny(total / RATE) + " · " + spend.length + " khoản" })]),
     el("div", { class: "panel" }, [el("p", { class: "k", text: today === "truoc" ? "🧾 Chi trước chuyến đi" : "📅 Hôm nay " + today + "/11" }), el("div", { class: "big", text: vnd(todayT) })]),
+    el("div", { class: "panel cash", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "💴 Tiền mặt đã đổi" }),
+      el("div", { class: "cash-row" }, [el("div", { class: "big", text: cny(CASH.reduce((s, c) => s + c.cny, 0)) }), el("span", { class: "small", text: "≈ " + vnd(CASH.reduce((s, c) => s + c.cny, 0) * RATE) })]),
+      ...CASH.map(c => el("div", { class: "small", text: c.note })),
+      el("div", { class: "small", text: "Không cộng vào tổng chi. Tiêu bằng tiền mặt khoản nào thì ghi khoản đó." })]),
     (() => {
       const got = EXP.filter(e => isTr(e) && e.to === "Hà").reduce((s, e) => s + toVnd(e), 0);
       const left = -net["Hà"];
@@ -2606,9 +2615,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120092043" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120092505" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120092043";
+  var BUILD = "20261120092505";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
