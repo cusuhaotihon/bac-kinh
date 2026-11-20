@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120111225"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120111527"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1049,6 +1049,10 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
 #v-lich-trinh .timeline .day-note .dn-ico { font-size: 20px; line-height: 1.3; }
 #v-lich-trinh .timeline .day-note b { display: block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: color-mix(in srgb, var(--t1) 55%, var(--ink)); }
 #v-lich-trinh .timeline .day-note p { margin: 2px 0 0; font-size: 15px; color: var(--ink); }
+
+.timeline .card .day-docs { margin-top: 10px; }
+.timeline .day-note .day-docs { margin-top: 8px; }
+.card.compact .day-docs { display: none; }
 </style>
 </head>
 <body>
@@ -2030,9 +2034,9 @@ function setScene(day) {
 
 /* ---------- Vé và giấy tờ ---------- */
 const DOCS = [
-  { img: "img/khach-san-xac-nhan.jpg", t: "Khách sạn xác nhận", sub: "Không cần đổi phòng 28/11 · tối đa 4 người · gửi được hành lý", day: 28, note: "Tin nhắn của Super 8 Tiền Môn trên Trip.com, 19/11" },
-  { img: "img/ha-co-thien-an-mon-24-11.jpg?v=2", t: "Đặt chỗ hạ cờ Thiên An Môn", sub: "24/11 · 降旗及夜间 14:53–20:30 · 3 người · mã R261120022248624950", day: 24, note: "Vào qua cửa an ninh 03 (广场东侧路北安检03), quẹt hộ chiếu" },
-  { img: "img/ve-tu-cam-thanh-25-11.jpg", t: "Vé Tử Cấm Thành", sub: "25/11 buổi sáng · 3 vé · mã đơn 20261120910091118973", day: 25, note: "Vào cổng trước 12:00, quẹt đúng hộ chiếu đã đặt" }
+  { img: "img/khach-san-xac-nhan.jpg", t: "Khách sạn xác nhận", sub: "Không cần đổi phòng 28/11 · tối đa 4 người · gửi được hành lý", day: 28, act: /lễ tân|đơn 2/i, note: "Tin nhắn của Super 8 Tiền Môn trên Trip.com, 19/11" },
+  { img: "img/ha-co-thien-an-mon-24-11.jpg?v=2", t: "Đặt chỗ hạ cờ Thiên An Môn", sub: "24/11 · 降旗及夜间 14:53–20:30 · 3 người · mã R261120022248624950", day: 24, act: /hạ cờ/i, note: "Vào qua cửa an ninh 03 (广场东侧路北安检03), quẹt hộ chiếu" },
+  { img: "img/ve-tu-cam-thanh-25-11.jpg", t: "Vé Tử Cấm Thành", sub: "25/11 buổi sáng · 3 vé · mã đơn 20261120910091118973", day: 25, act: /^Tử Cấm Thành/i, note: "Vào cổng trước 12:00, quẹt đúng hộ chiếu đã đặt" }
 ];
 function openDoc(d) {
   const lb = document.getElementById("lightbox");
@@ -2114,6 +2118,7 @@ document.addEventListener("keydown", e => {
 const WD_SHORT = { "Thứ Hai": "T2", "Thứ Ba": "T3", "Thứ Tư": "T4", "Thứ Năm": "T5", "Thứ Sáu": "T6", "Thứ Bảy": "T7", "Chủ Nhật": "CN" };
 function skyOf(d) { const sc = SCENES[d] || SCENES[24]; return { d1: sc.sky[0], d2: sc.sky[1], night: !!sc.night }; }
 function isLite(hex) { const n = parseInt(hex.slice(1), 16), c = [n >> 16, (n >> 8) & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2] > .45; }
+const docBtns = list => el("div", { class: "day-docs" }, list.map(x => el("button", { type: "button", onclick: () => openDoc(x), "aria-label": "Mở " + x.t }, [el("img", { src: x.img, alt: "" }), x.t, el("i", { text: "›" })])));
 function renderDays() {
   const box = $("#days"); box.textContent = "";
   DAYS.forEach(d => box.append(el("button", { class: "day-btn", "aria-pressed": String(state.day === d.d), onclick: () => { state.day = d.d; store.set("day", d.d); renderPlan(); } },
@@ -2139,7 +2144,6 @@ function renderPlan() {
   const wx = wxDay(d.d);
   if (wx) { const ic = wxIcon(wx.c); kick.push(el("span", { class: "wx-chip", title: "Dự báo Open-Meteo, cập nhật mỗi 3 giờ", text: ic[1] + " " + ic[2] + " · " + wx.lo + "° đến " + wx.hi + "°C" + (wx.p >= 30 ? " · mưa " + wx.p + "%" : "") + (wx.w >= 25 ? " · gió " + wx.w + " km/h" : "") })); }
   const main = el("div", { class: "dh-main" }, [el("div", { class: "dh-kick" }, kick), el("h2", { text: d.t })]);
-  if (dd.length) main.append(el("div", { class: "day-docs" }, dd.map(x => el("button", { type: "button", onclick: () => openDoc(x), "aria-label": "Mở " + x.t }, [el("img", { src: x.img, alt: "" }), x.t, el("i", { text: "›" })]))));
   const sk = skyOf(d.d), dhScene = el("div", { class: "scene dh-scene", "aria-hidden": "true" }); dhScene.innerHTML = '<div class="layer on">' + sceneSVG(d.d) + "</div>";
   head.append(el("div", { class: "dh-card" + (sk.night ? " is-night" : ""), style: "--d1:" + sk.d1 + ";--d2:" + sk.d2 }, [dhScene, el("div", { class: "dh-date" + (isLite(sk.d1) && isLite(sk.d2) ? " lite" : ""), "aria-hidden": "true" }, [el("span", { class: "mm", text: "Th 11" }), el("span", { class: "dd", text: String(d.d) }), el("span", { class: "wd", text: d.w })]), main]));
 
@@ -2164,7 +2168,9 @@ function renderPlan() {
   // danh sách
   computeNow();
   const list = $("#timeline"); list.textContent = "";
-  if (d.n) list.append(el("li", { class: "day-note" }, [el("span", { class: "dn-ico", text: "💡", "aria-hidden": "true" }), el("div", {}, [el("b", { text: "Lưu ý trong ngày" }), el("p", { text: d.n })])])); list.classList.toggle("anim", anim);
+  const dayActs = ACT.filter(a => a[0] === d.d && partOK(a));
+  const looseDocs = dd.filter(x => !x.act || !dayActs.some(a => x.act.test(a[2])));
+  if (d.n || looseDocs.length) list.append(el("li", { class: "day-note" }, [el("span", { class: "dn-ico", text: "💡", "aria-hidden": "true" }), el("div", {}, [el("b", { text: "Lưu ý trong ngày" }), ...(d.n ? [el("p", { text: d.n })] : []), ...(looseDocs.length ? [docBtns(looseDocs)] : [])])])); list.classList.toggle("anim", anim);
   const rows = ACT.map((a, i) => ({ a, i })).filter(({ a }) => a[0] === state.day && partOK(a) && (state.cats.size === 0 || state.cats.has(a[3])));
   if (!rows.length) list.append(el("li", { class: "empty", text: "Không có hoạt động nào thuộc hạng mục đã chọn trong ngày này." }));
   rows.forEach(({ a, i }, k) => {
@@ -2180,6 +2186,7 @@ function renderPlan() {
         el("p", { text: a[4] }),
         el("p", { class: "how" }, [el("b", { text: "Nên làm: " }), a[5]]),
         a[7] ? el("div", { class: "say" }, [el("b", { text: "🗣️ Nói thế nào" }), ...a[7].map(x => el("div", { class: "say-row" }, [el("span", { class: "zh", text: x[0] }), el("span", { class: "pyx", text: x[1] }), el("span", { class: "vi", text: x[2] })]))]) : "",
+        ...(() => { const ds = DOCS.filter(x => x.day === a[0] && x.act && x.act.test(a[2])); return ds.length ? [docBtns(ds)] : []; })(),
         el("label", { class: "tick", for: "act" + i }, [cb, "Đã làm xong"])
       ])
     );
@@ -2667,9 +2674,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120111225" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120111527" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120111225";
+  var BUILD = "20261120111527";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
