@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120102321"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120104718"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1171,7 +1171,7 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
         <h3>🔁 Ghi chuyển tiền giữa các bạn</h3>
         <form class="form" id="trForm" autocomplete="off">
           <label class="w2">Người chuyển<select id="tFrom"><option>Hiền</option><option>Thanh</option><option>Hà</option></select></label>
-          <label class="w2">Người nhận<select id="tTo"><option>Hà</option><option>Hiền</option><option>Thanh</option></select></label>
+          <label class="w2">Người nhận<select id="tTo"><option value="Chung">Quỹ chung</option><option>Hà</option><option>Hiền</option><option>Thanh</option></select></label>
           <label class="w2">Số tiền (VNĐ)<input id="tAmt" type="number" inputmode="decimal" min="0" step="any" placeholder="0" required></label>
           <div class="w6 row-btns"><button class="btn" type="submit">Ghi chuyển tiền</button></div>
         </form>
@@ -2223,7 +2223,11 @@ const isTrSeed = x => x.type === "transfer";
     add({ id: "seed-tr-thanh", type: "transfer", day: "truoc", from: "Thanh", to: "Hà", amt: 10000000, desc: "Thanh chuyển cho Hà" });
   }
   if (v < 4 && !EXP.some(x => /tử cấm|cố cung/i.test(x.desc || "") && !isTrSeed(x))) add({ id: "seed-ccc", day: "truoc", cat: "Tham quan", who: "Hà", for: "all", desc: "Vé Tử Cấm Thành 25/11 buổi sáng, 3 vé (mã đơn 20261120910091118973)", amt: 120, cur: "CNY" });
-  store.set("seedv", 4); store.set("expenses", EXP);
+  if (v < 5) {
+    EXP = EXP.map(x => (x.id === "seed-hotel" || x.id === "seed-ccc") ? { ...x, who: "Chung" } : (x.id === "seed-tr-hien" || x.id === "seed-tr-thanh") ? { ...x, to: "Chung", desc: x.from + " góp quỹ chung" } : x);
+    add({ id: "seed-tr-ha", type: "transfer", day: "truoc", from: "Hà", to: "Chung", amt: 20000000, desc: "Hà góp quỹ chung" });
+  }
+  store.set("seedv", 5); store.set("expenses", EXP);
 })();
 let RATE = +store.get("rate", 4000) || 4000;
 let editId = null, confirmDel = null;
@@ -2258,7 +2262,7 @@ function initCostForm() {
     e.preventDefault();
     const from = $("#tFrom").value, to = $("#tTo").value, amt = +$("#tAmt").value;
     if (!(amt > 0) || from === to) return;
-    EXP.push(normItem({ id: newId(), type: "transfer", day: defaultDay(), from, to, amt, desc: from + " chuyển cho " + to }));
+    EXP.push(normItem({ id: newId(), type: "transfer", day: defaultDay(), from, to, amt, desc: to === "Chung" ? from + " góp quỹ chung" : from + " chuyển cho " + to }));
     saveExp(); $("#tAmt").value = ""; renderCost(); toast("Đã ghi chuyển tiền ✓");
   });
   $("#fCancel").addEventListener("click", resetForm);
@@ -2302,8 +2306,8 @@ function ledger() {
   EXP.forEach(e => {
     const v = toVnd(e);
     if (isTr(e)) { if (e.from in net) net[e.from] += v; if (e.to in net) net[e.to] -= v; return; }
-    if (e.for === "all") PEOPLE.forEach(p => { used[p] += v / 3; if (e.who !== "Chung") net[p] -= v / 3; });
-    else if (e.for in used) { used[e.for] += v; if (e.who !== "Chung") net[e.for] -= v; }
+    if (e.for === "all") PEOPLE.forEach(p => { used[p] += v / 3; net[p] -= v / 3; });
+    else if (e.for in used) { used[e.for] += v; net[e.for] -= v; }
     if (e.who in net) net[e.who] += v;
   });
   const debt = PEOPLE.filter(p => net[p] < -1).map(p => ({ p, v: -net[p] })), cred = PEOPLE.filter(p => net[p] > 1).map(p => ({ p, v: net[p] }));
@@ -2325,14 +2329,14 @@ function renderCost() {
     el("div", { class: "panel" }, [el("p", { class: "k", text: today === "truoc" ? "🧾 Chi trước chuyến đi" : "📅 Hôm nay " + today + "/11" }), el("div", { class: "big", text: vnd(todayT) })]),
     (() => {
       const bud = CASH.reduce((s, c) => s + c.cny, 0);
-      const usedT = spend.filter(e => e.cat !== "Máy bay").reduce((s, e) => s + toVnd(e), 0) / RATE;
+      const usedT = spend.filter(e => e.who === "Chung").reduce((s, e) => s + toVnd(e), 0) / RATE;
       const left = bud - usedT, pct = Math.min(100, Math.max(0, usedT / bud * 100));
       return el("div", { class: "panel cash", style: "grid-column:1 / -1" }, [el("p", { class: "k", text: "👛 Quỹ chung (Hà giữ)" }),
         el("div", { class: "cash-row" }, [el("div", { class: "big", text: cny(Math.max(0, left)) }), el("span", { class: "small", text: "/ " + cny(bud) })]),
         el("div", { class: "progress cash-bar", "aria-hidden": "true" }, [el("span", { style: "width:" + pct + "%" })]),
         el("div", { class: "cash-meta" }, [el("span", { text: "Đã dùng" }), el("b", { text: cny(Math.round(usedT)) })]),
         ...(left < 0 ? [el("div", { class: "small", style: "color:var(--warn);font-weight:700", text: "Quỹ đã hết." })] : []),
-        el("div", { class: "small", text: "Hiền, Thanh góp 20 triệu; đổi được 1 vạn tệ. Đã trừ khách sạn và vé." })]);
+      ]);
     })(),
     (() => {
       const out = p => EXP.filter(e => !isTr(e) && e.who === p).reduce((s, e) => s + toVnd(e), 0);
@@ -2364,7 +2368,7 @@ function renderCost() {
     const dt = items.filter(e => !isTr(e)).reduce((s, e) => s + toVnd(e), 0); run += dt;
     const ul = el("ul", { class: "exp" });
     items.forEach(e => {
-      const meta = isTr(e) ? "Chuyển tiền · " + e.from + " → " + e.to : e.cat + " · " + (e.who === "Chung" ? "quỹ chung" : e.who) + " trả · " + (e.for === "all" ? "chia 3" : "riêng " + e.for);
+      const meta = isTr(e) ? (e.to === "Chung" ? "Góp quỹ chung · " + e.from : "Chuyển tiền · " + e.from + " → " + e.to) : e.cat + " · " + (e.who === "Chung" ? "quỹ chung" : e.who) + " trả · " + (e.for === "all" ? "chia 3" : "riêng " + e.for);
       const acts = [];
       if (!isTr(e)) acts.push(el("button", { type: "button", onclick: () => startEdit(e) }, ["Sửa"]));
       acts.push(el("button", { type: "button", style: "color:var(--warn)", onclick: () => { if (confirmDel === e.id) { EXP = EXP.filter(x => x.id !== e.id); saveExp(); confirmDel = null; } else confirmDel = e.id; renderCost(); } }, [confirmDel === e.id ? "Bấm lần nữa để xóa" : "Xóa"]));
@@ -2619,9 +2623,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120102321" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120104718" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120102321";
+  var BUILD = "20261120104718";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
