@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120104718"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120110018"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1010,6 +1010,30 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
 .cost-sum .panel.cash .cash-bar { margin: 8px 0 6px; height: 10px; }
 .cost-sum .panel.cash .cash-meta { display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); }
 .cost-sum .panel.cash .cash-meta b { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* ---------- Chọn ngày theo cảnh từng ngày ---------- */
+#days .day-btn { background-image: linear-gradient(90deg, var(--d1), var(--d2)); background-size: 46% 4px; background-position: center bottom 5px; background-repeat: no-repeat; }
+#days .day-btn[aria-pressed="true"] { background-image: linear-gradient(160deg, var(--d1), var(--d2)); background-size: 100% 100%; background-position: 0 0; box-shadow: 0 0 0 2px color-mix(in srgb, var(--d1) 50%, var(--ink)), 0 12px 22px -12px var(--d1); }
+#days .day-btn[aria-pressed="true"] :is(.w, .n, .wx) { color: #2a2340; }
+#days .day-btn.dark-sky[aria-pressed="true"] :is(.w, .n, .wx) { color: #fff; text-shadow: 0 1px 8px rgba(20, 10, 50, .5); }
+#days .day-btn:hover:not([aria-pressed="true"]) { background-color: color-mix(in srgb, var(--d1) 22%, var(--surface)); }
+.dh-card { position: relative; overflow: hidden; isolation: isolate; border-color: color-mix(in srgb, var(--d1) 45%, var(--line)); }
+.dh-card > :not(.dh-scene) { position: relative; z-index: 2; }
+.dh-card .dh-scene { z-index: 0; pointer-events: none; }
+.dh-card .dh-scene svg { width: 100%; height: 100%; }
+.dh-card::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(90deg, color-mix(in srgb, var(--surface) 95%, transparent) 0%, color-mix(in srgb, var(--surface) 86%, transparent) 40%, color-mix(in srgb, var(--surface) 35%, transparent) 72%, transparent 100%); }
+.dh-main h2 { text-shadow: 0 0 14px var(--surface), 0 0 4px var(--surface); }
+.dh-date { background: linear-gradient(160deg, var(--d1), var(--d2)); box-shadow: 0 10px 20px -12px var(--d1), inset 0 0 0 1px rgba(255, 255, 255, .35); }
+.dh-date.lite { color: #2a2340; }
+.dh-date:not(.lite) { text-shadow: 0 1px 8px rgba(20, 10, 50, .45); }
+.dh-note { background: color-mix(in srgb, var(--surface) 80%, transparent); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); border-left-color: color-mix(in srgb, var(--d1) 70%, var(--ink)); }
+.dh-kick span { background: color-mix(in srgb, var(--surface) 70%, var(--d1) 30%); color: color-mix(in srgb, var(--d1) 35%, var(--ink)); }
+.day-docs button { background: color-mix(in srgb, var(--surface) 88%, transparent); }
+@media (max-width: 640px) {
+  .dh-card { padding-top: 112px; }
+  .dh-card .dh-scene { bottom: auto; height: 118px; }
+  .dh-card::after { background: linear-gradient(180deg, transparent 0, transparent 96px, var(--surface) 118px); }
+}
 </style>
 </head>
 <body>
@@ -2073,11 +2097,14 @@ document.addEventListener("keydown", e => {
   e.preventDefault(); state.day = DAYS[j].d; store.set("day", state.day); renderPlan();
 });
 const WD_SHORT = { "Thứ Hai": "T2", "Thứ Ba": "T3", "Thứ Tư": "T4", "Thứ Năm": "T5", "Thứ Sáu": "T6", "Thứ Bảy": "T7", "Chủ Nhật": "CN" };
+function skyOf(d) { const sc = SCENES[d] || SCENES[24]; return { d1: sc.sky[0], d2: sc.sky[1], night: !!sc.night }; }
+function isLite(hex) { const n = parseInt(hex.slice(1), 16), c = [n >> 16, (n >> 8) & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2] > .45; }
 function renderDays() {
   const box = $("#days"); box.textContent = "";
   DAYS.forEach(d => box.append(el("button", { class: "day-btn", "aria-pressed": String(state.day === d.d), onclick: () => { state.day = d.d; store.set("day", d.d); renderPlan(); } },
     [el("span", { class: "w" }, [el("span", { class: "wl", text: d.w }), el("span", { class: "ws", text: WD_SHORT[d.w] || d.w })]), el("span", { class: "n", text: String(d.d) }),
      ...(wxDay(d.d) ? [el("span", { class: "wx" }, [el("i", { text: wxIcon(wxDay(d.d).c)[1] }), el("span", { class: "wt", text: wxDay(d.d).lo + "°/" + wxDay(d.d).hi + "°" }), el("span", { class: "wh", text: wxDay(d.d).hi + "°" })])] : [])])));
+  [...box.children].forEach((b, i) => { const k = skyOf(DAYS[i].d); b.style.setProperty("--d1", k.d1); b.style.setProperty("--d2", k.d2); b.classList.toggle("dark-sky", !(isLite(k.d1) && isLite(k.d2))); });
   const bt = bjNow();
   if (bt.y === 2026 && bt.m === 10) [...box.children].forEach((b, i) => { const dn = DAYS[i].d; if (dn === bt.d) b.classList.add("today"); else if (dn < bt.d) b.classList.add("past"); });
 }
@@ -2098,7 +2125,8 @@ function renderPlan() {
   const main = el("div", { class: "dh-main" }, [el("div", { class: "dh-kick" }, kick), el("h2", { text: d.t })]);
   if (d.n) main.append(el("p", { class: "dh-note" }, [el("b", { text: "💡" }), el("span", { text: d.n })]));
   if (dd.length) main.append(el("div", { class: "day-docs" }, dd.map(x => el("button", { type: "button", onclick: () => openDoc(x), "aria-label": "Mở " + x.t }, [el("img", { src: x.img, alt: "" }), x.t, el("i", { text: "›" })]))));
-  head.append(el("div", { class: "dh-card" }, [el("div", { class: "dh-date", "aria-hidden": "true" }, [el("span", { class: "mm", text: "Th 11" }), el("span", { class: "dd", text: String(d.d) }), el("span", { class: "wd", text: d.w })]), main]));
+  const sk = skyOf(d.d), dhScene = el("div", { class: "scene dh-scene", "aria-hidden": "true" }); dhScene.innerHTML = '<div class="layer on">' + sceneSVG(d.d) + "</div>";
+  head.append(el("div", { class: "dh-card" + (sk.night ? " is-night" : ""), style: "--d1:" + sk.d1 + ";--d2:" + sk.d2 }, [dhScene, el("div", { class: "dh-date" + (isLite(sk.d1) && isLite(sk.d2) ? " lite" : ""), "aria-hidden": "true" }, [el("span", { class: "mm", text: "Th 11" }), el("span", { class: "dd", text: String(d.d) }), el("span", { class: "wd", text: d.w })]), main]));
 
   // phương án A/B/C cho 27/11
   const ob = $("#optBox"); ob.textContent = "";
@@ -2623,9 +2651,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120104718" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120110018" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120104718";
+  var BUILD = "20261120110018";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
