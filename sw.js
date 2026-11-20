@@ -1,6 +1,6 @@
 /* Lưu bản sao để mở được khi mất mạng. Luôn ưu tiên bản mới trên mạng. */
-const CACHE = "bk26-v1";
-const CORE = ["./", "./index.html", "./manifest.webmanifest"];
+const CACHE = "bk26-v2";
+const CORE = ["./", "./index.html", "./manifest.webmanifest", "./i18n-en.js", "./i18n-zh.js"];
 self.addEventListener("install", e => {
   self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).catch(() => {}));

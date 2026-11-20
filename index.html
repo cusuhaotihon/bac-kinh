@@ -11,6 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261120092043"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -991,6 +992,17 @@ details.docs-wrap .ds-chev::before { content: ""; position: absolute; left: 50%;
 details.docs-wrap > .docs { padding: 0 12px; }
 details.docs-wrap > .docs-note { padding: 0 14px 12px; }
 details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
+
+/* ---------- Chọn ngôn ngữ ---------- */
+.lang { position: absolute; top: 14px; right: 14px; z-index: 3; display: inline-flex; border: 1.5px solid var(--line); border-radius: 999px; overflow: hidden; background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: blur(6px); }
+.lang button { border: 0; background: none; padding: 5px 11px; font-size: 12.5px; font-weight: 800; color: var(--muted); letter-spacing: .02em; }
+.lang button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+@media (max-width: 640px) { .lang { top: 10px; right: 10px; } .lang button { padding: 4px 9px; font-size: 11.5px; } }
+:root[data-lang="zh"] .seal { display: none; }
+:root[data-lang="zh"] .hero-txt h1.ttl { letter-spacing: .08em; }
+:root[data-lang="zh"] .say .pyx, :root[data-lang="zh"] .say .vi, :root[data-lang="zh"] .tips li .zh ~ span { display: none; }
+:root[data-lang="zh"] body, :root[data-lang="zh"] { font-family: var(--body), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif; }
+:root[data-lang="en"] #days .day-btn .w, :root[data-lang="zh"] #days .day-btn .w { letter-spacing: .04em; }
 </style>
 </head>
 <body>
@@ -1006,6 +1018,7 @@ details.docs-wrap[open] > .docs { animation: fadeIn .3s ease both; }
         <p class="sub">23 – 30.11.2026 · 8 ngày 7 đêm</p>
       </div>
       <span class="scene-cap" id="sceneCap"></span>
+      <div class="lang" role="group" aria-label="Ngôn ngữ"><button type="button" data-l="vi" lang="vi" aria-label="Tiếng Việt">VI</button><button type="button" data-l="en" lang="en" aria-label="English">EN</button><button type="button" data-l="zh" lang="zh" aria-label="中文">中文</button></div>
       <div class="theme" role="group" aria-label="Chế độ nền">
       <button data-t="auto" aria-label="Tự động"><span class="ti">🌗</span><span class="tl">Tự động</span></button><button data-t="light" aria-label="Sáng"><span class="ti">☀️</span><span class="tl">Sáng</span></button><button data-t="dark" aria-label="Tối"><span class="ti">🌙</span><span class="tl">Tối</span></button>
     </div>
@@ -2445,7 +2458,8 @@ function toast(msg) {
 
 (function splitTitle() {
   const w = document.getElementById("tWord"); if (!w) return;
-  const txt = w.textContent; w.textContent = "";
+  const L = document.documentElement.dataset.lang;
+  const txt = L === "zh" ? "北京" : L === "en" ? "Beijing" : w.textContent; w.textContent = "";
   [...txt].forEach((c, i) => w.append(c === " " ? " " : el("span", { class: "ch", style: "--i:" + i, text: c })));
 })();
 
@@ -2592,9 +2606,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261120085833" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261120092043" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261120085833";
+  var BUILD = "20261120092043";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
@@ -2639,6 +2653,87 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
     btn.textContent = "Đang kiểm tra…";
     check(true).then(function (res) { btn.textContent = res === false ? "✅ Đang là bản mới nhất" : res === null ? "Không kiểm tra được, thử lại sau" : "🔄 Kiểm tra bản mới"; setTimeout(function () { btn.textContent = "🔄 Kiểm tra bản mới"; }, 3000); });
   };
+})();
+
+/* ---------- Ngôn ngữ hiển thị: Tiếng Việt / English / 中文 ---------- */
+document.querySelectorAll(".lang button").forEach(b => {
+  const cur = document.documentElement.dataset.lang || "vi";
+  b.setAttribute("aria-pressed", String(b.dataset.l === cur));
+  b.addEventListener("click", () => { if (b.dataset.l === cur) return; store.set("lang", b.dataset.l); location.reload(); });
+});
+(function i18n() {
+  const L = document.documentElement.dataset.lang;
+  if (!L || !window.I18N || window.I18N.lang !== L) return;
+  const D = window.I18N.d, EN = L === "en";
+  const NM = { "Hà": EN ? "Ha" : "Hà", "Hiền": EN ? "Hien" : "Hiền", "Thanh": "Thanh", "Chung": EN ? "shared fund" : "公款", "quỹ chung": EN ? "shared fund" : "公款" };
+  const nm = x => NM[x] || x;
+  const LBL = { "Tất cả": EN ? "All" : "全部", "Chưa làm": EN ? "To do" : "未办", "Đã đặt": EN ? "Booked" : "已订", "Xong": EN ? "Done" : "完成" };
+  const t = s => { const r = tr(s); return r == null ? s : r; };
+  const PAT = [
+    [/^· (\d+) việc(?:, (\d+) gấp)?$/, m => EN ? "· " + m[1] + " tasks" + (m[2] ? ", " + m[2] + " urgent" : "") : "· " + m[1] + " 项" + (m[2] ? "，" + m[2] + " 项紧急" : "")],
+    [/^(\d+) việc(?:, (\d+) gấp)?$/, m => EN ? m[1] + " tasks" + (m[2] ? ", " + m[2] + " urgent" : "") : m[1] + " 项" + (m[2] ? "，" + m[2] + " 项紧急" : "")],
+    [/^Làm ngay · còn (\d+) ngày$/, m => EN ? "Do now · " + m[1] + " days left" : "立即办理 · 还剩 " + m[1] + " 天"],
+    [/^Còn (\d+) ngày$/, m => EN ? m[1] + (m[1] === "1" ? " day left" : " days left") : "还剩 " + m[1] + " 天"],
+    [/^Còn (\d+) phút$/, m => EN ? m[1] + " min left" : "还剩 " + m[1] + " 分钟"],
+    [/^Hôm nay (\d{1,2}:\d{2})$/, m => (EN ? "Today " : "今天 ") + m[1]],
+    [/^Mai (\d{1,2}:\d{2})$/, m => (EN ? "Tomorrow " : "明天 ") + m[1]],
+    [/^Lúc (\d{1,2}:\d{2})$/, m => (EN ? "At " : "") + m[1]],
+    [/^Xem tất cả (\d+) việc$/, m => EN ? "See all " + m[1] + " tasks" : "查看全部 " + m[1] + " 项"],
+    [/^Xem lại \((\d+)\)$/, m => (EN ? "Show (" : "展开（") + m[1] + (EN ? ")" : "）")],
+    [/^Ngày (\d)\/8$/, m => EN ? "Day " + m[1] + "/8" : "第 " + m[1] + "/8 天"],
+    [/^(\d+) hoạt động$/, m => EN ? m[1] + " activities" : m[1] + " 项活动"],
+    [/^🎫 (\d+) giấy tờ$/, m => EN ? "🎫 " + m[1] + (m[1] === "1" ? " document" : " documents") : "🎫 " + m[1] + " 份凭证"],
+    [/^(Tất cả|Chưa làm|Đã đặt|Xong) \((\d+)\)$/, m => LBL[m[1]] + (EN ? " (" + m[2] + ")" : "（" + m[2] + "）")],
+    [/^Đã xong (\d+)\/(\d+)$/, m => (EN ? "Done " : "已完成 ") + m[1] + "/" + m[2]],
+    [/^Còn (\d+)\/(\d+) mục cần chuẩn bị$/, m => EN ? m[1] + "/" + m[2] + " items left to prepare" : "还有 " + m[1] + "/" + m[2] + " 项待准备"],
+    [/^(\d+) việc chưa làm, xử lý sớm nhé$/, m => EN ? m[1] + " tasks to do, handle them soon" : "还有 " + m[1] + " 项未办，尽早处理"],
+    [/^Chi trong ngày (.+) · Cộng dồn (.+)$/, m => EN ? "Spent this day " + m[1] + " · Running total " + m[2] : "当日支出 " + m[1] + " · 累计 " + m[2]],
+    [/^≈ (.+) · (\d+) khoản$/, m => "≈ " + m[1] + " · " + m[2] + (EN ? " items" : " 笔")],
+    [/^Bản cập nhật lúc (.+)$/, m => (EN ? "Version from " : "版本时间 ") + m[1]],
+    [/^Ngày (\d{1,2})\/11$/, m => EN ? m[1] + " Nov" : "11月" + m[1] + "日"],
+    [/^📅 Hôm nay (\d{1,2})\/11$/, m => EN ? "📅 Today " + m[1] + "/11" : "📅 今天 11月" + m[1] + "日"],
+    [/^Tiếp theo: (.+)$/, m => (EN ? "Up next: " : "下一项：") + t(m[1])],
+    [/^Trạng thái: (.+)$/, m => (EN ? "Status: " : "状态：") + t(m[1])],
+    [/^Mở (.+)$/, m => tr(m[1]) == null ? null : (EN ? "Open " : "打开") + tr(m[1])],
+    [/^(\S+) (.+?) · (-?\d+)° đến (-?\d+)°C(?: · mưa (\d+)%)?(?: · gió (\d+) km\/h)?$/, m => m[1] + " " + t(m[2]) + " · " + m[3] + "°" + (EN ? " to " : "至") + m[4] + "°C" + (m[5] ? (EN ? " · rain " : " · 降水 ") + m[5] + "%" : "") + (m[6] ? (EN ? " · wind " : " · 风 ") + m[6] + " km/h" : "")],
+    [/^Chưa có khoản chi nào cho ngày (\d{1,2})\/11\.$/, m => EN ? "No expenses yet for " + m[1] + "/11." : "11月" + m[1] + "日还没有支出。"],
+    [/^Đã nhập thêm (\d+) khoản \(bỏ qua khoản trùng\)\.$/, m => EN ? "Imported " + m[1] + " items (duplicates skipped)." : "已导入 " + m[1] + " 笔（已跳过重复）。"],
+    [/^Âm (.+)$/, m => (EN ? "−" : "负 ") + m[1]],
+    [/^Hiền và Thanh đã góp (.+?)\. Đây là phần tiền góp còn lại sau khi trừ phần của Hiền và Thanh trong các khoản Hà đã trả\.( Quỹ đã âm, tức Hà đang ứng trước\.)?$/, m => EN ? "Hien and Thanh contributed " + m[1] + ". This is what's left of the contributions after deducting Hien's and Thanh's share of what Ha paid." + (m[2] ? " The fund is negative, meaning Ha is paying in advance." : "") : "Hiền 和 Thanh 已交 " + m[1] + "。这是扣除 Hà 代付款项中二人份额后剩余的公款。" + (m[2] ? "公款为负，说明 Hà 在垫付。" : "")],
+    [/^Chuyển tiền · (.+) → (.+)$/, m => (EN ? "Transfer · " : "转账 · ") + nm(m[1]) + " → " + nm(m[2])],
+    [/^(.+?) · (.+?) trả · (chia 3|riêng (.+))$/, m => t(m[1]) + " · " + (EN ? nm(m[2]) + " paid · " : nm(m[2]) + "付 · ") + (m[4] ? (EN ? nm(m[4]) + " only" : "仅 " + nm(m[4])) : (EN ? "split 3" : "三人平摊"))],
+    [/^(Hà|Hiền|Thanh) chuyển cho (Hà|Hiền|Thanh)$/, m => EN ? nm(m[1]) + " transferred to " + nm(m[2]) : nm(m[1]) + " 转给 " + nm(m[2])],
+    [/^(Hà|Hiền|Thanh) cần gửi (Hà|Hiền|Thanh) (.+)$/, m => EN ? nm(m[1]) + " should send " + nm(m[2]) + " " + m[3] : nm(m[1]) + " 应转给 " + nm(m[2]) + " " + m[3]],
+    [/^Đã đồng bộ từ Google Sheet lúc (\S+) ngày (\d+)\/(\d+)$/, m => EN ? "Synced from Google Sheet at " + m[1] + " on " + m[2] + "/" + m[3] : m[3] + "月" + m[2] + "日 " + m[1] + " 已从 Google 表格同步"],
+    [/^(\d[\d.]*) đ$/, m => m[1] + " ₫"]
+  ];
+  function tr(k) {
+    if (Object.prototype.hasOwnProperty.call(D, k)) return D[k];
+    for (const [re, f] of PAT) { const m = k.match(re); if (m) { const r = f(m); if (r != null) return r; } }
+    return null;
+  }
+  const HAS = /[A-Za-zÀ-ỹ]/;
+  function doText(n) {
+    const v = n.nodeValue, k = v.trim(); if (!k || !HAS.test(k)) return;
+    const p = n.parentElement; if (!p || p.closest("script,style,textarea,.ch,[data-noi18n]")) return;
+    let r = k === "Ngày" && p.closest(".st-v") ? (EN ? "Day" : "第") : tr(k);
+    if (/\d đ(?![\wÀ-ỹ])/.test(r == null ? k : r)) r = (r == null ? k : r).replace(/(\d) đ(?![\wÀ-ỹ])/g, "$1 ₫");
+    if (r != null && r !== k) n.nodeValue = v.replace(k, r);
+  }
+  const AT = ["aria-label", "title", "placeholder"];
+  function doAttrs(e) { for (const a of AT) { const v = e.getAttribute(a); if (v && HAS.test(v)) { const r = tr(v.trim()); if (r != null && r !== v) e.setAttribute(a, r); } } }
+  function walk(root) {
+    if (root.nodeType === 3) return doText(root);
+    if (root.nodeType !== 1) return;
+    if (root.matches("[aria-label],[title],[placeholder]")) doAttrs(root);
+    root.querySelectorAll("[aria-label],[title],[placeholder]").forEach(doAttrs);
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) doText(n);
+  }
+  walk(document.body);
+  document.title = t(document.title);
+  new MutationObserver(ms => { for (const m of ms) { if (m.type === "characterData") doText(m.target); else if (m.type === "attributes") doAttrs(m.target); else m.addedNodes.forEach(walk); } })
+    .observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: AT });
+  const _toast = window.toast; if (typeof _toast === "function") window.toast = msg => _toast(t(msg));
 })();
 </script>
 </body>
