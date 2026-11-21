@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261121234237"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261121234923"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -1642,7 +1642,7 @@ const DAYS = [
   { d: 25, w: "Thứ Tư", t: "Mặc đồ cách cách vào Tử Cấm Thành, chiều Nam La Cổ Hạng, hoàng hôn Cảnh Sơn, lẩu bò", n: "Xuất phát 7:30 thuê đồ cách cách gói nửa ngày gần cổng Đông Hoa Môn, trưa ra Tử Cấm Thành thì trả đồ. Đã có vé Tử Cấm Thành suất sáng (mã đơn 20261120910091118973), phải vào cổng trước 12:00. Mang đúng hộ chiếu gốc đã dùng để đặt vé." },
   { d: 26, w: "Thứ Năm", t: "Cổ Bắc Thủy Trấn buổi sáng, hoàng hôn trên Trường Thành Mutianyu", n: "Xe riêng cả ngày, đón 7:00. Sáng chụp ảnh sông ở Cổ Bắc, vé Mutianyu khung PM loại 200 tệ có cáp treo kín khứ hồi (ống trượt đóng 16:30). Mặt trời lặn khoảng 16:50, xuống cáp treo trước 17:30.", alt: { MT: { t: "Lưu Ly Xưởng buổi sáng, hoàng hôn trên Trường Thành Mutianyu", n: "Sáng thong thả gần khách sạn. 12:00 xe riêng đi Mutianyu, vé khung PM loại 200 tệ có cáp treo kín khứ hồi (ống trượt đóng 16:30). Mặt trời lặn khoảng 16:50, xuống cáp treo trước 17:30." } } },
   { d: 27, w: "Thứ Sáu", t: "Di Hòa Viên và chọn 1 trong 3 phương án A/B/C", n: "Xuất phát 9:00. Buổi sáng đều đi Di Hòa Viên, buổi chiều chọn một trong ba phương án bên dưới." },
-  { d: 28, w: "Thứ Bảy", t: "Thanh Hoa, Bắc Đại, Viên Minh Viên (tùy sức)", n: "Đã gửi email xin vào Bắc Đại và Thanh Hoa (19/11), chờ xác nhận. Đơn phòng 2 bắt đầu, mã 50512095." },
+  { d: 28, w: "Thứ Bảy", t: "Thanh Hoa, Bắc Đại, Viên Minh Viên (tùy sức)", n: "Đã gửi email xin vào Bắc Đại và Thanh Hoa (19/11), chờ xác nhận. Đơn phòng 2 bắt đầu, mã 50512095.", alt: { GATE: { t: "Chụp cổng Bắc Đại, Thanh Hoa, Viên Minh Viên, Công viên Olympic", n: "Phương án khi hai trường không duyệt email: tới 26/11 chưa có thư thì coi như không được. Không cần đặt vé trước. Đơn phòng 2 bắt đầu, mã 50512095." } } },
   { d: 29, w: "Chủ Nhật", t: "Ngày nhẹ: Lưu Ly Xưởng, nghỉ trưa, chiều tối Vương Phủ Tỉnh", n: "Đã bỏ Bảo tàng Thủ Đô, không cần đặt vé gì. Vương Phủ Tỉnh chuyển từ tối 25/11 sang để tối 25/11 về nghỉ sớm, sáng 26/11 xe đón 7:00. Vali xếp sáng 30/11.", alt: { MT: { t: "Sáng Vương Phủ Tỉnh, chiều tối Cổ Bắc Thủy Trấn lên đèn", n: "Đã bỏ Bảo tàng Thủ Đô. 12:30 xe riêng đón ở Vương Phủ Tỉnh đi Cổ Bắc, ngắm trấn lên đèn và ăn tối trong trấn, khoảng 22:00 về khách sạn. Vali xếp sáng 30/11." } } },
   { d: 30, w: "Thứ Hai", t: "Ung Hòa Cung, mua quà, bay về lúc 23:15, về nhà sau 02:05", n: "Sáng xếp vali, trả phòng trước 12:00, gửi hành lý. Rời khách sạn khoảng 18:45. VJ6043 cất cánh 23:15, đáp Hà Nội 02:05 ngày 1/12." }
 ];
@@ -1652,6 +1652,10 @@ const OPTIONS26 = {
   MT: { name: "Phương án C: hoàng hôn Mutianyu, Cổ Bắc dời sang tối 29/11", plan: "26/11 sáng Lưu Ly Xưởng, chiều xe riêng lên Mutianyu ngắm hoàng hôn. 29/11 chiều tối đi Cổ Bắc xem trấn lên đèn", plus: "26/11 không phải dậy sớm. Cổ Bắc được xem lúc lên đèn, ở lâu hơn và ăn tối trong trấn.", minus: "Thuê xe 2 lần, tổng ngồi xe khoảng 7 giờ, không chụp Cổ Bắc buổi sáng, tối 29/11 khoảng 22:00 mới về." }
 };
 /* 29/11 đi theo phương án 26/11: C thì chiều tối 29/11 đi Cổ Bắc, còn lại là ngày nhẹ */
+const OPTIONS28 = {
+  UNI: { name: "Được duyệt: vào thăm Thanh Hoa, Bắc Đại", plan: "Sáng Thanh Hoa, 14:00 Bắc Đại theo khung đã xin, chiều tối ghé Viên Minh Viên nếu còn sức", plus: "Đi dạo bên trong khuôn viên hai trường.", minus: "Phải đúng giờ, mang hộ chiếu gốc và email xác nhận. Nếu chỉ một trường duyệt thì trường kia chỉ chụp cổng." },
+  GATE: { name: "Không được duyệt: chụp cổng, Viên Minh Viên, Công viên Olympic", plan: "Chụp cổng Tây Bắc Đại và cổng Tây Thanh Hoa, đi Viên Minh Viên, ăn trưa Ngũ Đạo Khẩu, chiều Tổ Chim và Khối Nước lúc trời tối", plus: "Không phụ thuộc email của trường, Viên Minh Viên được đi kỹ hơn, có thêm cảnh đêm Olympic.", minus: "Không vào được bên trong hai trường." }
+};
 const OPTIONS29 = {
   N29: { name: "Ngày nhẹ: Lưu Ly Xưởng, Vương Phủ Tỉnh", plan: "Đi cùng phương án B ngày 26/11 (Cổ Bắc buổi sáng)", plus: "Nghỉ ngơi trước ngày bay về, không phải đặt gì.", minus: "Không xem được Cổ Bắc lên đèn." },
   GB: { name: "Cổ Bắc Thủy Trấn chiều tối lên đèn", plan: "Đi cùng phương án C ngày 26/11 (sáng Lưu Ly Xưởng, chiều Mutianyu)", plus: "Xem trấn lên đèn, ăn tối trong trấn, sáng vẫn dạo Vương Phủ Tỉnh.", minus: "Thuê thêm 1 xe, khoảng 22:00 mới về khách sạn." }
@@ -1725,12 +1729,20 @@ let ACT = [
  [27, "17:00–18:00", "Đi tới Sanlitun", "Di chuyển", "DiDi từ Thư viện Quốc gia, khoảng 40 phút.", "DiDi từ Tây Đan, khoảng 30 phút. Đặt xe sớm trước 17:00 để tránh giờ cao điểm.", "C", [["师傅，去这个地方。", "Shīfu, qù zhège dìfang.", "Bác tài, đi tới chỗ này (đưa màn hình)."]]],
  [27, "18:00–21:00", "Sanlitun Taikoo Li", "Mua sắm", "Ăn tối, mua sắm rồi về khách sạn bằng DiDi.", "Dạo khu Nam (Village South, nhiều thương hiệu quốc tế) trước, rồi sang khu Bắc (Village North). Ăn tối tại trung tâm rồi về khách sạn bằng DiDi.", "C", [["我们三个人。", "Wǒmen sān ge rén.", "Bọn mình 3 người."], ["可以扫支付宝吗？", "Kěyǐ sǎo Zhīfùbǎo ma?", "Quét Alipay được không?"]]],
  [28, "08:30–09:00", "Báo lễ tân chuyển sang đơn 2, ở nguyên phòng", "Khác", "Khách sạn đã xác nhận: 2 đơn cùng loại phòng nên không cần đổi phòng, không phải dọn vali. Đơn 2 mã 50512095.", "Ghé lễ tân đưa mã đơn 50512095, nói ở tiếp phòng hiện tại rồi đi chơi luôn.", "Chung", [["我们的第二个订单是50512095，我们继续住这个房间。", "Wǒmen de dì-èr ge dìngdān shì wǔ líng wǔ yāo èr líng jiǔ wǔ, wǒmen jìxù zhù zhège fángjiān.", "Đơn thứ hai của bọn mình là 50512095, bọn mình ở tiếp phòng này."]]],
- [28, "09:00–10:00", "Đi tới Đại học Thanh Hoa", "Di chuyển", "DiDi khoảng 18 km, 50–60 phút (giờ cao điểm). Hoặc metro tuyến 4 rồi tuyến 15.", "Đặt DiDi tới cổng Tây hoặc cổng Đông Thanh Hoa. Mang hộ chiếu gốc.", "Chung", [["师傅，去这个地方。", "Shīfu, qù zhège dìfang.", "Bác tài, đi tới chỗ này (đưa màn hình)."]]],
- [28, "10:00–11:45", "Đại học Thanh Hoa (Tsinghua University)", "Tham quan", "Miễn phí, cần đặt trước. Mở Thứ Ba đến Chủ Nhật, 8:00–18:00. Người nước ngoài gửi email 1–7 ngày trước tới bwb@mail.tsinghua.edu.cn.", "Cổng Nhị Hiệu Môn → Đại lễ đường → Thanh Hoa Viên → ao Hà Đường (荷塘, hé táng) → Cận Xuân Viên.", "Chung", [["我们预约了参观，这是确认邮件。", "Wǒmen yùyuē le cānguān, zhè shì quèrèn yóujiàn.", "Bọn mình đã đăng ký tham quan, đây là email xác nhận."], ["二校门怎么走？", "Èr xiàomén zěnme zǒu?", "Đi cổng Nhị Hiệu Môn thế nào?"]]],
- [28, "11:45–13:30", "Ăn trưa, nghỉ chân gần Thanh Hoa", "Ăn uống", "Ăn trưa thong thả gần cổng Tây Thanh Hoa hoặc khu Ngũ Đạo Khẩu, ngồi cà phê nghỉ chân. Bắc Đại ngay cạnh, đi DiDi khoảng 10 phút.", "Tới cổng Đông Bắc Đại trước 14:00 vì khung giờ đặt trước là 14:00.", "Chung", [["有什么推荐的？", "Yǒu shénme tuījiàn de?", "Có món gì nên thử không?"], ["不要辣。 / 微辣。", "Bú yào là. / Wēi là.", "Không cay. / Cay ít."], ["买单。", "Mǎidān.", "Tính tiền."]]],
- [28, "14:00–16:00", "Đại học Bắc Kinh (Peking University)", "Tham quan", "Miễn phí, cần đặt trước tối thiểu 7 ngày bằng email, hạn chót cho ngày 28/11 là 21/11. Mở cuối tuần, vào bằng cổng Đông, không vào các tòa nhà. Khung giờ xin trong email là 14:00, cần có mặt đúng giờ.", "Cổng Đông → hồ Vị Danh (未名湖, wèi míng hú) → tháp Bác Nhã (博雅塔, bó yǎ tǎ) → Yến Viên. Mang hộ chiếu gốc và bản xác nhận đặt trước.", "Chung", [["我们预约了参观，这是确认邮件。", "Wǒmen yùyuē le cānguān, zhè shì quèrèn yóujiàn.", "Bọn mình đã đăng ký tham quan, đây là email xác nhận."], ["东门在哪儿？", "Dōng mén zài nǎr?", "Cổng Đông ở đâu?"], ["未名湖怎么走？", "Wèimínghú zěnme zǒu?", "Đi hồ Vị Danh thế nào?"]]],
- [28, "16:15–17:15", "Viên Minh Viên (tùy sức, có thể bỏ)", "Tham quan", "Tàn tích Tây Dương Lâu, hồ Phúc Hải. Khuôn viên rộng. Mùa đông đóng cửa sớm, kiểm tra giờ ngừng bán vé trước khi đi. Nếu mệt thì bỏ để về nghỉ.", "Từ Bắc Đại đi DiDi khoảng 10 phút tới cổng Nam, chỉ xem khu tàn tích Tây Dương Lâu (西洋楼遗址, xī yáng lóu yí zhǐ) rồi về.", "Chung"],
- [28, "17:15–18:15", "Về khu Tiền Môn", "Di chuyển", "DiDi khoảng 17 km, 50–60 phút vì giờ cao điểm.", "Đặt xe từ cổng Đông Bắc Đại về 珠市口西大街 (zhū shì kǒu xī dà jiē). Có thể ghé khách sạn lấy hành lý, nhận phòng đơn 2.", "Chung", [["师傅，去德寿堂药店。", "Shīfu, qù Déshòutáng yàodiàn.", "Bác tài, cho tới hiệu thuốc Đức Thọ Đường."], ["就在这儿停吧。", "Jiù zài zhèr tíng ba.", "Dừng ở đây được rồi."]]],
+ [28, "09:00–10:00", "Đi tới Đại học Thanh Hoa", "Di chuyển", "DiDi khoảng 18 km, 50–60 phút (giờ cao điểm). Hoặc metro tuyến 4 rồi tuyến 15.", "Đặt DiDi tới cổng Tây hoặc cổng Đông Thanh Hoa. Mang hộ chiếu gốc.", "UNI", [["师傅，去这个地方。", "Shīfu, qù zhège dìfang.", "Bác tài, đi tới chỗ này (đưa màn hình)."]]],
+ [28, "10:00–11:45", "Đại học Thanh Hoa (Tsinghua University)", "Tham quan", "Miễn phí, cần đặt trước. Mở Thứ Ba đến Chủ Nhật, 8:00–18:00. Người nước ngoài gửi email 1–7 ngày trước tới bwb@mail.tsinghua.edu.cn.", "Cổng Nhị Hiệu Môn → Đại lễ đường → Thanh Hoa Viên → ao Hà Đường (荷塘, hé táng) → Cận Xuân Viên.", "UNI", [["我们预约了参观，这是确认邮件。", "Wǒmen yùyuē le cānguān, zhè shì quèrèn yóujiàn.", "Bọn mình đã đăng ký tham quan, đây là email xác nhận."], ["二校门怎么走？", "Èr xiàomén zěnme zǒu?", "Đi cổng Nhị Hiệu Môn thế nào?"]]],
+ [28, "11:45–13:30", "Ăn trưa, nghỉ chân gần Thanh Hoa", "Ăn uống", "Ăn trưa thong thả gần cổng Tây Thanh Hoa hoặc khu Ngũ Đạo Khẩu, ngồi cà phê nghỉ chân. Bắc Đại ngay cạnh, đi DiDi khoảng 10 phút.", "Tới cổng Đông Bắc Đại trước 14:00 vì khung giờ đặt trước là 14:00.", "UNI", [["有什么推荐的？", "Yǒu shénme tuījiàn de?", "Có món gì nên thử không?"], ["不要辣。 / 微辣。", "Bú yào là. / Wēi là.", "Không cay. / Cay ít."], ["买单。", "Mǎidān.", "Tính tiền."]]],
+ [28, "14:00–16:00", "Đại học Bắc Kinh (Peking University)", "Tham quan", "Miễn phí, cần đặt trước tối thiểu 7 ngày bằng email, hạn chót cho ngày 28/11 là 21/11. Mở cuối tuần, vào bằng cổng Đông, không vào các tòa nhà. Khung giờ xin trong email là 14:00, cần có mặt đúng giờ.", "Cổng Đông → hồ Vị Danh (未名湖, wèi míng hú) → tháp Bác Nhã (博雅塔, bó yǎ tǎ) → Yến Viên. Mang hộ chiếu gốc và bản xác nhận đặt trước.", "UNI", [["我们预约了参观，这是确认邮件。", "Wǒmen yùyuē le cānguān, zhè shì quèrèn yóujiàn.", "Bọn mình đã đăng ký tham quan, đây là email xác nhận."], ["东门在哪儿？", "Dōng mén zài nǎr?", "Cổng Đông ở đâu?"], ["未名湖怎么走？", "Wèimínghú zěnme zǒu?", "Đi hồ Vị Danh thế nào?"]]],
+ [28, "16:15–17:15", "Viên Minh Viên (tùy sức, có thể bỏ)", "Tham quan", "Tàn tích Tây Dương Lâu, hồ Phúc Hải. Khuôn viên rộng. Mùa đông đóng cửa sớm, kiểm tra giờ ngừng bán vé trước khi đi. Nếu mệt thì bỏ để về nghỉ.", "Từ Bắc Đại đi DiDi khoảng 10 phút tới cổng Nam, chỉ xem khu tàn tích Tây Dương Lâu (西洋楼遗址, xī yáng lóu yí zhǐ) rồi về.", "UNI"],
+ [28, "17:15–18:15", "Về khu Tiền Môn", "Di chuyển", "DiDi khoảng 17 km, 50–60 phút vì giờ cao điểm.", "Đặt xe từ cổng Đông Bắc Đại về 珠市口西大街 (zhū shì kǒu xī dà jiē). Có thể ghé khách sạn lấy hành lý, nhận phòng đơn 2.", "UNI", [["师傅，去德寿堂药店。", "Shīfu, qù Déshòutáng yàodiàn.", "Bác tài, cho tới hiệu thuốc Đức Thọ Đường."], ["就在这儿停吧。", "Jiù zài zhèr tíng ba.", "Dừng ở đây được rồi."]]],
+ [28, "09:00–10:00", "Đi tới cổng Tây Bắc Đại", "Di chuyển", "DiDi khoảng 18 km, 50–60 phút (giờ cao điểm).", "Đặt DiDi tới 北京大学西门 (běi jīng dà xué xī mén).", "GATE", [["师傅，去北京大学西门。", "Shīfu, qù Běijīng Dàxué xīmén.", "Bác tài, cho tới cổng Tây Đại học Bắc Kinh."]]],
+ [28, "10:00–10:40", "Chụp ảnh cổng Tây Bắc Đại (校友门)", "Tham quan", "Cổng son đỏ mái cong kiểu cung đình, có đôi sư tử đá và tấm biển 北京大学, là cổng biểu tượng của Bắc Đại. Không được duyệt thì không vào trong, chỉ chụp từ phía ngoài cổng.", "Đứng chếch ở vỉa hè phía trước để lấy trọn mái cổng và tấm biển. Không đứng chắn lối ra vào, bảo vệ có thể nhắc nếu đứng sát cổng.", "GATE", [["可以帮我们拍张照吗？", "Kěyǐ bāng wǒmen pāi zhāng zhào ma?", "Chụp giúp bọn mình một tấm được không?"]]],
+ [28, "10:40–11:00", "Sang cổng Tây Thanh Hoa", "Di chuyển", "DiDi khoảng 10 phút. Cổng Tây Thanh Hoa (清华大学西门) nằm bên kia đường so với cổng Đông Viên Minh Viên.", "Chụp nhanh tấm biển ở cổng Tây. Cổng Nhị Hiệu Môn (二校门) nổi tiếng nằm bên trong trường nên không chụp được.", "GATE"],
+ [28, "11:00–13:30", "Viên Minh Viên: Tây Dương Lâu, Đại Thủy Pháp, hồ Phúc Hải", "Tham quan", "Tàn tích cung điện kiểu châu Âu bị đốt năm 1860. Vé cổng khoảng 10 tệ, khu Tây Dương Lâu thêm khoảng 15 tệ. Từ tháng 11 đến tháng 3 mở 7:00, ngừng nhận khách 17:30.", "Vào cổng Đông, đi tới khu Tây Dương Lâu (西洋楼遗址, xī yáng lóu yí zhǐ): Đại Thủy Pháp (大水法), mê cung Hoàng Hoa Trận (黄花阵), rồi dạo quanh hồ Phúc Hải (福海). Khuôn viên rất rộng, đi giày êm.", "GATE", [["三张门票，包括西洋楼。", "Sān zhāng ménpiào, bāokuò Xīyánglóu.", "Ba vé, gồm cả khu Tây Dương Lâu."], ["大水法怎么走？", "Dàshuǐfǎ zěnme zǒu?", "Đi tới Đại Thủy Pháp thế nào?"]]],
+ [28, "13:30–14:45", "Ăn trưa, cà phê ở Ngũ Đạo Khẩu", "Ăn uống", "Khu sinh viên giữa Thanh Hoa và Bắc Đại, nhiều quán ăn rẻ và quán cà phê.", "DiDi khoảng 10 phút từ cổng Đông Viên Minh Viên tới 五道口 (wǔ dào kǒu).", "GATE", [["有什么推荐的？", "Yǒu shénme tuījiàn de?", "Có món gì nên thử không?"], ["买单。", "Mǎidān.", "Tính tiền."]]],
+ [28, "14:45–15:15", "Đi tới Công viên Olympic", "Di chuyển", "DiDi khoảng 25 phút.", "Đặt xe tới 国家体育场 (guó jiā tǐ yù chǎng – Tổ Chim).", "GATE"],
+ [28, "15:15–17:45", "Công viên Olympic: Tổ Chim, Khối Nước", "Tham quan", "Khu trung tâm Olympic mở 24 giờ, đi dạo bên ngoài miễn phí. Muốn vào trong Tổ Chim thì mua vé, mở 10:00–22:00 (21:00 ngừng nhận khách). Ở lại sau hoàng hôn (khoảng 16:50) để chụp cảnh đêm.", "Chụp Tổ Chim (鸟巢) và Khối Nước (水立方) từ quảng trường giữa hai công trình. Trời tối nhanh và lạnh, mang găng tay.", "GATE"],
+ [28, "17:45–18:30", "Về khu Tiền Môn", "Di chuyển", "Metro tuyến 8 đi thẳng từ ga Công viên Olympic (奥林匹克公园) xuống ga Châu Thị Khẩu (珠市口) gần khách sạn, hoặc DiDi khoảng 40–50 phút.", "Xuống ga 珠市口 (zhū shì kǒu), đi bộ khoảng 10 phút về khách sạn.", "GATE"],
  [28, "18:30–21:00", "Ăn tối ở Đại Sách Lan, về nghỉ", "Ăn uống", "Ăn tối gần khách sạn, đi bộ khoảng 5–10 phút.", "Dạo phố Tiền Môn lên đèn, ăn tối rồi về nghỉ sớm cho hôm sau.", "Chung", [["有什么推荐的？", "Yǒu shénme tuījiàn de?", "Có món gì nên thử không?"], ["我们三个人。", "Wǒmen sān ge rén.", "Bọn mình 3 người."], ["买单。", "Mǎidān.", "Tính tiền."]]],
  [29, "09:30–10:30", "Ngủ dậy, ăn sáng", "Nghỉ", "Ngày nghỉ, không đặt vé giờ cố định. Ăn sáng gần khách sạn (gợi ý món: Lưu ý → Ăn chơi vui).", "Ngủ bù cho đỡ mệt, giữ sức cho ngày bay về.", "N29"],
  [29, "10:30–12:30", "Lưu Ly Xưởng và Đại Sách Lan, mua quà", "Mua sắm", "Phố cổ bán bút lông, mực, giấy Tuyên, tranh chữ, con dấu và sách cũ, cách khách sạn đi bộ được. Ghé Vinh Bảo Trai (荣宝斋, róng bǎo zhāi) xem tranh in khắc gỗ.", "Đi qua 杨梅竹斜街 (yáng méi zhú xié jiē) sang Lưu Ly Xưởng. Muốn có quà riêng thì đặt khắc con dấu tên mình bằng chữ Hán. Quán, ngõ nên ghé: xem Lưu ý → Ăn chơi vui.", "N29", [["我只是看看。", "Wǒ zhǐshì kànkan.", "Mình chỉ xem thôi."], ["可以便宜一点吗？", "Kěyǐ piányi yìdiǎn ma?", "Bớt chút được không?"], ["可以帮我包一下吗？", "Kěyǐ bāng wǒ bāo yíxià ma?", "Gói giúp mình được không?"]]],
@@ -1838,6 +1850,7 @@ const state = {
   view: "lich-trinh",
   day: store.get("day", 24),
   opt: store.get("opt", "A"),
+  opt28: store.get("opt28", "UNI"),
   opt26: store.get("opt26", "MTY"),
   cats: new Set(),               // rỗng = tất cả
   compact: false,
@@ -1860,7 +1873,7 @@ const SHEET_ST = {};   // trạng thái đọc từ sheet 3, theo tên hạng m�
 const DEFAULT_ST = { "Xe buýt Cổ Bắc Thủy Trấn": "done", "Vé Tư Mã Đài, cáp treo": "done", "Email xin vào Đại học Bắc Kinh": "book", "Email xin vào Đại học Thanh Hoa": "book", "Vé Tử Cấm Thành": "done", "Đặt khung giờ Quảng trường Thiên An Môn": "done" };
 const statusOf = t => state.todoStatus[t[0]] || SHEET_ST[t[0]] || DEFAULT_ST[t[0]] || "todo";
 const opt29 = () => state.opt26 === "MT" ? "GB" : "N29";
-const partOK = a => a[6] === "Chung" || a[6] === (a[0] === 26 ? state.opt26 : a[0] === 29 ? opt29() : state.opt);
+const partOK = a => a[6] === "Chung" || a[6] === (a[0] === 26 ? state.opt26 : a[0] === 29 ? opt29() : a[0] === 28 ? state.opt28 : state.opt);
 const akey = a => a[0] + "|" + a[1] + "|" + a[2] + "|" + a[6];
 
 /* ---------- Lưu trạng thái: trình duyệt + db của trang ---------- */
@@ -2318,7 +2331,7 @@ function renderPlan() {
   const anim = renderPlan.last !== state.day; renderPlan.last = state.day;
   renderDays(); $("#days").classList.toggle("anim", anim); setScene(state.day);
   { const k = skyOf(state.day), sec = document.getElementById("v-lich-trinh"); sec.style.setProperty("--t1", k.d1); sec.style.setProperty("--t2", k.d2); }
-  const d0 = DAYS.find(x => x.d === state.day), d = (d0.alt && d0.alt[state.opt26]) ? Object.assign({}, d0, d0.alt[state.opt26]) : d0;
+  const d0 = DAYS.find(x => x.d === state.day), ak = d0.d === 28 ? state.opt28 : state.opt26, d = (d0.alt && d0.alt[ak]) ? Object.assign({}, d0, d0.alt[ak]) : d0;
   const head = $("#dayHead"); head.textContent = ""; head.classList.toggle("anim", anim);
   const dRows = ACT.filter(a => a[0] === d.d && partOK(a));
   const tStart = (dRows[0] && /^\d{1,2}:\d{2}/.exec(dRows[0][1]) || [""])[0];
@@ -2335,10 +2348,10 @@ function renderPlan() {
 
   // phương án A/B/C cho 27/11
   const ob = $("#optBox"); ob.textContent = "";
-  if (state.day === 27 || state.day === 26 || state.day === 29) {
-    const d26 = state.day === 26, d29 = state.day === 29, OPT = d26 ? OPTIONS26 : d29 ? OPTIONS29 : OPTIONS, cur = d26 ? state.opt26 : d29 ? opt29() : state.opt;
-    const row = el("div", { class: "options", role: "group", "aria-label": d26 ? "Chọn phương án Trường Thành 26/11" : d29 ? "Chọn phương án ngày 29/11" : "Chọn phương án buổi chiều 27/11" });
-    Object.entries(OPT).forEach(([k, o]) => row.append(el("button", { class: "opt", "aria-pressed": String(cur === k), onclick: () => { if (d26) { state.opt26 = k; store.set("opt26", k); } else if (d29) { const v = k === "GB" ? "MT" : (state.opt26 === "MT" ? "MTY" : state.opt26); state.opt26 = v; store.set("opt26", v); } else { state.opt = k; store.set("opt", k); } renderPlan(); if (window.__rmReady) renderRemind(); if (typeof renderTodo === "function") renderTodo(); } }, [
+  if (state.day >= 26 && state.day <= 29) {
+    const d26 = state.day === 26, d29 = state.day === 29, d28 = state.day === 28, OPT = d26 ? OPTIONS26 : d29 ? OPTIONS29 : d28 ? OPTIONS28 : OPTIONS, cur = d26 ? state.opt26 : d29 ? opt29() : d28 ? state.opt28 : state.opt;
+    const row = el("div", { class: "options", role: "group", "aria-label": d26 ? "Chọn phương án Trường Thành 26/11" : d29 ? "Chọn phương án ngày 29/11" : d28 ? "Chọn phương án ngày 28/11" : "Chọn phương án buổi chiều 27/11" });
+    Object.entries(OPT).forEach(([k, o]) => row.append(el("button", { class: "opt", "aria-pressed": String(cur === k), onclick: () => { if (d26) { state.opt26 = k; store.set("opt26", k); } else if (d28) { state.opt28 = k; store.set("opt28", k); } else if (d29) { const v = k === "GB" ? "MT" : (state.opt26 === "MT" ? "MTY" : state.opt26); state.opt26 = v; store.set("opt26", v); } else { state.opt = k; store.set("opt", k); } renderPlan(); if (window.__rmReady) renderRemind(); if (typeof renderTodo === "function") renderTodo(); } }, [
       el("h3", { text: o.name }), el("p", { text: o.plan }),
       el("p", { class: "plus", text: "+ " + o.plus }), el("p", { class: "minus", text: "− " + o.minus })
     ])));
@@ -2885,7 +2898,8 @@ const REMIND = [
   { id: "gb29", opt26: "MT", todo: "Xe riêng đi Cổ Bắc chiều tối 29/11", from: "2026-11-24T00:00+08:00", due: "2026-11-28T20:00+08:00", end: "2026-11-29T12:00+08:00", t: "Đặt xe đi Cổ Bắc chiều tối 29/11", d: "Đón 12:30 ở Vương Phủ Tỉnh, tài xế chờ ở Cổ Bắc, khoảng 20:00 về.", go: "dat-truoc" },
   { id: "d27", from: "2026-11-26T18:00+08:00", due: "2026-11-27T12:00+08:00", t: "Chọn phương án buổi chiều 27/11", d: "A, B hoặc C trong Lịch trình ngày 27.", go: "lich-trinh" },
   { id: "d28a", from: "2026-11-27T18:00+08:00", due: "2026-11-28T12:00+08:00", t: "Báo lễ tân chuyển sang đơn 2", d: "Không cần đổi phòng (khách sạn đã xác nhận). Đưa mã đơn 2: 50512095.", go: "thong-tin" },
-  { id: "d28b", from: "2026-11-28T06:00+08:00", due: "2026-11-28T14:00+08:00", t: "Tham quan trường: mang hộ chiếu và email xác nhận", d: "Thanh Hoa buổi sáng, Bắc Đại khung 14:00.", go: "lich-trinh" },
+  { id: "uni28", opt28: "UNI", from: "2026-11-26T18:00+08:00", due: "2026-11-27T22:00+08:00", end: "2026-11-28T09:00+08:00", t: "Hai trường chưa duyệt? Đổi lịch 28/11", d: "Tới hôm nay chưa có thư thì mở ngày 28/11, chọn phương án chụp cổng, Viên Minh Viên và Công viên Olympic.", go: "lich-trinh" },
+  { id: "d28b", opt28: "UNI", from: "2026-11-28T06:00+08:00", due: "2026-11-28T14:00+08:00", t: "Tham quan trường: mang hộ chiếu và email xác nhận", d: "Thanh Hoa buổi sáng, Bắc Đại khung 14:00.", go: "lich-trinh" },
   { id: "d30a", from: "2026-11-29T18:00+08:00", due: "2026-11-30T12:00+08:00", t: "Trả phòng trước 12:00, gửi hành lý", d: "Gửi được đến 18:30. Kiểm tra lại đồ trong phòng.", go: "lich-trinh" },
   { id: "d30b", from: "2026-11-30T12:00+08:00", due: "2026-11-30T18:45+08:00", t: "Rời khách sạn 18:45 ra sân bay Đại Hưng", d: "VJ6043 cất cánh 23:15. Hành lý ký gửi, sạc dự phòng xách tay.", go: "lich-trinh" }
 ];
@@ -2910,6 +2924,7 @@ function rmItems(now) {
     if (r.end && now > new Date(r.end)) return;
     if (r.opt26 && ![].concat(r.opt26).includes(state.opt26)) return;
     if (r.opt && state.opt !== r.opt) return;
+    if (r.opt28 && state.opt28 !== r.opt28) return;
     if (r.ck != null && state.checked[r.ck]) return;
     if (r.todo) { const t = TODO.find(x => x[0] === r.todo); if (t && statusOf(t) === "done") return; }
     const late = now > due;
@@ -3068,9 +3083,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261121234237" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261121234923" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261121234237";
+  var BUILD = "20261121234923";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
