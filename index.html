@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261125214004"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261125214051"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -2506,7 +2506,7 @@ const isTrSeed = x => x.type === "transfer";
   if (v < 6) {
     const same = it => EXP.some(x => !isTrSeed(x) && x.day === it.day && +x.amt === it.amt && x.cur === it.cur);
     [
-      { id: "seed-taxi-nb", day: "23", cat: "Di chuyển", who: "Chung", for: "all", desc: "Taxi từ nhà ra sân bay Nội Bài", amt: 350000, cur: "VND" },
+      { id: "seed-taxi-nb", day: "23", cat: "Di chuyển", who: "Hà", for: "all", desc: "Taxi từ nhà ra sân bay Nội Bài", amt: 350000, cur: "VND" },
       { id: "seed-taxi-pkx", day: "23", cat: "Di chuyển", who: "Chung", for: "all", desc: "Taxi sân bay Đại Hưng về khách sạn", amt: 450, cur: "CNY" },
       { id: "seed-an-24", day: "24", cat: "Ăn uống", who: "Chung", for: "all", desc: "Ăn uống: vịt quay 215, thịt và bánh bao 55, nước lê 23, bánh 15", amt: 308, cur: "CNY" },
       { id: "seed-kem-24", day: "24", cat: "Mua sắm", who: "Chung", for: "all", desc: "Kem tay", amt: 150, cur: "CNY" },
@@ -2514,7 +2514,8 @@ const isTrSeed = x => x.type === "transfer";
       { id: "seed-kfc-25", day: "25", cat: "Ăn uống", who: "Chung", for: "all", desc: "Ăn tối KFC", amt: 91, cur: "CNY" }
     ].forEach(it => { if (!same(it)) add(it); });
   }
-  store.set("seedv", 6); store.set("expenses", EXP);
+  if (v === 6) EXP = EXP.map(x => x.id === "seed-taxi-nb" ? { ...x, who: "Hà" } : x);
+  store.set("seedv", 7); store.set("expenses", EXP);
 })();
 let RATE = +store.get("rate", 4000) || 4000;
 let editId = null, confirmDel = null;
@@ -3097,9 +3098,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261125214004" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261125214051" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261125214004";
+  var BUILD = "20261125214051";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
