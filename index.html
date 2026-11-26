@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261126230655"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261126230846"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -2501,7 +2501,10 @@ const isTrSeed = x => x.type === "transfer";
   if (v < 14) {
     EXP = EXP.filter(x => x.id !== "seed-kem-ha-24").map(x => x.id === "seed-fyx-25" ? { ...x, cat: "Di chuyển", desc: "Xe buýt từ cổng ra Tử Cấm Thành về Thiên An Môn (3 người)" } : x);
   }
-  store.set("seedv", 14); store.set("expenses", EXP);
+  if (v < 15) {
+    EXP = EXP.filter(x => x.id !== "seed-didi-23").map(x => x.id === "seed-qr-24" ? { ...x, cat: "Tham quan", desc: "Thuê chụp ảnh ở Thiên Đàn" } : x);
+  }
+  store.set("seedv", 15); store.set("expenses", EXP);
 })();
 let RATE = +store.get("rate", 4000) || 4000;
 let editId = null, confirmDel = null;
@@ -3077,9 +3080,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261126230655" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261126230846" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261126230655";
+  var BUILD = "20261126230846";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
