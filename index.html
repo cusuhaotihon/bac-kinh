@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261126231453"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261126231732"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -2513,7 +2513,13 @@ const isTrSeed = x => x.type === "transfer";
   if (v < 17) {
     EXP = EXP.map(x => x.id === "seed-an-24" ? { ...x, amt: 285, desc: "Ăn uống: vịt quay 215, thịt và bánh bao 55, bánh 15" } : x.id === "seed-guotie-24" ? { ...x, desc: "Nước lê" } : x);
   }
-  store.set("seedv", 17); store.set("expenses", EXP);
+  if (v < 18) {
+    [
+      { id: "seed-rieng-hien-25", day: "25", cat: "Khác", who: "Chung", for: "Hiền", desc: "Khoản riêng của Hiền (德寿堂)", amt: 22, cur: "CNY" },
+      { id: "seed-711-25", day: "25", cat: "Ăn uống", who: "Chung", for: "all", desc: "Đồ ăn vặt 7-Eleven sau khi trả đồ cách cách", amt: 89.13, cur: "CNY" }
+    ].forEach(add);
+  }
+  store.set("seedv", 18); store.set("expenses", EXP);
 })();
 let RATE = +store.get("rate", 4000) || 4000;
 let editId = null, confirmDel = null;
@@ -3089,9 +3095,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261126231453" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261126231732" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261126231453";
+  var BUILD = "20261126231732";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
