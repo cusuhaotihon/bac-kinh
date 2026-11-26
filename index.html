@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261126201529"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261126214413"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -2478,7 +2478,8 @@ const isTrSeed = x => x.type === "transfer";
   }
   if (v < 9) add({ id: "seed-dhv-26", day: "26", cat: "Tham quan", who: "Chung", for: "all", desc: "Vé liên hợp Di Hòa Viên 26/11, 3 vé", amt: 150, cur: "CNY" });
   if (v < 10) add({ id: "seed-xe-mty", day: "27", cat: "Di chuyển", who: "Chung", for: "all", desc: "Xe riêng đi Mutianyu 27/11 (Ctrip, xe 5 chỗ 舒适型)", amt: 550, cur: "CNY" });
-  store.set("seedv", 10); store.set("expenses", EXP);
+  if (v < 11) add({ id: "seed-lau-26", day: "26", cat: "Ăn uống", who: "Chung", for: "all", desc: "Lẩu bò Bát Hợp Lý (八合里), 金宝汇", amt: 466, cur: "CNY" });
+  store.set("seedv", 11); store.set("expenses", EXP);
 })();
 let RATE = +store.get("rate", 4000) || 4000;
 let editId = null, confirmDel = null;
@@ -3054,9 +3055,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261126201529" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261126214413" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261126201529";
+  var BUILD = "20261126214413";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
