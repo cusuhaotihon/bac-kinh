@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261126214413"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261126225749"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -2479,7 +2479,22 @@ const isTrSeed = x => x.type === "transfer";
   if (v < 9) add({ id: "seed-dhv-26", day: "26", cat: "Tham quan", who: "Chung", for: "all", desc: "Vé liên hợp Di Hòa Viên 26/11, 3 vé", amt: 150, cur: "CNY" });
   if (v < 10) add({ id: "seed-xe-mty", day: "27", cat: "Di chuyển", who: "Chung", for: "all", desc: "Xe riêng đi Mutianyu 27/11 (Ctrip, xe 5 chỗ 舒适型)", amt: 550, cur: "CNY" });
   if (v < 11) add({ id: "seed-lau-26", day: "26", cat: "Ăn uống", who: "Chung", for: "all", desc: "Lẩu bò Bát Hợp Lý (八合里), 金宝汇", amt: 466, cur: "CNY" });
-  store.set("seedv", 11); store.set("expenses", EXP);
+  if (v < 12) {
+    EXP = EXP.map(x => x.id === "seed-kem-24" ? { ...x, amt: 225, desc: "Kem tay 青稚 (3 tuýp)" } : x.id === "seed-kfc-25" ? { ...x, amt: 90.45 } : x.id === "seed-lau-26" ? { ...x, amt: 465.5 } : x);
+    [
+      { id: "seed-didi-23", day: "23", cat: "Di chuyển", who: "Chung", for: "all", desc: "DiDi 23/11 (4,56 tệ, có thể là phí xác minh)", amt: 4.56, cur: "CNY" },
+      { id: "seed-didi-24", day: "24", cat: "Di chuyển", who: "Chung", for: "all", desc: "DiDi 24/11 (4 chuyến)", amt: 70.2, cur: "CNY" },
+      { id: "seed-thiendan-24", day: "24", cat: "Tham quan", who: "Chung", for: "all", desc: "Vé Thiên Đàn 24/11", amt: 84, cur: "CNY" },
+      { id: "seed-meituan-24", day: "24", cat: "Ăn uống", who: "Chung", for: "all", desc: "Đặt đồ ăn Mỹ Đoàn 24/11 (6 đơn)", amt: 184.16, cur: "CNY" },
+      { id: "seed-qr-24", day: "24", cat: "Khác", who: "Chung", for: "all", desc: "Quét mã trả tiền 24/11 (chưa rõ món)", amt: 25, cur: "CNY" },
+      { id: "seed-guotie-24", day: "24", cat: "Ăn uống", who: "Chung", for: "all", desc: "Bánh áp chảo 王记锅贴", amt: 20, cur: "CNY" },
+      { id: "seed-didi-25", day: "25", cat: "Di chuyển", who: "Chung", for: "all", desc: "DiDi 25/11 (6 chuyến, đã trừ 4 tệ hoàn)", amt: 137.6, cur: "CNY" },
+      { id: "seed-fyx-25", day: "25", cat: "Khác", who: "Chung", for: "all", desc: "Mua ở 北京福裕祥商贸 (chưa rõ món)", amt: 45, cur: "CNY" },
+      { id: "seed-didi-26", day: "26", cat: "Di chuyển", who: "Chung", for: "all", desc: "DiDi 26/11 (3 chuyến)", amt: 148.2, cur: "CNY" },
+      { id: "seed-mty-ve", day: "27", cat: "Tham quan", who: "Chung", for: "all", desc: "Vé Mutianyu 27/11 (cổng, xe trung chuyển, cáp treo), 3 vé", amt: 600, cur: "CNY" }
+    ].forEach(add);
+  }
+  store.set("seedv", 12); store.set("expenses", EXP);
 })();
 let RATE = +store.get("rate", 4000) || 4000;
 let editId = null, confirmDel = null;
@@ -3055,9 +3070,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261126214413" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261126225749" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261126214413";
+  var BUILD = "20261126225749";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
