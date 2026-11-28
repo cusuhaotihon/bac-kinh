@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="img/icon-192.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261128162840"><\/script>');}})();</script>
+<script>(function(){var l="vi";try{var v=localStorage.getItem("bk26:lang");if(v)l=JSON.parse(v);}catch(e){}if(l==="en"||l==="zh"){var h=document.documentElement;h.lang=l==="zh"?"zh-CN":"en";h.dataset.lang=l;document.write('<script src="i18n-'+l+'.js?v=20261128162923"><\/script>');}})();</script>
 <script>try{var t=localStorage.getItem("bk26:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <title>Cẩm nang Bắc Kinh 23–30/11</title>
 <style>
@@ -2536,7 +2536,8 @@ const isTrSeed = x => x.type === "transfer";
   }
   if (v < 23) add({ id: "seed-qua-ha-28", day: "28", cat: "Mua sắm", who: "Hà", for: "Hà", desc: "Hà mua quà (tiền riêng)", amt: 160, cur: "CNY" });
   if (v < 24) add({ id: "seed-chagee-28", day: "28", cat: "Ăn uống", who: "Chung", for: "all", desc: "Trà sữa CHAGEE trước bữa trưa", amt: 20, cur: "CNY" });
-  store.set("seedv", 24); store.set("expenses", EXP);
+  if (v < 25) add({ id: "seed-kem-rieng-ha-24", day: "24", cat: "Mua sắm", who: "Hà", for: "Hà", desc: "Kem tay riêng của Hà (tiền riêng)", amt: 60, cur: "CNY" });
+  store.set("seedv", 25); store.set("expenses", EXP);
 })();
 let RATE = +store.get("rate", 3955) || 3955;
 let editId = null, confirmDel = null;
@@ -3109,9 +3110,9 @@ window.addEventListener("hashchange", () => { const x = location.hash.slice(1); 
 </script>
 <script>
 /* ---------- Tự kiểm tra bản mới (chạy độc lập) ---------- */
-/* const BUILD = "20261128162840" (để bản cũ nhận ra bản mới) */
+/* const BUILD = "20261128162923" (để bản cũ nhận ra bản mới) */
 (function () {
-  var BUILD = "20261128162840";
+  var BUILD = "20261128162923";
   var lastCheck = 0, shown = false;
   function mk(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; }
   function showDialog(nb) {
